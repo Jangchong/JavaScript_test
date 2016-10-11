@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#list{
+				width:100px;
+				background:orange;
+				display: none;
+			}
+		</style>
+	</head>
+	<!--
+		1、获取元素
+		2、点击按钮发生事件
+		3、
+	-->
+	<body>
+		<input type="button" value="显示/隐藏" id="inp"/>
+		<ul id="list">
+			<li>one</li>
+			<li>two</li>
+			<li>three</li>
+		</ul>
+		
+		<script>
+			//1、获取元素
+			var inp = document.getElementById("inp");
+			var list =document.getElementById("list");
+			
+			var onoff = true;
+			//2、点击按钮发生事件
+			inp.onclick = function(){
+				
+				if(onoff){
+					list.style.display = "block";
+					
+					onoff = false;
+				}else{
+					list.style.display = "none";
+					
+					onoff = true;
+				}
+				
+			}
+			
+		</script>
+	</body>
+</html>

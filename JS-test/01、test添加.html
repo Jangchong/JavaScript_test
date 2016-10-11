@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			
+		</style>
+	</head>
+	<!--
+		1、获取元素
+		2、点击按钮发生事件
+		3、获取输入框的值
+		4、给ul添加li标签和输入框里的值一样
+	-->
+	<body>
+		<input type="text" id="text1"/>
+		<input type="button"  id="but" value="按钮" />
+		<ul id ="list"> 
+			
+		</ul>
+		
+		<script>
+			//1、获取元素
+			var text1 = document.getElementById("text1");
+			var but =document.getElementById("but");
+			var list =document.getElementById("list");
+			//添加按钮点击事件
+			but.onclick = function(){
+				//获取输入框里的值
+				var a =text1.value;
+				
+				text1.value = ""; //清空输入框内容
+				
+				list.innerHTML = "<li>"+ a +"</li>"+list.innerHTML;
+			}
+			
+		</script>
+	</body>
+</html>

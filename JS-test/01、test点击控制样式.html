@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#box{
+				width:100px;
+				height:100px;
+				background:pink;
+				
+			}
+		</style>
+	</head>
+	<body>
+		<input type="text" id ="inp" />
+		<input type="text" id ="inp2" />
+		<input type="button" id="but" value="按钮" />		<div id="box"></div>
+		<script>
+		//1获取元素
+			var inp = document.getElementById("inp");
+			var inp2 = document.getElementById("inp2");
+			var but = document.getElementById("but");
+			var box =document.getElementById("box");
+			
+			//按钮点击事件做些什么
+			but.onclick =function(){
+				//获取value的属性名和属性值；
+				var a = inp.value;
+				var a2 =inp2.value;
+				//赋值给box
+				
+				box.style[a]=a2;
+			}
+		</script>
+	</body>
+</html>

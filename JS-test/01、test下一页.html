@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			img{
+				width:200px;
+				height:200px;
+			}
+		</style>
+	</head>
+	<!--
+		1、获取元素
+		2、点击按钮的时候发生事件
+		3、
+	-->
+	<body>
+		<img src="2.jpg"  id = "img1"/>
+		<input type ="button" value ="下一张" id = "inp"/>
+		
+		<script>
+			//1、获取元素
+			var img1 = document.getElementById("img1");
+			var inp  = document.getElementById("inp");
+			
+			var num = 2;
+			//2、点击时发生事件
+			inp.onclick = function(){
+//				num = num +1;
+				num += 1;
+				
+				if(num>4){
+//					num = 2; //把num重置2  （循环播放）
+					num = 4;
+					
+					alert("已经是最后一张")
+				}
+				
+				img1.src = num　+ ".jpg";
+			}
+		</script>
+	</body>
+</html>
