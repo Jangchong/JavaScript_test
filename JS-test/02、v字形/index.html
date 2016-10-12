@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			body {
+				margin: 0;
+				width: 1000px;
+				height: 800px;
+				margin: 0 auto;
+				background: url(bg.png) no-repeat center center;
+			}
+			
+			.wrap {
+				width: 290px;
+				height: 490px;
+				background: url(bg1.png) no-repeat center center;
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				margin: -245px 0 0 -145px;
+				position: absolute;
+				box-shadow: 0 0 8px rgba(0,0,0,.3);
+				border-radius: 5px;
+			}
+			
+			.box {
+				width: 252px;
+				height: 252px;
+				position: absolute;
+				top: 70px;
+				left: 50%;
+				margin-left: -126px;
+			}
+			
+			.btn {
+				width: 114px;
+				height: 36px;
+				border: 1px solid #68bcfa;
+				border-radius: 3px;
+				position: absolute;
+				bottom: 30px;
+				left: 50%;
+				margin-left: -57px;
+				text-align: center;
+				font: 16px/36px arial;
+				color: #68bcfa;
+				cursor: pointer;
+			}
+			.btn:hover {
+				background: #68bcfa;
+				color: #fff;
+			}
+			
+			.box div {
+				width: 50px;
+				height: 50px;
+				background: #fff;
+				text-align: center;
+				line-height: 50px;
+				font-size: 20px;
+				color: #68bcfa;
+				border-radius: 2px;
+				position: absolute;
+				/*opacity: 0;*/
+			}
+		</style>
+	</head>
+
+	<body onselectstart="return false;">
+		<div class="wrap">
+			<div class="box">
+				<!--<div>1</div>
+				<div>2</div>
+				<div>3</div>
+				<div>4</div>
+				<div>5</div>-->
+			</div>
+			<div class="btn">生成</div>
+		</div>
+		<script>
+		
+		//获取元素
+			var wrap = document.getElementsByClassName("wrap")[0];
+			var box = document.getElementsByClassName("box")[0];
+			var btn = document.getElementsByClassName("btn")[0];
+		
+		
+		//点击按钮发生事件
+			function fnUp(){
+				//判断for循环
+				for (var i = 0; i<5; i++){
+					//判断位置
+					if(i<3){
+						box.innerHTML +="<div style='left:"+50*i+"px;top:"+50*i+"px'>"+i+"</div>"
+					}else{
+						box.innerHTML +="<div style='left:"+50*i+"px;top:"+(200-50*i)+"px'>"+i+"</div>"
+					}
+				}
+			}
+			
+			function fnRight(){
+				for (var i = 0; i<5; i++){
+					if(i<3){
+							box.innerHTML +="<div style='right:"+50*i+"px;top:"+50*i+"px'>"+i+"</div>"
+						}else{
+							box.innerHTML +="<div style='right:"+(200-50*i)+"px;top:"+50*i+"px'>"+i+"</div>"
+						}
+					}
+			}
+			function fnBlow(){
+				for (var i = 0; i<5; i++){
+					if(i<3){
+							box.innerHTML +="<div style='left:"+50*i+"px;bottom:"+50*i+"px'>"+i+"</div>"
+						}else{
+							box.innerHTML +="<div style='left:"+50*i+"px;bottom:"+(200-50*i)+"px'>"+i+"</div>"
+						}
+					}
+			}
+			function fnLeft(){
+				for (var i = 0; i<5; i++){
+					if(i<3){
+							box.innerHTML +="<div style='left:"+50*i+"px;top:"+50*i+"px'>"+i+"</div>"
+						}else{
+							box.innerHTML +="<div style='left:"+(200-50*i)+"px;top:"+50*i+"px'>"+i+"</div>"
+						}
+					}
+			}
+		
+		
+		//点击发生事件
+			var num = 0;
+			
+//			alert(1);
+//			console.log(btn);
+			
+			btn.onclick = function(){
+				//初始化
+				box.innerHTML  = '';
+				btn.innerHTML="变换";	
+				
+				if(num == 0){				
+					fnUp();
+				}
+				if(num == 1){
+					
+					fnRight();
+				}
+				if(num == 2){
+				
+					fnBlow();
+				}
+				if(num == 3){
+					
+					fnLeft();
+				}
+				
+				
+				num ++;
+				
+				num %= 4;
+			}	
+		</script>
+	</body>
+
+</html>
