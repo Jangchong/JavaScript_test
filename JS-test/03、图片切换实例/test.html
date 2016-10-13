@@ -213,12 +213,6 @@
         color: #fff;
     }
     </style>
-    <script type="text/javascript">
-    window.onload = function() {
-        var arrImg = ['img/img01.jpg', 'img/img02.jpg', 'img/img03.jpg', 'img/img04.jpg'];
-        var arrText = ['文字描述一', '文字描述二', '文字描述三', '文字描述四'];
-    }
-    </script>
 </head>
 
 <body>
@@ -247,78 +241,95 @@
             <a href="javascript:void(0);">确定</a>
         </div>
     </div>
-    
-    
-    <!--
-    	
-    	1、获取元素
-    	2、循环和顺序按钮切换
-    	3、点击左右按钮切换图片、文字切换
-    -->
     <script>
-    //获取元素
-    	//id 名字
-    	var tabBox = document.getElementById("tabBox");
-    	var imgBox = document.getElementById("imgBox");
-    	var prev = document.getElementById("prev");
-    	var next = document.getElementById("next");
-//  	var btn1 = document.getElementById("btn1");
-//  	var btn2 = document.getElementById("btn2");
-    	//标签名获取
-    	
-    	var imgNum = imgBox.getElementsByTagName("span")[0];
-    	var imgName = imgBox.getElementsByTagName("strong")[0];
-    	var img_jpg = imgBox.getElementsByTagName("img")[0];
-    	
-    	
-    	var h2 = tabBox.getElementsByTagName("h2")[0];
-    	var xh = h2.getElementsByTagName("a")[0];
-    	var sh = h2.getElementsByTagName("a")[1];
-    	var pText = tabBox.getElementsByTagName("p")[0];
-    	
-    	//class名字
-    	
-    	//数组
-    	
-    	var arrImg = ['img01.jpg','img02.jpg','img03.jpg','img04.jpg'];
-    	var arrText1 = ['图片一','图片二','图片三','图片四',];
-		var arrP = ['图片可以从最后一张跳转至第一张循环','图片可以顺序播放不能循环'];
-    	var num =0;
-    	
-    	xh.onclick = function(){
-    		xh.className = "active";
-    		sh.className = "";
-    		pText.innerHTML=arrP[0]
+        var arrImg = ['img/img01.jpg', 'img/img02.jpg', 'img/img03.jpg', 'img/img04.jpg'];
+        var arrText = ['文字描述一', '文字描述二', '文字描述三', '文字描述四'];
+        var imgBox = document.getElementById("imgBox");
+        var page = imgBox.getElementsByTagName("span")[0];//此时获取的是一个元素
+        var text1 = imgBox.getElementsByTagName("strong")[0];
+        var img = imgBox.getElementsByTagName("img")[0];
+        var prev = document.getElementById("prev");
+        var next = document.getElementById("next");
+        var tanBox = document.getElementById("tanBox");
+        var tabBox = document.getElementById("tabBox");
+        var tanText = tanBox.getElementsByTagName("strong")[0];
+        var close = tanBox.getElementsByTagName("span")[0];
+        var conf = tanBox.getElementsByTagName("a")[0];
+        var loop = tabBox.getElementsByTagName("a")[0];
+        var order = tabBox.getElementsByTagName("a")[1];
+        var tabP = tabBox.getElementsByTagName("p")[0];
+        
+        var onoff = false;
+        var num = 0;
+        var isPlayed = true;//控制下一张和上一张是否可点击
+        
+        //函数的功能是：根据num进行图片的切换，页码的改变，文字描述的改变
+        function tab(){
+        	page.innerHTML =  num+1 + "/" + arrImg.length;
+	        text1.innerHTML = arrText[ num ];
+	        img.src = arrImg[ num ];
+        }
+        next.onclick = function(){
+        	if( isPlayed ){
+        		num++;
+	        	if(num == arrImg.length){//num超出了
+	        		
+	        		
+	        		if( onoff ){//开关为true则进入循环模式
+	//	        		循环模式
+		        		num = 0;	
+	        		}else{
+	//					顺序模式
+						tanBox.style.display = "block";//当弹出框出来的时候希望点击下一张是没有反应的，所以只要把isPlayed改成false
+						isPlayed = false;
+						num = arrImg.length-1;
+						tanText.innerHTML = "已经到最后一张啦～";
+	        		}
+	        	}
+	        	
+	        	tab();
+        	}
+        	
+        }
+        prev.onclick = function(){
+        	if( isPlayed ){
+        		num--;
+	        	if(num == -1){//num超出了
+	        		if(onoff){//开关为true则进入循环模式
+	//	        		循环模式
+		        		num = arrImg.length-1;
+	        		}else{
+	//					顺序模式
+						tanBox.style.display = "block";
+						isPlayed = false;
+						num = 0;
+						tanText.innerHTML = "已经到第一张啦～";
+	        		}
+	        	}
+	        	tab();
+        	}
+        }
+        tab();
+    	conf.onclick = close.onclick = function(){
+        	tanBox.style.display = "none";
+        	isPlayed = true;
     	}
-    
-    	sh.onclick = function(){
-    		sh.className = "active";
-    		xh.className = "";
-    		pText.innerHTML=arrP[1]
-    	}
-    	
-    //发生事件   
-	    function fn1(){
-	    	imgNum.innerHTML= num + 1 + "/" +arrImg.length;
-	    	img_jpg.src = arrImg[num];
-	    	imgName.innerHTML=arrText1[num];
-	    	
-	    }
-	    
-	    fn1();
-    
-    //点击按钮发生事件 
-    	
-    	next.onclick = function (){
-    		
-    		if(onoff){
-    			
+    	loop.onclick = function(){
+    		if(isPlayed){
+    			onoff = true;
+	    		loop.className = "active";
+	    		order.className = "";
+	    		tabP.innerHTML = "图片可以从最后一张跳转到第一张循环切换";
     		}
-    		
     	}
-    	
-    //
-    	
+    	order.onclick = function(){
+    		if(isPlayed){
+    			onoff = false;
+	    		order.className = "active";
+	    		loop.className = "";
+	    		tabP.innerHTML = "图片只能到第一张或者最后一张";
+    		}
+    	}
     </script>
 </body>
 
