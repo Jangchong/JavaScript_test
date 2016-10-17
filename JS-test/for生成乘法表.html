@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#box{
+				/*width:500px;*/
+				height:5000px;
+				/*border:5px solid #000;*/
+				
+			}
+			#box>div{
+				height:30px;	
+				margin-bottom:5px;
+			}
+			.row div{
+				width:100px;
+				height:30px;
+				background:orange;
+				font: 16px/30px "微软雅黑";
+				text-align: center;
+				color:#fff;
+				float: left;
+				margin-right:5px;
+			}
+			.right div{
+				width:100px;
+				height:30px;
+				background:orange;
+				font: 16px/30px "微软雅黑";
+				text-align: center;
+				color:#fff;
+				float: right;
+				margin-right:5px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box"></div>
+		
+		<script>
+			var box =document.getElementById("box");
+			var str ="";
+			
+////			1、上右小左下大
+//			
+			for(var i =1 ;i<10;i++){
+				str += "<div class='row'> ";
+				
+				for(var j=1; j<=i;j++){
+					str += "<div>"+j+" x "+i+" = "+j*i+"</div>";
+				}
+				str +="</div>";
+			}
+			
+//				box.innerHTML+=str;
+//				
+//			2 上左大右下小
+			for(var i =1; i<10; i++){
+				str +="<div class='row'>";
+				for(var j =1; j<=10-i;j++){
+					str += "<div>"+j+" x "+(10-i)+" = "+(j*(10-i))+"</div>";
+				}
+				str += "</div>";
+			}
+			
+//			box.innerHTML+=str;
+			
+//			3 上左小右下大
+			
+			for(var i =1; i<10;i++){
+				str +="<div class='right'>";
+				for(var j=1;j<=10-i;j++){
+					str += "<div>"+j+" x "+(10-i)+" = "+(j*(10-i))+"</div>";
+				}
+				str +="</div>";
+			}
+			
+//			box.innerHTML+=str;
+
+
+//			4上左小右下大
+			for(var i =1;i<10;i++){
+				str +="<div class='right'>";
+				for(var j=1;j<=i;j++){
+					str +="<div>"+j+" x "+i+" = " +(j*i)+"</div>";
+				}
+				str +="</div>";
+			}
+			box.innerHTML+=str;
+		</script>
+	</body>
+</html>
