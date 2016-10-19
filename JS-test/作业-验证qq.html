@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		请输入QQ号码:<br />
+		<input type="text" id="text" value="" />
+		<input type="button" id="btn" value="验证" /><br />
+		
+		1、有没有输入<br />
+		2、输入的是不是数字<br />
+		3、不能有0在前面<br />
+		4、不能是小数<br />
+		5、输入的数字必须在5位以上、10位以内<br />
+		
+		<script>
+		
+			var text1 = document.getElementById("text");
+			var btn = document.getElementById("btn");
+			
+			
+			
+//验证有没有数字
+			
+			
+			
+			btn.onclick = function(){
+				var num =text1.value;
+//				alert(num);
+				
+//				alert(Number(num));
+//				alert(num.charAt(0));
+//				alert(Number(num.charAt(0)));
+//				alert(parseFloat(num.charAt(0)));
+
+	if(num.length==""){	
+					alert("不能输入空");
+				}else if(num.charAt(num.length-1) == " "){
+					alert("末位不能是空格" );
+				}else if(num.length>(String(parseInt(num))).length){
+					alert("不能是小数" );
+				}else if(Number(num)!== Number(num) ||Number(num.charAt(num.length-1)) !== Number(num.charAt(num.length-1))){
+					alert("输入数字" );
+				}else if(num.charAt(0) == " "){
+					alert("首位不能是空格" );
+				}else if(num[0]==0){
+					alert("第一位不能是0" );
+				}else if(Number(num.charAt(0)) !== Number(num.charAt(0))){
+					alert("首位不能是符号" );
+				}else if(num.length>10 || num.length<5){
+					alert("输入的数字必须在5位以上、10位以内" );
+				}else{
+					alert("这个的QQ有毒" );
+//					alert("这是二货的QQ")
+				}
+				
+				
+			}
+			
+//				else if(parseInt(num)!==parseFloat(num)){
+//					alert("不能是小数" );
+//				}
+		</script>
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
