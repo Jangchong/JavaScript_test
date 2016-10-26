@@ -1,0 +1,157 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<style type="text/css">
+	body{
+		line-height: 20px;
+	}
+	.title{
+		line-height: 25px;
+		text-indent:2em;
+		font-weight: bold;
+		color: white; 
+		font-size: 16px;
+		background-color: #6BA542;
+		width: 300px;
+	}
+	p{
+		margin: 0;
+	}
+	#list{
+		margin: 0;
+		padding: 0;
+		width: 300px;
+	}
+	li{
+		list-style: none;
+		border-top: 2px solid #26D9C7;
+	}
+	img{
+		width: 15px;
+		height: 15px;
+		cursor: pointer;
+	}
+	a{
+		text-decoration: none;
+		color: #429400;
+	}
+	#list p{
+		display: inline;
+	}
+	#list div{
+		
+		display: none;
+	}
+	#list .show{
+		display: block;
+	}
+	
+</style>
+</head>
+
+<body>
+	<p class="title">分类名称</p>
+	<ul id="list">
+		<li>
+			<div class="show">
+				<p>妙味远程课堂</p>
+				<img src="images/pen.png" alt="点击编辑" title="点击编辑">
+			</div>
+			<div>
+				<input type="text" name="">
+				<a href="javascript:;">确定</a>
+				<a href="javascript:;">取消</a>
+			</div>
+		</li>
+		<li>
+			<div class="show">
+				<p>妙味远程课堂</p>
+				<img src="images/pen.png" alt="点击编辑" title="点击编辑">
+			</div>
+			<div>
+				<input type="text" name="">
+				<a href="javascript:;">确定</a>
+				<a href="javascript:;">取消</a>
+			</div>
+		</li>
+		<li>
+			<div class="show">
+				<p>妙味远程课堂</p>
+				<img src="images/pen.png" alt="点击编辑" title="点击编辑">
+			</div>
+			<div>
+				<input type="text" name="">
+				<a href="javascript:;">确定</a>
+				<a href="javascript:;">取消</a>
+			</div>
+		</li>
+		<li>
+			<div class="show">
+				<p>妙味远程课堂</p>
+				<img src="images/pen.png" alt="点击编辑" title="点击编辑">
+			</div>
+			<div>
+				<input type="text" name="">
+				<a href="javascript:;">确定</a>
+				<a href="javascript:;">取消</a>
+			</div>
+		</li>
+	</ul>
+	<script type="text/javascript">
+		var oList=document.getElementById('list');
+		var lis =oList.getElementsByTagName('li');
+		for(var i =0; i<lis.length;i++){
+			tab(i);
+		}
+		function tab(n){
+			var divs = lis[n].getElementsByTagName('div');
+			var p =lis[n].getElementsByTagName('p')[0];
+			var img =lis[n].getElementsByTagName('img')[0];
+			var inp =lis[n].getElementsByTagName('input')[0];
+			var as =lis[n].getElementsByTagName('a');
+			
+			img.onclick =function(){
+				divs[0].className="";
+				divs[1].className="show";
+				inp.value=p.innerHTML;				
+			}
+			as[0].onclick =function(){
+				p.innerHTML=inp.value;
+				divs[1].className="";
+				divs[0].className="show";				
+			}
+			
+			as[1].onclick =function(){
+//				p.innerHTML=inp.value;
+				divs[1].className="";
+				divs[0].className="show";
+			}
+		}
+		
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
