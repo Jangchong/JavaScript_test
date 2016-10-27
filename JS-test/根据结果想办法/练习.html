@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    var arr = [ '100px', 'abc'-6, [], -98765, 34, -2, 0, '300', , function(){alert(1);}, null, document, [], true, '200px'-30,'23.45元', 5, Number('abc'), function(){ alert(3); }, 'xyz'-90,false ];
+
+    /*
+     1、找到arr里所有的数字：-98765, 34, -2, 0, 5
+     2、找到可以转成数字的：'100px', -98765, 34, -2, 0, '300', '23.45元',  5
+     3、把转成数字以后，最大值判断出来：300
+     4、把 NaN 所在的位置找出来：1 14 17 19
+    */
+	var arr2 = [1,2,3,"a",4,5,6,7,"a"];
+//	1找到所有小于3的 	1,2
+//	2找到所有大于5的
+//	3找到所有"a"的位置
+/*	var res1 = [];
+	var res2 = [];
+	var res3 = [];
+	for(var i = 0;i<arr2.length;i++){
+		if(arr2[i] <3 ){
+			//把arr1[i]放入res1里面
+			res1.push(arr2[i]);
+		}
+		if(arr2[i] > 5){
+			res2.push(arr2[i]);
+		}
+		if(arr2[i] == "a"){
+			res3.push(i);
+		}
+	}
+	console.log( res1 );
+	console.log( res2 );
+	console.log( res3 );
+	
+	
+	 */
+	var resa = [];
+	var resb = [];	
+	var resc = [];
+	var resd = [];
+	var max = -Infinity;
+	
+	
+	
+	for(var i = 0;i<arr.length;i++){
+//		1、Number
+		if(typeof arr[i]=="number"&&arr[i]==arr[i]){
+			resa.push(arr[i]);
+		}
+		
+//		2、parseFloat
+		
+		if(parseFloat(arr[i])){
+			resb.push(arr[i]);
+		}
+		
+//		3、Infinity
+		
+		if(parseFloat(arr[i])>max){
+			max=parseFloat(arr[i]);
+		}
+ 
+//		4、NaN 	 
+  
+		  if(typeof arr[i]=="number"&& isNaN(arr[i])==true){
+			resd.push(i);
+		}
+
+	}
+
+	
+		console.log(resa);
+		console.log(resb);
+		console.log(max);
+		console.log(resd);
+
+</script>

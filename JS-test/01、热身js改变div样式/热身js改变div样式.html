@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<style type="text/css">
+		html {
+			height: 100%;
+		}
+		body {
+			padding-left: 20px;
+			height: 100%;
+		}
+		span {
+			display: inline-block;
+			font-size: 20px;
+			margin-top: 30px;
+			vertical-align: top;
+		}
+		#define {
+			width: 100px;
+			height: 40px;
+			text-align: center;
+			font-weight: bold;
+			line-height: 40px;
+			padding: 0px 20px;
+			border: 1px solid #000;
+			display: inline-block;
+			margin-top: 20px;
+			vertical-align: top;
+			font-size: 20px;
+			background-color: red;
+			color: #FFFFFF;
+		}
+		.div1 {
+			width: 100px;
+			height: 100px;
+			border: 5px solid #000;
+			transition: 1s;
+		}
+		.div2 {
+			width: 300px;
+			height: 200px;
+			border: 20px solid #9c949c;
+			margin:  0 auto;
+			font-size: 0px;
+			text-align: center;
+			padding-top: 16px;
+			display: none;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			margin-left: -160px;
+			margin-top: -110px;
+			z-index: 22;
+			background-color: #fff;
+		}
+		.div2 li {
+			display: inline-block;
+			vertical-align: top;
+			margin-bottom: 8px;
+		}
+		#box {
+			margin-top: 20px;
+		}
+		.div2 li span {
+			float: left;
+			line-height: 30px;
+			font-size: 16px;
+			margin-top: 0px;
+		}
+		.div2 li a {
+			float: left;
+			font-size: 12px;
+			width: 36px;
+			height: 32px;
+			line-height: 32px;
+			text-align: center;
+			margin-right: 5px;
+		}
+		li>a:nth-of-type(1) {
+			color: #fff;
+			background-color: #9cce00;
+		}
+		li>a:nth-of-type(2) {
+			color: #ffff00;
+			background-color: #efbd00;
+		}
+		li>a:nth-of-type(3) {
+			color: #fff;
+			background-color: #5a94ef;
+		}
+		.div2 .list>a {
+			background-color: #efefef;
+			color: #808080;
+			border: 1px solid #c0c0c0;
+			box-sizing: border-box;
+		}
+		.list2 {
+			margin-top: 12px;
+			height: 30px;
+		}
+		.div2 .list2>a {
+			float: left;
+			height: 30px;
+			width: 60px;
+			text-align: center;
+			line-height: 30px;
+			background-color: #002952;
+			color: #fff;
+		}
+		#wrap {
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0,0,0,0.3);
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<span>请为下面的DIV设置样式：</span><a id="define" href="javascript:;">点击设置</a>
+	<div class="div1" id="box"></div>
+	<div id="wrap"></div>
+	<ul class="div2" id="tc">
+		<li>
+			<span>请选择背景图片：</span>
+			<a id="red" href="#">红</a>
+			<a id="yellow" href="#">黄</a>
+			<a id="blue" href="#">蓝</a>
+		</li>
+		<li class="list">
+			<span>请选择宽度(px)：</span>
+			<a id="w2" href="#">200</a>
+			<a id="w3" href="#">300</a>
+			<a id="w4" href="#">400</a>
+		</li>
+		<li class="list">
+			<span>请选择高度(px)：</span>
+			<a id="h2" href="javascript:;">200</a>
+			<a id="h3" href="#">300</a>
+			<a id="h4" href="#">400</a>
+		</li>
+		<li class="list2">
+			<a id="resume" href="#">恢复</a>
+			<a id="fix" href="#">确认</a>
+		</li>
+	</ul>
+	
+	
+	<script>
+		var re = document.getElementById("resume");
+		var fix = document.getElementById("fix");
+		
+	
+		var warp = document.getElementById("warp");
+		var tc = document.getElementById("tc");
+		var de = document.getElementById("define");
+		var box = document.getElementById("box");
+		
+		var yellow = document.getElementById("yellow");
+		var red = document.getElementById("red");
+		var blue = document.getElementById("blue");
+		
+		var w2 = document.getElementById("w2");
+		var w3 = document.getElementById("w3");
+		var w4 = document.getElementById("w4");
+		
+		var h2 = document.getElementById("h2");
+		var h3 = document.getElementById("h3");
+		var h4 = document.getElementById("h4");
+		
+		de.onclick = function(){
+			wrap.style.display="block";
+			tc.style.display="block";
+			
+			
+		};
+		
+		red.onclick = function(){
+			box.style.backgroundColor="red";
+		};
+		yellow.onclick = function(){
+			box.style.backgroundColor="yellow";
+		};
+		blue.onclick = function(){
+			box.style.backgroundColor="blue";
+		};
+		
+		
+		w2.onclick = function(){
+			box.style["width"]="200px";
+		};
+		w3.onclick = function(){
+			box.style["width"]="300px";
+		};
+		w4.onclick = function(){
+			box.style["width"]="400px";
+		};
+		
+		
+		h2.onclick = function(){
+			box.style["height"]="200px";
+		};
+		h3.onclick = function(){
+			box.style["height"]="300px";
+		};
+		h4.onclick = function(){
+			box.style["height"]="400px";
+		};
+		
+		
+		fix.onclick = function(){
+			wrap.style.display="none";
+			tc.style.display="none";
+		
+		};
+		
+	
+		re.onclick = function(){
+//			box.style.width="100px";
+//			box.style.height="100px";
+//			box.style.background="";         
+			
+			box .style.cssText="";//设置行间样式的，直接清空行间样式，只渲染一次；
+		};
+	</script>
+</body>
+</html>
