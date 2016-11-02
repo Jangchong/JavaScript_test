@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	<style type="text/css">
+		li{
+			list-style: none;
+			cursor: pointer;	
+		}
+		ul{
+			margin: 0;
+			padding: 0;
+		}
+		#box{
+			border: 5px solid #E7E7E7;
+			height:400px;
+			width: 800px;
+			overflow: hidden;
+			margin: 0 auto;
+		}
+		#box>ul{
+			width:100px;
+			height: 100%;
+			float: left;
+		}
+		#box>ul li{
+			line-height: 99px;
+			text-align: center;
+			background-color: #000;
+			border-bottom: 1px solid #E7E7E7;
+			color:white;
+		}
+		#box>ul .active{
+			background-color: red;
+			color:black;
+		}
+		#box div{
+			float: left;
+			width: 700px;
+			height: 100%;
+			position: relative;
+			display: none;
+		}
+		#box img{
+			width: 100%;
+			height: 100%;
+		}
+		#box div ul{
+			position: absolute;
+			bottom: 0;
+			left: 0;
+		}
+		#box div li{
+			float: left;
+			border-right: 1px solid white;
+			background-color: black;
+			opacity: .7;
+			line-height: 30px;
+			margin-right: -1px;
+			color:white;
+			text-align: center;
+		}
+		#box div .active{
+			background-color: #EF3163;
+		}
+	</style>
+	</head>
+	<body>
+		<div id="box"></div>
+		<script>
+			var box = document.getElementById("box");
+			var arr=[
+						[ 
+							"暖色调",
+							[
+								"暖色键盘",
+								"惬意时光",
+								"午后",
+								"一杯苦咖啡"
+							],
+							[
+								"images/img1.gif",
+								"images/img2.gif",
+								"images/img3.gif",
+								"images/img4.gif"
+							]
+						],
+						[
+							"金色夕阳",
+							[
+								"街边夕阳",
+								"金色稻草"
+							],
+							[
+								"images/img5.gif",
+								"images/img6.gif"
+							]
+						],
+						[
+							"灰色格调",
+							[
+								"灰色通讯",
+								"咖啡'配'饼干",
+								"孤单键盘",
+								"枯树"
+							],
+							[
+								"images/img7.gif",
+								"images/img8.gif",
+								"images/img9.gif",
+								"images/img10.gif"
+							]
+						],
+						[
+							"baby",
+							[
+								"baby素材一",
+								"baby素材二"
+							],
+							[
+								"images/img11.gif",
+								"images/img12.gif"
+							]
+						]
+					];
+			var str = "<ul>";
+			for (var i = 0; i < arr.length; i++) {
+				str += "<li>"+ arr[i][0] +"</li>";
+			}
+			str += "</ul>";
+			for (var i = 0; i < arr.length; i++) {
+				str += "<div><img src="+ arr[i][2][0] +"/><ul>";
+				for (var j = 0; j < arr[i][1].length; j++) {
+					str += "<li style='width:"+(700/arr[i][1].length)+"px'>"+ arr[i][1][j] +"</li>";
+				}
+				str += "</ul></div>";
+			}
+			box.innerHTML = str;
+			var leftLi = document.querySelectorAll("#box>ul li");
+			var divs = document.querySelectorAll("#box>div");
+			var a = 0;
+			var b = 0;
+			var timer ;
+			tab();
+			autoplay();
+			function tab(){//根据全局变量a和b的值，进行大小两个选项卡的切换
+				for (var i = 0; i < leftLi.length; i++) {
+					leftLi[i].className = "";
+					divs[i].style.display = "none";
+				}
+				leftLi[a].className = "active";
+				divs[a].style.display = "block";
+				var lis = divs[a].getElementsByTagName("li");
+				var img = divs[a].getElementsByTagName("img")[0];
+				for (var i = 0; i < lis.length; i++) {
+					lis[i].className = "";
+				}
+				lis[b].className = "active";
+				img.src = arr[a][2][b];
+			}
+			function autoplay () {//自动播放
+				timer =  setInterval(function(){
+					b++;
+					if(b == arr[a][1].length){
+						b = 0;
+						a++;
+					}
+					if(a == arr.length){
+						a = 0;
+					}
+					tab();
+				},1000)
+			}
+			
+			for (var i = 0; i < leftLi.length; i++) {
+				leftLi[i].index = i;
+				leftLi[i].onclick = function(){
+					a = this.index;
+					b = 0;
+					tab();
+				}
+			}
+			box.onmouseover = function(){
+				clearInterval( timer );
+			}
+			
+			box.onmouseout = autoplay;
+			
+			for (var i = 0; i < divs.length; i++) {
+				setClick(i);
+			}
+			function setClick(n){
+				var lis = divs[n].getElementsByTagName("li");
+				for (var i = 0; i < lis.length; i++) {
+					lis[i].index = i;
+					lis[i].onclick = function(){
+						b = this.index;
+						tab();
+					}
+				}
+			}
+		</script>
+	</body>
+</html>
