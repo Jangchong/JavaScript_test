@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#box{
+				width:500px;
+				height:500px;
+				border:1px solid #000;
+				background:#fff;
+			}
+			div{
+				width:50px;
+				height:50px;
+				background:pink;
+				float: left;
+				text-align: center;
+				font:20px/50px "微软雅黑";
+				color:#fff;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			
+		</div>
+		<script>
+			var box =document.getElementById('box');
+			var str='';
+			for(var i=0;i<100;i++){
+				
+				if( i%4 == 0 ){
+					str+= "<div style='background:pink'>"+(100-i)+"</div>"	
+				}else if(i%4 ==1){
+					str+= "<div style='background:yellow'>"+(100-i)+"</div>"
+				}else if(i%4 ==2){
+					str+= "<div style='background:red'>"+(100-i)+"</div>"
+				}else{
+					str+= "<div style='background:orange'>"+(100-i)+"</div>"
+				}			
+			}
+			box.innerHTML=str;
+			
+		</script>
+	</body>
+</html>
