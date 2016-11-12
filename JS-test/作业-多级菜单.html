@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			ul {
+				list-style: none;
+			}
+			
+			#list ul {
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<ul id="list">
+			<li>
+				<h2>+第一级</h2>
+				<ul>
+					<li>
+						<h2>+第二级</h2>
+						<ul>
+							<li>
+								<h2>+第三级</h2>
+								<ul>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<h2>+第二级</h2>
+						<ul>
+							<li>
+								<h2>+第三级</h2>
+								<ul>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<h2>第二级</h2>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<h2>+第一级</h2>
+				<ul>
+					<li>
+						<h2>+第二级</h2>
+						<ul>
+							<li>
+								<h2>+第三级</h2>
+								<ul>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<h2>第二级</h2>
+					</li>
+					<li>
+						<h2>第二级</h2>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<h2>+第一级</h2>
+				<ul>
+					<li>
+						<h2>+第二级</h2>
+						<ul>
+							<li>
+								<h2>+第三级</h2>
+								<ul>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h2>+第三级</h2>
+								<ul>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<h2>第二级</h2>
+					</li>
+					<li>
+						<h2>第二级</h2>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<h2>+第一级</h2>
+				<ul>
+					<li>
+						<h2>+第二级</h2>
+						<ul>
+							<li>
+								<h2>+第三级</h2>
+								<ul>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h2>+第三级</h2>
+								<ul>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<h2>第二级</h2>
+					</li>
+					<li>
+						<h2>第二级</h2>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		<script>
+			var list =document.getElementById('list');
+			var h2s =list.getElementsByTagName("h2");
+			
+			for(var i=0;i<h2s.length;i++){
+				h2s[i].index=i;
+				h2s[i].onoff=true;
+				h2s[i].onclick=function(){
+					if(this.nextElementSibling){
+						if(this.onoff){							
+							var uls=this.parentNode.parentNode.children;
+							for(var i=0;i<uls.length;i++){
+								uls[i].children[0].onoff=true;
+								if(uls[i].children[1]){
+									uls[i].children[1].style.display='none';
+								uls[i].children[1].previousElementSibling.innerHTML=uls[i].children[1].previousElementSibling.innerHTML.split('-').join('+');
+								
+								}
+							}
+							
+							
+							h2s[this.index].nextElementSibling.style.display='block';
+//							var str =h2s[this.index].innerHTML.charAt(0);
+							h2s[this.index].innerHTML=h2s[this.index].innerHTML.split('+').join('-');
+						}else{
+							var huls =h2s[this.index].nextElementSibling.getElementsByTagName('ul');
+							for(var i=0;i<huls.length;i++){								
+								huls[i].style.display='none';
+								huls[i].previousElementSibling.onoff=true;
+//								console.log(hs);
+								var hs=huls[i].previousElementSibling;
+//								var str =hs.innerHTML.charAt(0);
+//								hs.innerHTML=hs.innerHTML.split(str).join('+');
+								hs.innerHTML=hs.innerHTML.split('-').join('+');	
+							}
+							h2s[this.index].nextElementSibling.style.display='none';
+							h2s[this.index].innerHTML=h2s[this.index].innerHTML.split('-').join('+');
+//							var str =h2s[this.index].innerHTML.charAt(0);
+//							h2s[this.index].innerHTML=h2s[this.index].innerHTML.split(str).join('+');
+						}
+						this.onoff=!this.onoff;
+						
+					}					
+				}
+			}
+//			
+//			for(var i=0;i<){
+//				list.children
+//			}
+			
+		</script>
+	</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
