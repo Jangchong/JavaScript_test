@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			ul{list-style: none;}
+			#list ul{display: none;}
+		</style>
+	</head>
+	<body>
+		<ul id="list">
+			<li>
+				<h2>+第一级</h2>
+				<ul>
+					<li>
+						<h2>+第二级</h2>
+						<ul>
+							<li>
+								<h2>+第三级</h2>
+								<ul>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<h2>+第二级</h2>
+						<ul>
+							<li>
+								<h2>+第三级</h2>
+								<ul>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<h2>第二级</h2>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<h2>+第一级</h2>
+				<ul>
+					<li>
+						<h2>+第二级</h2>
+						<ul>
+							<li>
+								<h2>+第三级</h2>
+								<ul>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<h2>第二级</h2>
+					</li>
+					<li>
+						<h2>第二级</h2>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<h2>+第一级</h2>
+				<ul>
+					<li>
+						<h2>+第二级</h2>
+						<ul>
+							<li>
+								<h2>+第三级</h2>
+								<ul>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h2>+第三级</h2>
+								<ul>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<h2>第二级</h2>
+					</li>
+					<li>
+						<h2>第二级</h2>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<h2>+第一级</h2>
+				<ul>
+					<li>
+						<h2>+第二级</h2>
+						<ul>
+							<li>
+								<h2>+第三级</h2>
+								<ul>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h2>+第三级</h2>
+								<ul>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<h2>第二级</h2>
+					</li>
+					<li>
+						<h2>第二级</h2>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		<script>
+//			点击h2,
+//				如果h2下面的ul是打开的,那合上它
+//					然后把点击的h2内部所有的ul全部关上
+//				如果h2下面的ul是关闭的,
+//					把同级的h2里面的ul全部关上
+//					然后把点击的h2下面的ul打开
+		    var h2s = document.getElementsByTagName("h2");
+		    for (var i = 0; i < h2s.length; i++) {
+		    	h2s[i].onoff = false;//h2下面的ul是关闭的；
+		    	h2s[i].onclick = function(){
+		    		if(!this.nextElementSibling){
+		    			return ;
+		    		}
+		    		if(this.onoff){//
+		    			//如果h2下面的ul是打开的,那合上它
+//						然后把点击的h2内部所有的ul全部关上
+		    			this.nextElementSibling.style.display = "none";
+		    			this.innerHTML = "+"+this.innerHTML.substring(1);
+		    			this.onoff = false;
+		    			var uls = this.nextElementSibling.getElementsByTagName("ul");
+		    			for (var i = 0; i < uls.length; i++) {
+		    				uls[i].style.display = "none";
+		    				uls[i].previousElementSibling.onoff = false;
+		    				uls[i].previousElementSibling.innerHTML = "+"+uls[i].previousElementSibling.innerHTML.substring(1);
+		    			}
+		    		}else{
+		    			//h2下面的ul是关闭的
+//			    			把同级的h2里面的ul全部关上
+//							然后把点击的h2下面的ul打开
+						var uls = this.parentNode.parentNode.getElementsByTagName("ul");
+						for (var i = 0; i < uls.length; i++) {
+							uls[i].style.display = "none";
+							uls[i].previousElementSibling.onoff = false;
+							uls[i].previousElementSibling.innerHTML = "+"+uls[i].previousElementSibling.innerHTML.substring(1); 
+						}
+						this.nextElementSibling.style.display = "block";
+						this.innerHTML = "-"+this.innerHTML.substring(1);
+						this.onoff = true;
+		    		}
+		    	}
+		    }
+		</script>
+	</body>
+</html>
