@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        form {
+            margin: 10px 0;
+        }
+        td {
+            text-align: center;
+        }
+        .col1{
+        	background-color: pink;
+        }
+        .col2{
+        	background-color: yellow;
+        }
+        .sel{
+        	background-color: green;
+        }
+    </style>
+   
+</head>
+
+<body>
+
+<form id="form1">
+    <input type="text" name="username" value="123" />
+    <select name="sex">
+       	<option value="">请选择一个性别</option>
+        <option selected="true" value="男">男</option>
+        <option value="女">女</option>
+    </select>
+    <input type="text" name="age" value="1234"/>
+    <input type="button" value="提交" name="go">
+<p>
+    <select name="orderName">
+        <option value="">选择一个排序字段</option>
+        <option value="id">编号</option>
+        <option value="age">年龄</option>
+    </select>
+    <select name="orderBy">
+        <option value="">选择一个排序方式</option>
+        <option value="asc">升序</option>
+        <option value="desc">降序</option>
+    </select>
+    <input type="button" value="排序">
+</p>
+</form>
+<table border="1" width="100%" id="tab1">
+    <thead>
+    <tr>
+        <th>全选 <input type="checkbox" name="checkAll"></th>
+        <th>编号</th>
+        <th>姓名</th>
+        <th>性别</th>
+        <th>年龄</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+<script>
+
+    /*
+    * 1.通过表单，可以添加数据到表格中显示
+    * 2.id自动根据已有的最大id值进行累加
+    * 3.隔行变色，新增加的行应该也需要隔行变色的
+    * 4.鼠标移入高亮
+    * 5.全选/全不选（checkAll和下面的每一个checkbox是有关联的）
+    * 6.选中变色
+    * 7.上移/下移
+    * 8.删除
+    *
+    * 9.选做：排序
+    * */
+	
+    var data = [
+        {
+            id: 1,
+            name : '刘伟',
+            sex : '男',
+            age : 32
+        },
+        {
+            id: 2,
+            name : '莫涛',
+            sex : '男',
+            age : 28
+        },
+        {
+            id: 3,
+            name : '小美',
+            sex : '女',
+            age : 18
+        }
+    ];
+	
+//	隔行变色，新增加的行应该也需要隔行变色的
+//	封装函数
+//		所有的行,应该都知道自己未被选中,未被移入时应该是什么颜色
+//			解决:把这个颜色作为自定义属性设置给元素
+//	132
+
+	var tab1 = document.getElementById("tab1").tBodies[0];
+	var form1 = document.getElementById("form1");
+	
+	var num = data.length;
+//	creatTr(data[0]);
+	
+	for (var i = 0; i < data.length; i++) {
+		creatTr( data[i] );
+	}
+	changeColor();
+	
+	form1.go.onclick = function(){
+//		判断信息是否完整
+		if( form1.username.value == ""|| form1.sex.value == "" || form1.age.value == ""){
+			alert( "请输入完整信息~" );
+			return;
+		}
+		//说明信息是完整的
+		num++;//改变最大的编号值
+		creatTr( {
+			"id": num,
+            "name" : form1.username.value,
+            "sex" : form1.sex.value,
+            "age" : form1.age.value
+		} )
+		changeColor ();
+	}
+	function changeColor () {
+		var trs = tab1.getElementsByTagName("tr");
+		for (var i = 0; i < trs.length; i++) {
+			if( i%2 ){//加自定义属性，让每一行知道自己原来是什么颜色
+				trs[i].oriColor = "col1";
+			}else{
+				trs[i].oriColor = "col2";
+			}
+			if( trs[i].cells[0].children[0].checked == false) {
+				if(i%2){
+					trs[i].className = "col1";
+				}else{
+					trs[i].className = "col2";
+				}
+			}else{
+				trs[i].className = "sel";
+			}
+		}
+	}
+	
+	function creatTr(obj){//根据obj生成一行tr
+		var tr = document.createElement("tr");
+		var td0 = document.createElement("td");
+		var inp = document.createElement("input");
+		inp.type = "checkbox";
+		td0.appendChild( inp );
+		tr.appendChild( td0 );
+		
+		var td1 = document.createElement("td");
+		td1.innerHTML = obj.id;
+		tr.appendChild( td1 );
+		
+		var td2 = document.createElement("td");
+		td2.innerHTML = obj.name;
+		tr.appendChild( td2 );
+		
+		var td3 = document.createElement("td");
+		td3.innerHTML = obj.sex;
+		tr.appendChild( td3 );
+		
+		var td4 = document.createElement("td");
+		td4.innerHTML = obj.age;
+		tr.appendChild( td4 );
+		
+		var td5 = document.createElement("td");
+		
+		var inp1 =document.createElement("input");
+		inp1.type = "button";
+		inp1.value = "上移";
+		td5.appendChild( inp1 );
+		
+		var inp2 =document.createElement("input");
+		inp2.type = "button";
+		inp2.value = "下移";
+		td5.appendChild( inp2 );
+		
+		var inp3 =document.createElement("input");
+		inp3.type = "button";
+		inp3.value = "删除";
+		td5.appendChild( inp3 );
+		
+		tr.appendChild( td5 );
+		
+		tab1.appendChild( tr );
+	}
+</script>
+</body>
+</html>
