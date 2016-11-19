@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>思路</title>
+    <style>
+        form {
+            margin: 10px 0;
+        }
+        td {
+            text-align: center;
+        }
+        
+        .color1{
+        	/*偶数*/
+        	background-color: pink;
+        }
+        .color2{
+        	/*奇数*/
+        	background-color:yellow;
+        }
+        .sel{
+        	/*点击*/
+        	background-color: green;
+		}
+		.hover{
+        	/*移入*/
+        	background-color: orange;
+        }
+    </style>
+    <script>
+
+        /*
+        * 1.通过表单，可以添加数据到表格中显示
+        * 2.id自动根据已有的最大id值进行累加，删除一条记录的时候
+        * 3.隔行变色，新增加的行应该也需要隔行变色的
+        * 4.鼠标移入高亮
+        * 5.全选/全不选（checkAll和下面的每一个checkbox是有关联的）
+        * 6.选中变色
+        * 7.上移/下移
+        * 8.删除
+        *
+        * 9.选做：排序
+        * */
+		
+        var data = [
+            {
+                id: 1,
+                name : '刘伟',
+                sex : '男',
+                age : 32
+            },
+            {
+                id: 2,
+                name : '莫涛',
+                sex : '男',
+                age : 28
+            },
+            {
+                id: 3,
+                name : '小美',
+                sex : '女',
+                age : 18
+            }
+        ];
+       
+    </script>
+</head>
+
+<body>
+	<form id = 'form1'>
+	    <input type="text" name="username" value="名"/>
+	    <select name="sex">
+	        <option value="">请选择一个性别</option>
+	        <option selected="true" value="男">男</option>
+	        <option value="女">女</option>
+	    </select>
+	    <input type="text" name="age" value='100'/>
+	    <input type="button" class='formBnt' value="提交">	
+	<!--选做-->
+		<p>
+		    <select name="orderName">
+		        <option value="">选择一个排序字段</option>
+		        <option value="id">编号</option>
+		        <option value="age">年龄</option>
+		    </select>
+		    <select name="orderBy">
+		        <option value="">选择一个排序方式</option>
+		        <option value="asc">升序</option>
+		        <option value="desc">降序</option>
+		    </select>
+		    <input type="button" value="排序" id ='sort'>
+		</p>
+	</form>
+	<table border="1" width="100%" id="tab1" >
+	    <thead>
+		    <tr>
+		        <th>全选 <input type="checkbox" name="checkAll" id ='checkAll'></th>
+		        <th>编号</th>
+		        <th>姓名</th>
+		        <th>性别</th>
+		        <th>年龄</th>
+		        <th>操作</th>
+		    </tr>
+	    </thead>
+	    <tbody id='tbody'></tbody>
+	</table>
+
+
+	<script>
+	
+		var data = [
+            {
+                id: 1,
+                name : '刘伟',
+                sex : '男',
+                age : 32
+            },
+            {
+                id: 2,
+                name : '莫涛',
+                sex : '男',
+                age : 28
+            },
+            {
+                id: 3,
+                name : '小美',
+                sex : '女',
+                age : 18
+            }
+        ];
+
+
+/*
+五   	全选/全不选（checkAll和下面的每一个checkbox是有关联的）
+		点击checkAll
+			如果他是选中的
+				那么把所有tr内的checkbox全部选中
+			否则全部取消
+		调用changeColor
+	
+	点击tr中的checkbox的时候,
+		如果,这个checkbox是 取消的,则把全选框取消
+		如果,这个checkbox是 选中的,开一个for循环，循环所有的checkbox如果有一个checkbox是未被选中的，则取消全选，停止for循环，如果for循环执行结束了，说明全被选中的，把全选勾上
+*/
+		checkAll.onclick = function(){
+			var trs = tab1.getElementsByTagName('tr');
+			if(checkAll.checked){
+				for(var i = 0; i<trs.length;i++){
+					trs[i].cells[0].children[0].checked =true;
+				}
+			}else{
+				for(var i = 0; i<trs.length;i++){
+					trs[i].cells[0].children[0].checked = false;
+				}
+			}
+			
+			changeColor();
+		}
+		var form1 = document.getElementById('form1');
+		var tab1 = document.getElementById('tab1').tBodies[0];
+		var formBnt = form1.getElementsByClassName('formBnt')[0];
+		var checkedAll = document.getElementById('ckeckedAll');
+/*
+二、	 2、3.隔行变色，新增加的行应该也需要隔行变色的
+		封装函数
+			所有的行,应该都知道自己未被选中,未被移入时应该是什么颜色
+			解决:把这个颜色作为自定义属性设置给元素	 
+ */		
+ //		console.log(tab(1));
+ 		var num = data.length;	
+		for(var i = 0; i< data.length;i++){
+			creatTr(i);
+//			changeColor();
+		}
+		changeColor();
+		
+		formBnt.onclick= function(){
+			//判断信息是否符合
+			if(form1.username.value==""||form1.sex.value==""||form1.age.value==""){
+				alert("请输入完整信息");
+				return;
+			}
+			//信息符合
+			num++;
+			data.push({
+				id: num,
+                name : form1.username.value,
+                sex : form1.sex.value,
+                age :form1.age.value
+			});
+			creatTr(data.length-1);
+			
+			changeColor();
+		}
+ 
+		function changeColor(){
+			var trs = tab1.getElementsByTagName('tr');
+			for(var i=0;i<trs.length;i++){
+				if(i%2){
+					trs[i].udColor='color1';
+				}else{
+					trs[i].udColor='color2';
+				}
+				
+				//checked  =>选中的；格子花纹的
+				if(trs[i].cells[0].children[0].checked == false){
+					if(i%2){
+						trs[i].className='color1';
+					}else{
+						trs[i].className='color2';
+					}
+				}else{
+					trs[i].className = "sel";
+				}
+			}
+		}
+			
+/*
+ 七	升序降序 
+ 
+ 
+*/
+
+		var sort = document.getElementById('sort');
+		sort.onclick = function (){
+			if(form1.orderName.value==""||form1.orderBy.value==""){
+				alert("请输入正确的排序");
+				return;
+			}
+			bubbleSort(form1.orderName.value,form1.orderBy.value);
+			changeColor();
+		}
+
+		function bubbleSort(orderName,orderBy){
+			var trs = tab1.getElementsByTagName('tr');
+			for(var i = 0; i<trs.length-1; i++){
+				for(var j =0; j<trs.length-i-1;j++){
+					if(orderName=="id"){
+						var v1 = Number(trs[j].cells[1].innerHTML);
+						var v2 = Number(trs[j+1].cells[1].innerHTML);
+					}
+					if(orderName=="age"){
+						var v1 = Number(trs[j].cells[4].innerHTML);
+						var v2 = Number(trs[j+1].cells[4].innerHTML);
+					}
+					
+					if(orderBy=="asc"){
+						if(v1>v2){
+							tab1.insertBefore(trs[j+1],trs[j]);
+						}
+					}
+					if(orderBy=="desc"){
+						if(v1<v2){
+							tab1.insertBefore(trs[j+1],trs[j]);	
+						}
+					}
+				}
+			}
+		}
+/*
+  一      1.通过表单，可以添加数据到表格中显示
+		思路:
+				方案1:写一个函数,直接调用根据数据直接生成tbody中的每一条tr
+					先把tbody清空,然后通过for进行生成
+					问题:每次生成的时候都会把前面勾选的checkbox重置
+						解决:把选中的checkbox存在数组中
+							问题:如果顺序变化,顺带记录checkbox选中的数组也要改变
+								如果取消选中了,还要把对应的数组中删掉
+								
+				方案2:一条一条生成
+					封装函数,根据一个对象生成一行(移入变色,上移,下移,删除);
+					在刚初始时只需要使用for循环来调用函数.
+*/			
+		function creatTr(n){
+//			var tbody = document.getElementById('tbody');
+			var tr = document.createElement('tr');
+			//crearte (创造 制造)
+			var inp = document.createElement('input');
+			inp.type="checkbox";	
+			
+/*  
+ 四	选中变色
+		点击checkbox 
+			如果是被选中的
+				就把class变成sel
+			否则
+				就把class变成hover
+
+	方案1:遍历所有的
+
+	方案2:生成的时候添加事件处理函数
+*/
+
+/*
+五	如果,这个checkbox是 取消的,则把全选框取消
+	如果,这个checkbox是 选中的,开一个for循环，循环所有的checkbox如果有一个checkbox是未被选中的，则取消全选，停止for循环，如果for循环执行结束了，说明全被选中的，把全选勾上
+ */
+			inp.onclick = function(){
+				if(inp.checked){
+					tr.className = "sel";
+					var trs = tab1.getElementsByTagName("tr");
+					for(var i = 0; i<trs.length;i++){
+						if(!trs[i].cells[0].children[0].checked){
+							checkAll.checked = false;
+							return;
+						}
+					}
+					checkAll.checked = true;
+				}else{
+					tr.className = "hover";
+					checkAll.checked = false;
+				}
+			}	
+			var inp1 = document.createElement('input');
+			var inp2 = document.createElement('input');
+			var inp3 = document.createElement('input');
+			inp1.type ="button";
+			inp2.type ="button";
+			inp3.type ="button";
+			inp1.value = "上移";
+			inp2.value = "下移";
+			inp3.value = "删除";
+//			console.log(inp);
+			var td1 =document.createElement('td');
+			td1.appendChild(inp);
+			tr.appendChild(td1);
+			var td2 =document.createElement('td');
+			td2.innerHTML = data[n].id;
+			tr.appendChild(td2);
+			var td3 =document.createElement('td');
+			td3.innerHTML = data[n].name;
+			tr.appendChild(td3);
+			var td4 =document.createElement('td');
+			td4.innerHTML = data[n].sex;
+			tr.appendChild(td4);
+			var td5 =document.createElement('td');
+			td5.innerHTML = data[n]. age;
+			tr.appendChild(td5);
+			var td6 =document.createElement('td');
+/*
+  上移/下移
+		点击 上移/下移 按钮
+			让tr进行DOM节点操作
+			上移,让tr插入到tr的上一个兄弟节点前
+			下移,让tr下一个兄弟节点插入到tr的前面
+		
+		执行changeColor函数
+			重新修正元素的本色
+
+		注意:删除的时候也需要调用changeColor
+ */
+			td6.appendChild(inp1);//上移
+			inp1.onclick = function (){
+				if(tr.previousElementSibling){
+					tab1.insertBefore(tr,tr.previousElementSibling);
+				}
+				changeColor();
+			}
+			
+			td6.appendChild(inp2);//下移
+			inp2.onclick = function (){
+				if(tr.nextElementSibling){
+					tab1.insertBefore(tr.nextElementSibling,tr);
+				}
+				changeColor();
+			}
+			
+			td6.appendChild(inp3);	//删除
+/*
+     删除
+		点击删除按钮,
+			把同时生成的tr删除
+		看看是不是当前已经是全选状态了,处理checkAll
+*/			inp3.onclick = function (){
+				tab1.removeChild(tr);
+				changeColor();
+				var trs = tab1.getElementsByTagName('tr');
+				for(var i = 0; i<trs.length ; i++){
+					if(!trs[i].cells[0].children[0].checked){
+						checkAll.checked=false;
+						return;
+					}
+				}
+				checkAll.checked = true;
+			}
+			tr.appendChild(td6);	
+/*		
+三	鼠标移入高亮
+		鼠标移入tr的时候
+			看tr中的checkbox是不是被选中的
+				如果未被选中,变色(.hover)
+
+		鼠标移出tr的时候
+			看tr中的checkbox是不是被选中的
+				如果未被选中,变回本色(从自定义属性中找)
+	
+	方案1:封装函数遍历所有的tr,都加上移入移出效果
+		但是,每次使用这个函数都要遍历所有tr,性能会越来越差
+
+	方案2:在生成的时候直接添加移入移出效果（直接把代码写在生成的函数creatTr中）
+*/
+			tr.onmouseover = function(){
+				if(!inp.checked){ //看当前的checked是否选中状态
+					tr.className='hover';//未选中则变移入事件颜色
+				}
+			}
+			tr.onmouseout = function(){
+				if(!inp.checked){//看当前的checked是否选中状态
+					tr.className=this.udColor; //未选中则返回原本颜色
+				}
+			}
+			checkAll.checked = false;
+			tab1.appendChild(tr);				
+		}
+		
+
+		
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
