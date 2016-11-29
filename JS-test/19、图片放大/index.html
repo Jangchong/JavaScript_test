@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			div{
+				float: left;
+				/*margin-left:10px ;*/
+			}
+			#box{
+				width:350px;
+				height:350px;
+				background:url(small.jpg) no-repeat; 
+				border:1px solid peru;
+				position: relative;
+				/*margin-left: 50px;*/
+			}
+			.big{
+				width:400px;
+				height:400px;
+				background:url(big.jpg) no-repeat ; 
+				border:1px solid peru;
+				display: none;
+			}
+			.boxIn{
+				width:50%;
+				height:50%;
+				background:pink;
+				opacity: 0.5;
+				position: absolute;
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<div class="boxIn"></div>
+		</div>
+		<div class='big'>
+			
+		</div>
+	</body>
+	<script>
+		var box = document.getElementById('box');
+		var boxIn = document.getElementsByClassName('boxIn')[0];
+		var big = document.getElementsByClassName('big')[0];
+		var x =0;
+		var y =0;
+		box.onmousemove = function(e){
+//			console.log(e.clientX);
+//			console.log(e.clientY);
+			
+			if(e.clientX <262.5){
+				boxIn.style.left = e.clientX-87.5 + "px";
+				var x = (e.clientX-87.5)/350;
+			}else{
+				boxIn.style.left = 175 + "px";
+				var x =0.5;
+			}
+			if(e.clientY<262.5){
+				boxIn.style.top = e.clientY-87.5+ "px";	
+				var y = (e.clientY-87.5)/350;
+			}else{
+				boxIn.style.top =175+ "px";	
+				var y = 0.5;
+			}
+			
+			if(e.clientX<87.5){
+				boxIn.style.left = 0 + "px";
+				var x = 0;
+			}			
+			if(e.clientY<87.5){
+				boxIn.style.top = 0+ "px";	
+				var y = 0;
+			}
+//			console.log(800*x);
+//			console.log(800*y);
+			big.style.backgroundPosition=" -"+800*x+"px  -"+800*y+"px";		
+		}
+		box.onmouseover= function(){
+			boxIn.style.display="block";
+			big.style.display="inline-block"
+		}
+		box.onmouseout= function(){
+			boxIn.style.display="none";
+			big.style.display="none"
+		}
+	</script>
+</html>
+
+
+
+
+
+
+
+
+
+

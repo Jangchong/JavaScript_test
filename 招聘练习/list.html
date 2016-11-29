@@ -1,0 +1,163 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>招贤纳士-社会招聘</title>
+		<link href="style.css" rel="stylesheet" type="text/css" />
+		<!--<base target="_blank" />-->
+		<script src="js/data.js"></script>
+	</head>
+
+	<body>
+		<div id="wrap">
+			<div class="left">
+				<h2>招贤纳士</h2>
+				<ul>
+					<!--<li class="focus"><a href="javascript:;">社会招聘</a></li>
+      	<li><a href="javascript:;">校园招聘</a></li> -->
+				</ul>
+			</div>
+			<div class="right">
+				<div class="title">
+					<img src="img/shzp.gif" />
+				</div>
+				<div class="info" id="info1">
+
+					<!-- <p class="zp">
+        	<span><a href="">★ 职位需求：测试工程师【社会招聘】</a></span>
+          <span>需求人数：2名</span>
+         	<span class="date">2013年7月30日</span>
+        </p>
+      	<p class="yq">1.计算机或相关专业本科以上学历；2.从事软件测试工作3年及以上；3.具备良好的沟通能力和快速学习能力；4.精通测试策略和方法、测试用例设计；5.熟悉DB2、AIX等平台的基本操作；6.具备2年以上金...[<a href="">查看详情</a>]
+        </p>
+
+      	<p class="zp">
+        	<span><a href="">★ 职位需求：测试工程师【社会招聘】</a></span>
+          <span>需求人数：12名</span>
+         	<span class="date">2013年7月30日</span>
+        </p>
+      	<p class="yq">1.计算机或相关专业本科以上学历；2.从事软件测试工作3年及以上；3.具备良好的沟通能力和快速学习能力；4.精通测试策略和方法、测试用例设计；5.熟悉DB2、AIX等平台的基本操作；6.具备2年以上金...[<a href="">查看详情</a>]
+        </p>
+
+      	<p class="zp">
+        	<span><a href="">★ 职位需求：测试工程师【社会招聘】</a></span>
+          <span>需求人数：21名</span>
+         	<span class="date">2013年7月30日</span>
+        </p>
+      	<p class="yq">1.计算机或相关专业本科以上学历；2.从事软件测试工作3年及以上；3.具备良好的沟通能力和快速学习能力；4.精通测试策略和方法、测试用例设计；5.熟悉DB2、AIX等平台的基本操作；6.具备2年以上金...[<a href="">查看详情</a>]
+        </p> -->
+
+				</div>
+				<div class="pages">
+					<span class="prev" id="prev1">
+          <a href="javascript:;">
+            <img src="img/pre.gif">
+          </a>
+        </span>
+					<span class="next" id="next1">
+          <a href="javascript:;">
+            <img src="img/next.gif">
+          </a>
+        </span>
+					<p id="page1">
+						<!--<span class="focus">
+            <a href="javascript:;">1</a>
+          </span>
+          <span>
+            <a href="javascript:;">2</a>
+          </span>
+          <span>
+            <a href="javascript:;">3</a>
+          </span> -->
+					</p>
+
+				</div>
+
+			</div>
+			<div class="clear"></div>
+		</div>
+		<script type="text/javascript">
+			var lList = document.querySelector('.left ul');
+			var rTitle = document.querySelector('.right .title img');
+			var rInfo = document.getElementById('info1');
+			var rPrev = document.querySelector('#prev1 a');
+			var rNext = document.querySelector('#next1 a');
+			var rPage = document.getElementById('page1');
+			
+			var zp = {
+				init: function(sea, hash) {
+					this.list(sea);
+					this.page(sea, hash);
+				},
+				list: function(sea) {
+					var str = '';
+					for (var i = 0; i < aData.list.length; i++) {
+						if(aData.list[i].lx == sea) {
+							str += '<li class="focus"><a href="list.html?' + aData.list[i].lx + '">' + aData.list[i].text + '</a></li>';
+						}else {
+							str += '<li><a href="list.html?' + aData.list[i].lx + '">' + aData.list[i].text + '</a></li>';
+						}
+					}
+					lList.innerHTML = str;
+					rTitle.src = 'img/' + sea + 'zp.gif';
+				},
+				page: function(list, now, num = 2) {
+					now = parseInt(now);
+					var str = '';
+					var page = Math.ceil(aData[list].text.length/num);
+					for (var i = 0; i < page; i++) {
+						if(now == i) {
+							str += '<span class="focus"><a href="list.html?' + list + '#' + i + '">' + (i+1) + '</a></span>';
+						}else {
+							str += '<span><a href="list.html?' + list + '#' + i + '">' + (i+1) + '</a></span>';
+						}
+					}
+					rPage.innerHTML = str;
+					rPrev.href = 'list.html?' + list + '#' + (now-1<0 ? 0 : now-1);
+					rNext.href = 'list.html?' + list + '#' + (now+1>page-1 ? page-1 : now+1);
+					this.content(list, now, num);
+				},
+				content: function(list, now, num) {
+//	<p class="zp">
+// 	span><a href="">★ 职位需求：测试工程师【社会招聘】</a></span>
+//  <span>需求人数：12名</span>
+// 	<span class="date">2013年7月30日</span>
+// 	</p>
+// 	<p class="yq">1.计算机或相关专业本科以上学历；2.从事软件测试工作3年及以上；3.具备良好的沟通能力和快速学习能力；4.精通测试策略和方法、测试用例设计；5.熟悉DB2、AIX等平台的基本操作；6.具备2年以上金...[<a href="">查看详情</a>]
+//      </p>
+					var str = '';
+					var info = '';
+					var arr = aData[list].text.slice(now*num, now*num + num);
+        			for (var i = 0; i < arr.length; i++) {
+        				str += '<p class="zp">';
+        				str += '<span><a href="content.html?' + list + '#' + (now*num + i) + '">★ ';
+        				str += arr[i].zw;
+        				str += '</a></span><span>需求人数：';
+        				str += arr[i].rs;
+        				str += '名</span><span class="date">';
+        				str += aData.date(arr[i].sj);
+        				str += '</span></p><p class="yq">';
+        				for (var j = 0; j < arr[i].info.length; j++) {
+        					info += arr[i].info[j].l;
+        				}
+        				str += info.substr(0, 105) + '...';
+        				str += '[<a href="content.html?' + list + '#' + (now*num + i) + '">';
+        				str += '查看详情</a>]</p>';
+        			}
+        			rInfo.innerHTML = str;
+				}
+			}
+			
+			var sea = window.location.search.substr(1) || 'sh';
+			var hash = window.location.hash.substr(1) || 0;
+			
+			zp.init(sea, hash);
+			window.onhashchange = function() {
+				var sea = window.location.search.substr(1) || 'sh';
+				var hash = window.location.hash.substr(1) || 0;
+				zp.page(sea, hash);
+			}
+		</script>
+	</body>
+</html>

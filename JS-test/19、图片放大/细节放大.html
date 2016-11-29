@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			div{
+				float: left;
+				/*margin-left:10px ;*/
+			}
+			#box{
+				width:350px;
+				height:350px;
+				background:url(small.jpg) no-repeat; 
+				border:1px solid peru;
+				position: relative;
+				/*margin-left: 50px;*/
+			}
+			.big{
+				width:400px;
+				height:400px;
+				background:url(big.jpg) no-repeat ; 
+				border:1px solid peru;
+				display: none;
+			}
+			.boxIn{
+				width:50%;
+				height:50%;
+				background:pink;
+				opacity: 0.5;
+				position: absolute;
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<div class="boxIn"></div>
+		</div>
+		<div class='big'>
+			
+		</div>
+	</body>
+	<script>
+		var box = document.getElementById('box');
+		var boxIn = document.getElementsByClassName('boxIn')[0];
+		var big = document.getElementsByClassName('big')[0];
+
+		box.onmousemove = function(e){
+//			console.log(e.clientX);
+//			console.log(e.clientY);
+			var x = e.clientX-box.getBoundingClientRect().left-boxIn.offsetWidth/2;
+			var y = e.clientY-box.getBoundingClientRect().top-boxIn.offsetWidth/2;;
+			
+			var maxLeft = box.clientWidth - boxIn.offsetWidth;
+			var maxTop = box.clientWidth - boxIn.offsetWidth;
+//			console.log("x"+x);
+//			console.log(y);
+			
+			
+			if( x > maxLeft ){
+				x = maxLeft;
+//				var x = (e.clientX-87.5)/350;
+			}
+			if( y > maxTop ){				
+				y = maxTop;	
+//				var y = (e.clientY-87.5)/350;
+			}
+			
+			if(x < 0){
+				x = 0;
+//				var x = 0;
+			}			
+			if(y < 0){
+				y = 0;
+//				var y = 0;
+			}
+			boxIn.style.left = x +'px';
+			boxIn.style.top = y + 'px';
+//			console.log(800*x/350);
+//			console.log(800*y/350);
+			big.style.backgroundPosition=" -"+800*x/350+"px  -"+800*y/350+"px";		
+		}
+		box.onmouseover= function(){
+			boxIn.style.display="block";
+			big.style.display="inline-block"
+		}
+		box.onmouseout= function(){
+			boxIn.style.display="none";
+			big.style.display="none"
+		}
+	</script>
+</html>
+
+
+
+
+
+
+
+
+
+
