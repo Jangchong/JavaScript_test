@@ -1,0 +1,98 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<style>
+dl,dd { padding: 0; margin: 0;}
+a { text-decoration: none; color: #646464; }
+b,i { font-weight: normal;font-style: normal; }
+a:hover { text-decoration: underline; }
+#content { width: 980px; border: 1px solid #bfe3f1; margin: 50px auto 0; font-size: 12px; }
+.top { height: 20px; padding: 20px; border-top: 1px solid #4daedd; border-bottom: 1px solid #e0e0e0; }
+.top span { padding: 1px; border: 1px solid #4daedd; background: #f2fbff; position: relative; padding-right: 15px; display: inline-block; margin-right: 5px; }
+.top span em { font-style: normal; font-family: Arial; background: #4daedd; color: #fff; position: absolute; width: 10px; height: 10px; line-height: 9px; text-align: center; top: 2px; right: 2px; cursor: pointer; }
+
+dl { width: 100%; margin: 0; border-bottom: 1px dotted #e0e0e0; overflow: hidden; }
+dl dt,dl dd {float: left;}
+dl dt { width: 80px; background: #f2fbff; padding: 15px;  padding-bottom: 999px; margin-bottom: -999px; }
+dl dd { width: 870px; }
+dl dd div { padding: 15px; overflow: hidden; }
+dl dd a { margin-right: 36px; line-height: 24px; padding: 1px; float: left; }
+dl dd a.cur { background: #30caf0; color: #fff; }
+
+</style>
+</head>
+
+<body>
+
+<div id="content">
+	<div class="top">
+	  	<b>你的选择：</b>
+	    <!-- <span><i>小米</i><em>x</em></span> -->
+
+	</div>
+	<div class="list">
+		<dl>
+			<dt>品牌：</dt>
+			<dd>
+				<div><a href="#">小米</a><a href="#">苹果</a><a href="#">三星</a><a href="#">华为</a><a href="#">酷派</a><a href="#">联想</a><a href="#">中兴</a><a href="#">vivo</a><a href="#">索尼</a><a href="#">OPPO</a><a href="#">LG</a><a href="#">天语</a><a href="#">诺基亚</a><a href="#">HTC</a> <a href="#">摩托罗拉</a><a href="#">大显</a><a href="#">黑莓</a><a href="#">魅族</a><a href="#">飞利浦</a><a href="#">金立</a><a href="#">索尼爱立信</a></div>
+			 </dd>
+		</dl>
+		<dl>
+			<dt>价格：</dt>
+			<dd><div><a href="#">499元以下</a> <a href="#">500-999元</a> <a href="#">1000-1999元</a> <a href="#">2000-2999元</a> <a href="#">3000-3999元</a> <a href="#">4000-4999元</a> <a href="#">5000元以上</a></div></dd>
+		</dl>
+		<dl>
+			<dt>手机特色：</dt>
+			<dd><div><a href="#">学生机</a> <a href="#">智能</a> <a href="#">国产</a> <a href="#">千元机</a> <a href="#">商务</a> <a href="#">天翼</a> <a href="#">看电影</a> <a href="#">老人机</a> <a href="#">百元</a></div></dd>
+		</dl>
+		<dl>
+			<dt>手机配置：</dt>
+			<dd><div><a href="#">电信3G</a> <a href="#">双核</a> <a href="#">拍照</a> <a href="#">四核</a> <a href="#">双3G</a> <a href="#">移动3G</a> <a href="#">WP8</a> <a href="#">高清</a> <a href="#">1080P高清</a></div></dd>
+		</dl>
+	</div>
+</div>
+<script>
+	var content = document.getElementById("content");
+	var box = content.getElementsByTagName("div")[0];
+	var dls = document.getElementsByTagName("dl");
+	var arr = [];
+//	[span,,span]
+	for (var i = 0; i < dls.length; i++) {
+		tab( i );
+	}
+	function tab(n){//n就是点击的 第几个dl 里面的a
+		var as = dls[n].getElementsByTagName("a");
+		var span;
+		for (var i = 0; i < as.length; i++) {
+			as[i].onclick = function(){
+				if( !span ){//如果span不存在
+					span = document.createElement("span")//创建span
+				}
+				span.innerHTML = "<i>"+ this.innerHTML +"</i><em>x</em>";
+				var em = span.getElementsByTagName("em")[0];
+				em.onclick = function(){
+					box.removeChild( span );
+					arr[n] = null;
+					console.log( arr );
+				}
+				arr[n] = span;
+//				console.log( arr );
+				for (var i = 0; i < arr.length; i++) {
+					if( arr[i] && n<i ){//如果arr[i]存在并且，下标比n要大
+						box.insertBefore( span,arr[i] );
+//						console.log(1)
+						return ;
+					}
+				}
+				box.appendChild( span );
+			}
+			
+		}
+	}
+</script>
+</body>
+</html>
