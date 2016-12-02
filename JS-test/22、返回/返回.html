@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#box{
+				width:100px;
+				height:100px;
+				background:red;
+				position: absolute;
+				left:8px;
+				top:60px;
+			}
+			#move{
+				width:60px;
+				height:30px;
+				background:gold;
+				border-radius:10px;
+				font: 18px/30px "微软雅黑";
+				text-align: center;
+				/*color:#fff;*/
+				cursor:pointer;
+			}
+		</style>
+	</head>
+	<body>
+		<div id = 'move'>返回</div>
+		<div id = 'box'></div>
+		<script>
+			var box = document.getElementById('box');
+			var move = document.getElementById('move');
+			var arrM = [];
+			
+			
+			box.onmousedown = function (e){
+				var disX = e.clientX - box.offsetLeft;
+				var disY = e.clientY - box.offsetTop;
+				var maxL = window.innerWidth - box.clientWidth;
+				var maxT = window.innerHeight - box.clientHeight;
+				document.onmousemove = function(e){
+					
+					var l = e.clientX - disX;
+					var t = e.clientY - disY;
+					
+					if(l<0){
+						l=0;
+					}
+					if(t<0){
+						t=0;
+					}
+					if(t>maxT){
+						t=maxT;
+					}
+					if(l>maxL){
+						l = maxL;
+					}
+					arrM.push([l,t]);
+					box.style.left = l + 'px';
+					box.style.top = t +'px';
+				}
+				document.onmouseup = function(){
+					document.onmousemove = null;
+				}	
+				return false;
+			}
+			
+			move.onclick=function(){
+				move.timer = setInterval(function(){
+					var s = arrM.pop();
+					if(!s){
+						box.style.left = '8px';
+						box.style.top = '60px';
+						clearInterval(move.timer);
+					}else{
+						box.style.left = s[0] + 'px';
+						box.style.top = s[1] + 'px';
+					}
+				},16)
+			}
+			
+		</script>
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
