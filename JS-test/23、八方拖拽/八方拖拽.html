@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>八方拖拽</title>
+		<style>
+			#box{
+				width:200px;
+				height:200px;
+				background:goldenrod;
+				position:absolute;
+				left:600px;
+				top:200px;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="box"></div>
+		<script>
+			var box = document.getElementById('box');
+			
+			box.onmousemove = function(e){
+				var  disX = e.clientX - box.offsetLeft;
+				var  disY = e.clientY - box.offsetTop;
+				var width = box.clientWidth;
+				var height = box.clientHeight;				
+				box.style.cursor = "default";
+				if(disX>= 0 && disX<20){//左
+					box.style.cursor = "e-resize";
+				}
+				
+				if(disX <= width&&disX>width-20){//右
+					box.style.cursor = "w-resize";
+				}
+				
+				if(disY>= 0 && disY<20){//上
+					box.style.cursor = "n-resize";	
+				}
+				
+				if(disY <= height&&disY>height-20){//下
+					box.style.cursor = "s-resize";
+				}
+				
+				//四角判断
+				if(disX>= 0 && disX<20 && disY>= 0 && disY<20){//左上
+					box.style.cursor = "nw-resize";
+				}
+				
+				if(disX>= 0 && disX<20 && disY <= height&&disY>height-20){//左下
+					box.style.cursor = "sw-resize";
+				}
+				if(disX <= width&&disX>width-20 && disY>= 0 && disY<20){//右上
+					box.style.cursor = "ne-resize";
+				}
+				if(disX <= width&&disX>width-20 && disY <= height&&disY>height-20){
+					box.style.cursor = "se-resize";
+				}
+				
+				
+				
+				
+			}
+			box.onmousedown = function(e){
+				var  disX = e.clientX - box.offsetLeft;
+				var  disY = e.clientY - box.offsetTop;
+				var cL = box.offsetLeft;
+				var cT = box.offsetTop;
+				var width = box.clientWidth;
+				var height = box.clientHeight;
+				
+				document.onmousemove = function(e){
+					if(disX>= 0 && disX<20){//左
+						box.style.left = e.clientX-disX+'px';
+						box.style.width = width+cL-e.clientX+disX + 'px';
+					}
+					if(disX <= width&&disX>width-20){//右
+						box.style.width = e.clientX-cL+ (width-disX)+ 'px';
+					}
+					
+					if(disY>= 0 && disY<20){//上
+						box.style.top = e.clientY-disY+'px';
+						box.style.height = height+cT-e.clientY+disY + 'px';
+						
+					}
+					if(disY <= height&&disY>height-20){//下
+						box.style.height = e.clientY-cT+ (height-disY)+ 'px';
+					}
+					
+					//四角判断
+					if(disX>= 0 && disX<20 && disY>= 0 && disY<20){//左上
+						box.style.left = e.clientX-disX+'px';
+						box.style.width = width+cL-e.clientX+disX + 'px';
+						
+						box.style.top = e.clientY-disY+'px';
+						box.style.height = height+cT-e.clientY+disY + 'px';
+					}
+					
+					if(disX>= 0 && disX<20 && disY <= height&&disY>height-20){//左下
+						box.style.left = e.clientX-disX+'px';
+						box.style.width = width+cL-e.clientX+disX + 'px';
+						
+						box.style.height = e.clientY-cT+ (height-disY)+ 'px';
+					}
+					if(disX <= width&&disX>width-20 && disY>= 0 && disY<20){//右上
+						box.style.width = e.clientX-cL+ (width-disX)+ 'px';
+						
+						box.style.top = e.clientY-disY+'px';
+						box.style.height = height+cT-e.clientY+disY + 'px';
+					}
+					if(disX <= width&&disX>width-20 && disY <= height&&disY>height-20){
+						box.style.width = e.clientX-cL+ (width-disX)+ 'px';						
+						box.style.height = e.clientY-cT+ (height-disY)+ 'px';
+					}
+					
+					
+				}
+				document.onmouseup = function(){
+					document.onmousemove = null;
+				}
+			}
+		</script>
+	</body>
+</html>
