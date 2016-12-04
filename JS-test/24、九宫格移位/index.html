@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>九宫格移位</title>
+		<style>
+			#list{
+				list-style:none;
+				width:330px;
+				/*height:330px;*/
+				margin: 100px auto;
+				position: relative;
+				padding: 0;
+				
+			}
+			li{
+				width:100px;
+				height:100px;
+				background:pink;
+				margin:5px;
+				float: left;
+				text-align: center;
+				font:20px/100px "微软雅黑";
+				color:#fff;
+			}
+			.box{
+				border: 1px dotted #000;
+				position: absolute;
+				background-color: rgba(0,112,255,0.1);
+			}
+		</style>
+	</head>
+	<body>
+		<!--
+			布局转换：
+				把一种css布局(一般是浮动)转成定位布局
+		-->
+		<ul id= 'list'>
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+			<li>7</li>
+			<li>8</li>
+			<li>9</li>
+		</ul>
+		<script>
+			var list = document.getElementById('list');
+			var lis = list.getElementsByTagName('li');
+			var arr = [];
+			var onoff = false;
+			document.onmousedown = function(e){
+				var div = document.createElement('div');
+				div.className = 'box';
+				document.body.appendChild( div );
+				
+				var oriX = e.clientX; //点击的left位置
+				var oriY = e.clientY; //点击的top位置
+				div.style.left = oriX + "px";  // 赋值
+				div.style.top = oriY + "px";  // 赋值
+				
+				document.onmousemove = function (e){//鼠标移动
+					div.style.width = Math.abs( e.clientX - oriX ) + "px";
+					div.style.height = Math.abs( e.clientY - oriY ) + "px";
+					div.style.left = Math.min( e.clientX , oriX ) +"px";
+					div.style.top = Math.min( e.clientY , oriY ) + "px";
+					for(var i = 0; i < lis.length; i++){
+						if(peng(div , lis[i])){
+							lis[i].style.background = 'pink';
+							lis[i].onoff = false;
+						}else{
+							lis[i].style.background = 'orange';
+							lis[i].onoff = true;
+						}
+					}				
+				}
+				document.onmouseup = function(){					
+					document.onmousemove = null;
+					document.body.removeChild( div );
+//					console.log(onoff);
+					arr =[];
+					for(var i = 0; i < lis.length; i++){
+						if(lis[i].onoff){
+							arr.push(i);
+						}
+					}
+					console.log(arr);
+//					obj.style.background = 'pink';
+				}
+				return false
+			}
+			
+			
+			for(var i = 0 ; i < lis.length; i++){//给每个li添加left和top值
+				lis[i].style.left = lis[i].offsetLeft + 'px';
+				lis[i].style.top = lis[i].offsetTop + 'px';
+			}
+			
+			for(var i = 0 ; i < lis.length; i++){
+				lis[i].index = i;
+				lis[i].onoff = false;
+				lis[i].style.position = 'absolute';
+				lis[i].style.float = 'none';
+				lis[i].style.margin = '0px'
+				 drag(lis[i]);
+			}
+			function peng(n1,n2){//碰撞检测返回结果  true 为没碰到
+				var pos1 = n1.getBoundingClientRect();
+				var pos2 = n2.getBoundingClientRect();
+				
+				return pos1.right < pos2.left || pos1.left > pos2.right || pos1.bottom <pos2.top || pos1.top >pos2.bottom  //判断碰撞
+			}
+			
+			function drag(obj){//封装一个拖拽的函数事件
+				obj.onmousedown = function(e){
+					e.cancelBubble=true;
+					
+					obj.style.background = 'orange';
+					obj.onoff = true;
+					var disX = e.clientX - obj.offsetLeft;
+					var disY = e.clientY - obj.offsetTop;
+					for(var i=0;i<lis.length;i++){
+						lis[i].disX = e.clientX - lis[i].offsetLeft;
+						lis[i].disY = e.clientY - lis[i].offsetTop;
+					}
+					
+					document.onmousemove = function (e){
+						obj.style.left = e.clientX - disX + 'px';
+						obj.style.top = e.clientY - disY + 'px';
+						for(var i=0;i<lis.length;i++){
+							if(lis[i].onoff){
+								lis[i].style.left = e.clientX - lis[i].disX+'px';
+								lis[i].style.top = e.clientY - lis[i].disY+'px';
+							}
+						}
+						return false
+					}
+					
+					document.onmouseup = function (){
+//						obj.style.background = 'pink';
+						document.onmousemove = null;
+						document.onmouseup = null;						
+					}
+				}				
+				return false
+			}
+		</script>
+	</body>
+</html>
