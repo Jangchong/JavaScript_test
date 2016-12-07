@@ -99,6 +99,8 @@ body{
 	right:-1px;
 	top: 46px;
 	overflow: hidden;
+	z-index: 1;
+	display: none;
 }
 .select1{
 	width:49px;
@@ -110,6 +112,7 @@ body{
 	top: 30px;
 	background:#fff;
 	z-index: 2;
+	display: none;
 }
 .select li{	
 	width:100%;
@@ -137,11 +140,14 @@ body{
 	height:470px;
 }
 .c_left{
+	position:absolute;
 	/*padding-left:20px;*/
 	width: 258px;
 	height:100%;
 	/*background: #e1e8ee;*/
 	border-right: 2px solid #e1e9eb;
+	left:0;
+	top:0;
 
 	
 }
@@ -201,17 +207,48 @@ body{
  	内容区域；
  	右边
  */
-.c_left{
-	float: left;
-	
-}
+
 .c_right{
-	width: 600px;
+	/*width: 600px;*/
 	height:300px;
-	background:pink;
-	/*position: absolute;*/
+	/*background:pink;*/
+	position: absolute;
 	float:right;
 	top:0px;
 	right:0px;
 	left:260px;
+}
+/*
+ 	内容区域；
+ 	右边 头部
+ */
+.ct_list{
+	height:48px;
+	border-bottom:2px solid #e2e7ea;
+	line-height: 47px;
+	color: #2f3334;
+	display: flex;
+	align-items: center;
+}
+.ct_list img{
+	margin-left:5px;
+	/*display: inline-block;*/
+}
+.ct_list span{
+	height:49px;
+	display: inline-block;
+	font:14px/48px "微软雅黑";
+	padding:0 15px;
+}
+.ct_list .button{
+	font:14px/16px "微软雅黑";
+	width: 16px;
+	height:16px;
+	border:1px solid #d1d8de;
+	padding: 0;
+	margin: 0 27px 0 15px;
+}
+.listColor{
+	color:#53aedb;
+	border-bottom:2px solid #53aedb;
 }
