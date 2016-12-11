@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#box{
+				width:100px;
+				height:100px;
+				background:red;
+				position: absolute;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box"></div>
+		<script>
+			var box = document.getElementById('box');
+			var d ='';
+			setInterval(function(){
+				if(d == 'r'){
+					box.style.left = box.offsetLeft + 1 +"px";	
+				}
+				if(d == 'l'){
+					box.style.left = box.offsetLeft - 1 +"px";
+				}
+				if(d == 't'){
+					box.style.top = box.offsetTop - 1 +"px";
+				}
+				if(d == 'b'){
+					box.style.top = box.offsetTop + 1 +"px";
+				}
+			},1)
+			document.onkeydown = function (e){
+				
+				if(e.keyCode == 37){
+//					box.style.left = box.offsetLeft - 5 +"px";
+					d = 'l';
+				}
+				if(e.keyCode == 38){
+//					box.style.top = box.offsetTop - 5 +"px";
+					d = 't';
+				}
+				if(e.keyCode == 39){
+//					box.style.left =  box.offsetLeft + 5 +"px";
+					d = 'r';
+				}
+				if(e.keyCode == 40){
+//					box.style.top = box.offsetTop + 5 +"px";
+					d = 'b';
+				}
+			}
+			document.onkeyup = function(e){
+				if(e.keyCode == 37){
+//					d = '';
+				}
+				if(e.keyCode == 38){
+					d = '';
+				}
+				if(e.keyCode == 39){
+//					d = ''; 
+				}
+				if(e.keyCode == 40){
+					d = '';
+				}
+			}
+		</script>
+	</body>
+</html>

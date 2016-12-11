@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#box{
+				width:100px;
+				height:100px;
+				background:red;
+				position: absolute;
+			}
+		</style>
+	</head>
+	<body>
+		<div id='box'></div>
+		<script>
+			var box = document.getElementById('box');
+			
+			var arr =[];
+			var timer;
+			function go(){
+				timer = setInterval(function(){
+					console.log(1);
+					if(arr[37]){
+						box.style.left = box.offsetLeft - 1 +"px";
+					}
+					if(arr[38]){
+						box.style.top = box.offsetTop - 1 +"px";
+					}
+					if(arr[39]){
+						box.style.left = box.offsetLeft + 1 +"px";
+					}
+					if(arr[40]){
+						box.style.top = box.offsetTop + 1 +"px";
+					}
+				},10)
+			}
+			var isStop = true;
+			document.onkeydown = function(e){
+				console.log(arr);
+				arr[e.keyCode] = true;
+				if(isStop){
+					go();
+					isStop = false;
+				}
+				
+			}			
+			document.onkeyup = function(e){
+				arr[e.keyCode] = false;
+				for(var attr in arr){
+					if(arr[attr]){
+						return
+					}					
+				}
+				clearInterval(timer);
+				isStop = true;
+			}	
+			
+		</script>
+	</body>
+</html>
