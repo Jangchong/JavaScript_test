@@ -1,0 +1,27 @@
+body,h1,h2,h3,h5,dl,dd{
+	margin:0;
+}
+a{
+	text-decoration:none;
+	color:#687176;
+}
+img{
+	border:none;
+	vertical-align: top;
+}
+ul{
+	list-style:none;
+	margin:0;
+	padding:0;
+}
+ol{
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+input,select,form{
+	margin:0;
+	padding:0;
+	border: 0 none;
+	outline: none;
+}
