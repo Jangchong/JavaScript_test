@@ -35,7 +35,7 @@ var handle = {
 	//通过指定的id找到所有的子数据，放到数组里
 	getChildsIdAll(data,id){
 		var arr= [];
-		var self = handle.getSelfById(data,id);//找到自己		
+		var self = handle.getSelfById(data,id);//找到自己
 		arr.push(self);		
 		var childs = handle.getChildsById(data,self.id);//找到子数据
 		

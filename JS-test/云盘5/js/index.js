@@ -49,6 +49,7 @@
 			fileNo.style.display = "none";
 		}else{
 			fileNo.style.display = "block";
+			
 		}
 		fileItem.innerHTML = createFilesHtml(datas,fileId);//渲染文件区域
 		
@@ -56,17 +57,21 @@
 		
 		t.removeClass(getTreeById(currentId),"clColor")
 		t.addClass(getTreeById(fileId),"clColor");	
-		currentId = fileId;//保存当前的，方便下次点击时，这个为上一个。
-		
+		currentId = fileId;//保存当前的，方便下次点击时，这个为上一个。		
 		//全选不被勾选
 		t.removeClass(navCheckBox,"bgI");
-	}
-	
+	}	
 //-------------------------------------------交互区域----------------------------------------------------
 	//一、给树形菜单点击处理
 	
 	//找到树形菜单里所有的span
 	var spans = cLeft.getElementsByTagName("span");	
+//给所有没有子级文件清除下拉按钮
+//	for(var i= 0; i< spans.length; i++){	
+//		if(!spans[i].nextElementSibling){
+//			spans[i].firstElementChild.style.background = "none";
+//		}	
+//	}
 	//给指定的菜单添加样式
 	var currentId = 0;//声明一个变量，添加添加背景-初始背景为0
 	t.on(cLeft,'click',function(ev){
@@ -133,7 +138,6 @@
 			ev.stopPropagation();
 		}		
 	})
-
 //-------全选框
 	t.on(navCheckBox,'click',function(){
 		var childs = handle.getChildsById(datas,currentId);
@@ -218,8 +222,7 @@
 		
 		var value = inpText.value.trim();//通过value值判断是否要新建		
 		if( value ){  //新建
-			//判断新建的文件的名字在同级是否存在
-			var isExist = handle.isTitleExist(datas,value,currentId);
+			var isExist = handle.isTitleExist(datas,value,currentId);//判断新建的文件的名字在同级是否存在
 			if(isExist){
 				fileItem.removeChild(firstElement);					
 				promptTop('Al','命名重复');//不能有重名的项 提醒
@@ -289,8 +292,8 @@
 //			console.log(handle.getChildsIdArrs(datas,idArr));//多个选中的id下面的所有子数据
 			//要删除拿到的数据
 //			var arr = handle.getChildsIdArrs(datas,idArr)
-			handle.delectChildsAlls(datas,idArr);
-			cLeft.innerHTML = createTreeHtml(datas,-1);
+			handle.delectChildsAlls(datas,idArr);//删除数据里的所选子孙的数据
+			cLeft.innerHTML = createTreeHtml(datas,-1);//重新渲染树形菜单
 			gong(currentId);
 			promptTop('Dl','删除完成');
 		}else{
@@ -309,26 +312,38 @@
 		if(liOK.length > 1){
 			promptTop('Al','不能选择多个');
 			return;
-		}		
+		}
+		
 		if(!liOK.length){
 			promptTop('Al','选择文件');
 		}else{
 			var fileName = liOK[0].getElementsByClassName("liText")[0];	//文件的名字
-			var inpName = liOK[0].querySelector(".inpText");	//修改文件的名字		
+			var inpName = liOK[0].querySelector(".inpText");	//修改文件的名字	
+			var okId = liOK[0].dataset.id;
 			fileName.style.display = "none";
 			inpName.style.display = 'block';
 			inpName.focus();
-//			
 			inpName.onblur = function(){
-					
-				fileName.style.display = "block";
-				inpName.style.display = 'none';
-				fileName.innerHTML = inpName.value;
-				fileName			
-				t.removeClass(liOK[0],'bgLi');
-			}
+				if(inpName.value.trim().length){
+					fileName.style.display = "block";
+					inpName.style.display = 'none';
+					fileName.innerHTML = inpName.value;
+					t.removeClass(liOK[0].firstElementChild,'bgI');
+					t.removeClass(liOK[0],'bgLi');
+					handle.getSelfById(datas,okId).title = inpName.value;
+					cLeft.innerHTML = createTreeHtml(datas,-1);//重新渲染树形菜单
+					gong(currentId);
+					promptTop('Dl','命名成功');
+				}else{
+					fileName.style.display = "block";
+					inpName.style.display = 'none';
+					t.removeClass(liOK[0].firstElementChild,'bgI');
+					t.removeClass(liOK[0],'bgLi');
+					promptTop('Al','命名不能为空');
+				}
+				
+			}	
 		}
-		
 		
 		
 	})
@@ -336,9 +351,7 @@
 	
 	//---------------------框选（createBox）
 	
-	var div = null,
-		oriX = null,
-		oriY = null;
+	
 	t.on(document,'mousedown',function(ev){
 		
 		if(ev.which !== 1) return;	//右键
@@ -356,9 +369,9 @@
 		if(iclass){//判断是否选中
 			return;
 		}
-		
-		oriX = ev.clientX;//按下的X位置
-		oriY = ev.clientY;//按下的Y位置
+		var div = null;
+		var oriX = ev.clientX;//按下的X位置
+		var oriY = ev.clientY;//按下的Y位置
 			
 		document.onmousemove = function(ev){			
 			if( Math.abs( ev.clientX - oriX ) > 15 || Math.abs( ev.clientY - oriY ) > 15 ){//判断是否执行框选	
@@ -430,7 +443,7 @@
 		return pos1.right > pos2.left && pos1.left < pos2.right && pos1.bottom > pos2.top && pos1.top < pos2.bottom;
 	}
 	
-	
+
 })();
 
 
