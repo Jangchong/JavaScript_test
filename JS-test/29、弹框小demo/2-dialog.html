@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input type="button" value="弹出" id="opens">
+	<!-- <div>
+		<h3>这是我开发的弹框</h3>
+		<div>
+			这是我写的默认内容
+		</div>
+	</div> -->
+	<script>
+		/*
+			开发者
+				写一个弹框
+
+				标题
+				内容
+
+				可以写也可以不写
+		*/
+
+		function dialog(title,content){
+			var diaDiv = document.createElement("div");	
+			var h3 = document.createElement("h3");	
+			var div = document.createElement("div");
+			h3.innerHTML = title || '这是我开发的弹框';
+			div.innerHTML = content || '这是我写的默认内容';
+				diaDiv.appendChild(h3);
+				diaDiv.appendChild(div);
+
+			document.body.appendChild(diaDiv);
+
+		}
+
+		opens.onclick = function (){
+			//参数可填可不填的，这样依次传入参数，不够灵活的
+			dialog(null,null,"确定");	
+		};
+	</script>
+</body>
+</html>

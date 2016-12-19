@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input type="button" value="弹出" id="opens">
+	<!-- <div>
+		<h3>这是我开发的弹框</h3>
+		<div>
+			这是我写的默认内容
+		</div>
+	</div> -->
+	<script>
+		/*
+			开发者
+				写一个弹框
+
+				标题
+				内容
+
+				可以写也可以不写
+
+			dialog 参数使用对象
+				对象可选参数
+				{
+					title: 标题
+					content: 内容
+				}
+		*/
+
+		function dialog(option){
+
+			//1. 判断 option 的类型  （暂时不判断）
+			//2. 参数的默认值
+			//3. 复制一份传进来的参数，改变的时候不影响外面的对象
+
+			option = option || {};  //默认是对象
+
+			//option 为传过来的对象
+
+			//option.abc = 100;
+
+			//复制一份option，目的是在改变option参数的时候，不影响外面的对象
+
+			var defaults = {};
+
+			for( var attr in option ){
+				defaults[attr] = option[attr];
+			}
+			defaults.abc = 100;
+
+			var diaDiv = document.createElement("div");	
+			var h3 = document.createElement("h3");	
+			var div = document.createElement("div");
+			h3.innerHTML = defaults.title || '这是我开发的弹框';
+			div.innerHTML = defaults.content || '这是我写的默认内容';
+				diaDiv.appendChild(h3);
+				diaDiv.appendChild(div);
+
+			document.body.appendChild(diaDiv);
+
+		}
+
+		var obj = {
+				title:"今天天气好"
+			}
+
+		opens.onclick = function (){
+			dialog(obj);	
+
+			console.log( obj );
+		};
+
+		document.onclick = function (){
+			for( var attr in obj ){
+				console.log( attr );
+			}	
+		};
+	</script>
+</body>
+</html>
