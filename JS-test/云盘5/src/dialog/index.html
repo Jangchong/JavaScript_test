@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel='stylesheet' href="demo.css" />
+	</head>
+	<body>
+		<input type="button" class="but" value="按钮" />
+		<!--<div class = 'fullbox'>
+			<h3>
+				<p class= 'title1'>删除文件</p>
+				<a href="javaScript:;" class = 'close' title='关闭'>X</a>
+			</h3>
+			<div class='content'>确定要删除这个文件夹吗？已删除的文件可以在回收站找到</div>
+			<div class='pop-btns'>
+				<span></span>
+				<a href="javaScript:;" class= 'confirm'>确定</a>
+				<a href="javaScript:;" class= 'cancel'>取消</a>
+			</div>
+		</div>-->
+		<!--<div>背景</div>-->
+		<script src='dialog.js'></script>
+		<script>
+			var but = document.getElementsByClassName('but')[0];
+			
+			but.onclick = function(){
+				dialog({
+					title:"运动div",
+					content:"你是否真的要运动div？",
+					okFn:function (){return false;}
+				})
+			}
+		</script>
+	</body>
+</html>

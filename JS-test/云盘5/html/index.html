@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>云盘</title>
-		
+		<link rel="stylesheet" href = "../src/dialog/demo.css"/>
 		<link rel="stylesheet" href = "../css/index.css"/>
 		<link rel="stylesheet" href = "../css/global.css"/>
 		<link rel="stylesheet" href = "../css/rest.css"/>
@@ -38,7 +38,7 @@
 							<img src="../img/fenxiang.png" />
 							分享
 						</a>
-						<a href="javaScript:;">
+						<a href="javaScript:;" class='move'>
 							<img src="../img/move.png" />
 							移动到
 						</a>
@@ -85,7 +85,7 @@
 				</nav>
 			</header>
 			<div class="content pos">
-				<div class='c_left'></div>;
+				<div class='c_left c_tree'></div>	
 				<div class="c_right">					
 					<nav class="ct_nav">
 						<span class="button"></span>
@@ -123,7 +123,12 @@
 					<span class ='alert-ico'>新建成功</span>
 				</span>
 			</div>
+			<!--<div class = 'popup'>
+				<a href="javaScript:;">确定</a>
+				<a href="javaScript:;">取消</a>
+			</div>-->
 		</section>
+		<script src="../src/dialog/dialog.js"></script>
 		<script src="../js/data.js"></script>
 		<script src="../js/handle.js"></script>
 		<!--<script src="../js/moban.js"></script>-->

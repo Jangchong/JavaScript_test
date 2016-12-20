@@ -282,20 +282,27 @@
 	t.on(delect,'click',function(){//点击删除
 		var selectAll = selectOK();
 		if(selectAll.length){//判断有没有选中的元素
-			var id = selectAll[0].dataset.id;
-			var idArr = [];
-			for( var i = 0; i < selectAll.length; i++ ){
-				idArr.push(selectAll[i].dataset.id);
-			}
-//			console.log(idArr)//获取选中的id
-//			console.log(handle.getChildsIdAll(datas,idArr));//单个选中的id的子数据
-//			console.log(handle.getChildsIdArrs(datas,idArr));//多个选中的id下面的所有子数据
-			//要删除拿到的数据
-//			var arr = handle.getChildsIdArrs(datas,idArr)
-			handle.delectChildsAlls(datas,idArr);//删除数据里的所选子孙的数据
-			cLeft.innerHTML = createTreeHtml(datas,-1);//重新渲染树形菜单
-			gong(currentId);
-			promptTop('Dl','删除完成');
+			dialog({
+				title:"删除文件",
+				content:"确定要删除这个文件夹吗？已删除的文件可以在回收站找到",
+				okFn:function(){
+					var id = selectAll[0].dataset.id;
+					var idArr = [];
+					for( var i = 0; i < selectAll.length; i++ ){
+						idArr.push(selectAll[i].dataset.id);
+					}
+		//			console.log(idArr)//获取选中的id
+		//			console.log(handle.getChildsIdAll(datas,idArr));//单个选中的id的子数据
+		//			console.log(handle.getChildsIdArrs(datas,idArr));//多个选中的id下面的所有子数据
+					//要删除拿到的数据
+		//			var arr = handle.getChildsIdArrs(datas,idArr)
+					handle.delectChildsAlls(datas,idArr);//删除数据里的所选子孙的数据
+					cLeft.innerHTML = createTreeHtml(datas,-1);//重新渲染树形菜单
+					gong(currentId);
+					promptTop('Dl','删除完成');
+				}
+			})
+			
 		}else{
 			promptTop('Al','请选删除文件');//提示
 		}
@@ -321,19 +328,23 @@
 			var inpName = liOK[0].querySelector(".inpText");	//修改文件的名字	
 			var okId = liOK[0].dataset.id;
 			fileName.style.display = "none";
-			inpName.style.display = 'block';
-			inpName.focus();
+			inpName.style.display = 'block';			
+			inpName.value = handle.getSelfById(datas,okId).title;
+			inpName.select();
 			inpName.onblur = function(){
 				if(inpName.value.trim().length){
+					if(fileName.innerHTML !== inpName.value){
+						promptTop('Dl','命名成功');
+					}
 					fileName.style.display = "block";
-					inpName.style.display = 'none';
+					inpName.style.display = 'none';					
 					fileName.innerHTML = inpName.value;
 					t.removeClass(liOK[0].firstElementChild,'bgI');
 					t.removeClass(liOK[0],'bgLi');
 					handle.getSelfById(datas,okId).title = inpName.value;
 					cLeft.innerHTML = createTreeHtml(datas,-1);//重新渲染树形菜单
 					gong(currentId);
-					promptTop('Dl','命名成功');
+					
 				}else{
 					fileName.style.display = "block";
 					inpName.style.display = 'none';
@@ -354,7 +365,7 @@
 	
 	t.on(document,'mousedown',function(ev){
 		
-		if(ev.which !== 1) return;	//右键
+		if(ev.which !== 1) return;	//	右键
 		
 		var target = ev.target;	// 找触发源		
 		if( !t.parent(target,'.file_item') ){//判断是否选择的是文件区域
@@ -443,6 +454,115 @@
 		return pos1.right > pos2.left && pos1.left < pos2.right && pos1.bottom > pos2.top && pos1.top < pos2.bottom;
 	}
 	
+
+//--------------------移动到
+
+var move = document.getElementsByClassName('move')[0];
+t.on(move,'click',function(){
+	//获取选中的文件
+		//选中和没选中
+		//选中 
+	var selectArr = selectOK();
+//	console.log(selectMove);
+	var moveStatus =  true;//默认为true;
+	var fileId = null;
+	if(selectArr.length){
+		//提示弹框
+			dialog({
+				title:"移动到",
+				content:"<div class = 'c_left tree-move'>"+createTreeHtml(datas,-1)+"</div>",
+				okFn:function(){
+					//是否要关闭弹框
+					if(moveStatus){
+						return true;
+					}else{
+						//可以关闭弹框，说明可以移动了
+						//fileId 移动的目标目录
+						//移动的数据
+						var onoff = false;
+						for(var i = 0;i<selectIdArr.length;i++ ){
+							//找到所选中的数据
+							var selfDatas = handle.getSelfById(datas,selectIdArr[i]);
+							//判断所选中的数据的名字是否存在
+							var isExist = handle.isTitleExist(datas,selfDatas.title,fileId)   // Exist（存在）
+							
+							if( !isExist ){
+								selfDatas.pid = fileId;
+								fileItem.removeChild(selectArr[i]);
+							}else{
+								onoff = true; //onoff为true，说明有一个移动失败，因为重名了
+							}
+						}
+						if(onoff){
+							promptTop('Al','部分文件移动失败');//提示
+						}	
+						cLeft.innerHTML = createTreeHtml(datas,-1);
+					}
+				}
+			}); 
+			//给移动的树形菜单添加点击样式
+			var treeMove = document.getElementsByClassName('tree-move')[0];
+			//通过选中的文件，找到对应的数据			
+			var selectIdArr = [];  //保存的是选中的id
+			for(var i = 0;i<selectArr.length;i++){
+				selectIdArr.push(selectArr[i].dataset.id);
+			}
+//			console.log(selectIdArr);
+			var selectData = handle.getChildsIdArrs(datas,selectIdArr);//获取所有选中的子孙数据
+
+			var error = document.querySelector(".error");//提醒错误的元素
+			
+			var treeone = treeMove.querySelectorAll('.tree-title')[0];//获取第一个元素微云
+			t.addClass(treeone,"clColor");//先给微云加上背景
+			
+			var currentElement = treeone;//把当前的先存到一个变量里
+			t.on(treeMove,'click',function(ev){
+				var target = ev.target;
+				if( target = t.parent(target,".tree-title") ){
+					//添加class					
+					t.removeClass(currentElement,"clColor");
+					t.addClass(target,"clColor");
+					currentElement = target;
+					
+					fileId = target.dataset.id;
+					//通过fileId找到对应的数据
+					var oneData = handle.getSelfById(datas,fileId);
+					
+					
+					//通过选中的id，找到对应的数据，目的是找到pid
+					var selfData = handle.getSelfById(datas,selectIdArr[0]);
+					if( fileId == selfData.pid ){
+						error.innerHTML = "该文件下已经存在";
+						moveStatus = true;//不能关闭弹框
+						return;
+					}
+					
+					//判断oneData 是否存在所选择的数组中
+					var onoff = false;//给个表示是否存在状态，false无
+					
+					for( var i = 0; i < selectData.length; i++ ){
+						if( oneData.id == selectData[i].id ){
+							onoff = true;//循环完成会得到onoff的状态
+							break;
+						}
+					}
+					
+					if(onoff){
+						error.innerHTML = "不能移动到自身或其子文件夹下";
+						moveStatus = true; //不能关闭弹框
+					}else{
+						error.innerHTML = "";
+						moveStatus = false;//可以关闭弹框
+					}
+					
+				}
+			})
+			
+	}else{
+		promptTop('Al','请选择移动文件');//提示
+	}
+})
+
 
 })();
 

@@ -27,7 +27,7 @@ body{
 	width:120px;
 	height:40px;
 	padding-left:60px;	
-	font:18px/40px "微软雅黑";
+	font:14px/40px "微软雅黑";
 	color:#fff;
 	z-index: 1001;
 	
@@ -40,6 +40,8 @@ body{
 	top:0;
 	background:url(../img/alertAL.png) no-repeat;
 }
+/*弹出框部分*/
+
 .title{
 	width: 100%;
 	height:129px;
@@ -173,6 +175,16 @@ body{
 	overflow: hidden;
 }
 .c_left{
+	/*position:absolute;*/
+	/*padding-left:20px;*/
+	width: 258px;
+	height:100%;
+	/*background: #e1e8ee;
+	border-right: 2px solid #e1e9eb;
+	left:0;
+	top:0;	*/
+}
+.c_tree{
 	position:absolute;
 	/*padding-left:20px;*/
 	width: 258px;
@@ -181,8 +193,6 @@ body{
 	border-right: 2px solid #e1e9eb;
 	left:0;
 	top:0;
-
-	
 }
 /*分层级*/
 .c_left span{	
