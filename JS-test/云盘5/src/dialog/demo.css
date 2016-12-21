@@ -25,18 +25,24 @@ h3{
 }
 .close{
 	float:right;
-	color:#000;
+	color:#aeaeae;
 	margin-right:5px;
+	
 }
 .contentpop{
-	/*height:50px;*/
 	padding:20px 10px;
 	font: 12px "微软雅黑";
+}
+.contentpop .tree-move{
+	height:230px;
+	overflow:auto;
+	width: 100%;
+	border:1px solid #000000
 }
 .pop-btns{
 	/*width:100%;*/
 	text-align:right;
-	margin-right:10px;
+	margin-right:20px;
 	padding: 10px 0;
 }
 .pop-btns a{
@@ -54,3 +60,4 @@ h3{
 	margin-left: 10px;
 	text-align: left;
 }
+

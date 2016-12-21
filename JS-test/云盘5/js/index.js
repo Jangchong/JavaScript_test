@@ -313,7 +313,7 @@
 	var rechristen = document.getElementsByClassName('rechristen')[0];
 	//点击重命名判断是否有选中的文件夹
 	t.on(rechristen,'mouseup',function(){
-		var fileLis =  fileItem.getElementsByClassName('.fileLiName');
+//		var fileLis =  fileItem.getElementsByClassName('.fileLiName');
 		var liOK = selectOK();
 		
 		if(liOK.length > 1){
@@ -364,7 +364,7 @@
 	
 	
 	t.on(document,'mousedown',function(ev){
-		
+		ev.preventDefault();
 		if(ev.which !== 1) return;	//	右键
 		
 		var target = ev.target;	// 找触发源		
@@ -377,14 +377,83 @@
 				iclass = !!t.parent(target,".fileLiName").querySelector(".bgI");
 		}
 		
-		if(iclass){//判断是否选中
-			return;
-		}
-		var div = null;
+//		if(iclass){//判断是否选中
+//			return;
+//		}
+		var div = null,
+		sketchDiv = null, //剪影
+		imposterDiv = null, //伪装者
+		isHitElement = null;  //被碰撞的元素 
+		
 		var oriX = ev.clientX;//按下的X位置
 		var oriY = ev.clientY;//按下的Y位置
 			
-		document.onmousemove = function(ev){			
+		document.onmousemove = function(ev){	
+			
+			if(iclass){
+				//如果是被选中的文件，则移动的时候（大于5像素的时候）就会生成剪影和伪装者
+				if(Math.abs(ev.clientX - oriX ) < 15 && Math.abs( ev.clientY - oriY ) < 15 ){//如果移动距离没有超过5像素则执行里面，会return掉
+					return;
+				}
+				var selectArr = selectOK();
+				//生成一个剪影
+				if(!sketchDiv){
+					sketchDiv = document.createElement('div');
+					sketchDiv.className = 'drag-img'
+					sketchDiv.innerHTML = `<div class="drag-ico">
+												<img src="../img/file1.png"/>
+											</div>
+											<span class= "drag-sum">${selectArr.length}</span>`;
+											
+					document.body.appendChild(sketchDiv);
+					
+					//生成一个div,为了让鼠标在同一个文件down和up的时候不会进入下一级
+					imposterDiv = document.createElement("div")					
+					imposterDiv.style.cssText = `
+												width:10px;
+												height:10px;
+												background:red;
+												position:absolute;
+												left:0;
+												top:0;
+												opacity:0; `;
+					document.body.appendChild(imposterDiv);
+				}
+					sketchDiv.style.left = ev.clientX+15 + "px";
+			        sketchDiv.style.top = ev.clientY+15 + "px";
+
+			        imposterDiv.style.left = ev.clientX-5 + "px";
+			        imposterDiv.style.top = ev.clientY-5 + "px";
+					
+					//排除选中的文件
+					isHitElement = null;
+					var fileLis =  fileItem.getElementsByClassName('fileLiName');				
+				
+					for(var i= 0; i <fileLis.length;i++){
+						var onoff = false;//默认是没有移入本身
+						for(var j = 0; j<selectArr.length;j++){
+							if(selectArr[j] == fileLis[i]){
+								onoff = true;	
+							}
+						}
+						if(onoff){//选中的则跳过碰撞检测
+							continue;
+						}
+						if(peng(imposterDiv,fileLis[i])){
+							t.addClass(fileLis[i],'bgLi');
+							isHitElement = fileLis[i];
+						}else{
+							t.removeClass(fileLis[i],'bgLi');
+						}
+					}
+//					if(onoff){
+//						promptTop('Al','不能移至自身');
+//					}
+				return;	
+			}
+			
+			
+			
 			if( Math.abs( ev.clientX - oriX ) > 15 || Math.abs( ev.clientY - oriY ) > 15 ){//判断是否执行框选	
 				if(!div){
 					div = document.createElement("div");
@@ -434,7 +503,7 @@
 	    		}
 	    		
 	    	}		
-	    }
+	   }
     	document.onmouseup = function(){
     		document.onmousemove = null;
     		document.onmouseup = null;
@@ -442,10 +511,44 @@
     			fileItem.removeChild(div);
     			div = null;
     		}
-    		
-    	}
-		
-    	return false;	
+    		if( sketchDiv ){
+				document.body.removeChild(sketchDiv);
+				document.body.removeChild(imposterDiv);
+				sketchDiv = null;
+				imposterDiv = null;
+			}
+    		if(isHitElement){//判断有没有移入的文件
+    			var onoff = false;
+    			var selectArr = selectOK();
+				var selectIdArr = selectArr.map(function (item){//获取所有选中的文件id
+					return item.dataset.id;
+				})
+				var fileId = isHitElement.dataset.id; //获取移动到文件夹的id
+				
+				for(var i = 0;i<selectIdArr.length;i++ ){
+					//找到所选中的数据
+					var selfDatas = handle.getSelfById(datas,selectIdArr[i]);
+					//判断所选中的数据的名字是否存在
+					var isExist = handle.isTitleExist(datas,selfDatas.title,fileId)   // Exist（存在）
+					
+					if( !isExist ){
+						selfDatas.pid = fileId;
+						fileItem.removeChild(selectArr[i]);
+						promptTop('Dl','移动成功');
+					}else{
+						onoff = true; //onoff为true，说明有一个移动失败，因为重名了
+					}
+				}
+				if(onoff){
+					promptTop('Al','部分文件移动失败');//提示
+				}	
+				t.removeClass(isHitElement,'bgLi');
+				cLeft.innerHTML = createTreeHtml(datas,-1);
+				
+				isHitElement = null;//释放一下变量，目的是移动之后，不要再up后再次出发移动的判断
+    		}
+    			    		
+    	}	
 	})
 //---------封装一个检测碰撞的
 	function peng(obj1,obj2){//返回结果为true //碰到
