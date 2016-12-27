@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#drag1{
+				width:100px;
+				height:100px;
+				border:1px solid #000;
+				background:pink;
+				position:absolute;
+				left:0px;
+				top:0px;
+			}
+			#drag2{
+				width:100px;
+				height:100px;
+				border:1px solid #000;
+				background:orange;
+				position:absolute;
+				left:100px;
+				top:0px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="drag1"></div>
+		<div id="drag2"></div>
+		<script>
+			//构造函数
+			function Drag(element){
+				this.element = element;
+				this.init();
+			};
+			//fang fa 
+			
+//			Drag.prototype.init = function(){
+//				var _this = this;
+//				this.element.onmousedown = function(ev){
+//					var disX = ev.clientX - this.offsetLeft;
+//					var disY = ev.clientY - this.offsetTop;
+//					document.onmousemove = function(ev){
+//						_this.element.style.left = ev.clientX - disX +"px";
+//						_this.element.style.top = ev.clientY - disY +"px";					
+//					};
+//					document.onmouseup = function(){
+//						document.onmousemove = null;
+//						document.onmouseup = null;
+//					};
+//					ev.preventDefault();
+//				};
+//			};
+
+			Drag.prototype = {
+				constructor:Drag,
+				init(){
+					//this 这里的this指向实例
+					var _this = this;
+					this.element.onmousedown = function(ev){
+						_this.downFn(ev);
+					}
+				},
+				downFn(ev){
+					//this 这里的this指向实例
+					this.disX = ev.clientX - this.element.offsetLeft;
+					this.disY = ev.clientY - this.element.offsetTop;
+					
+					var _this = this;	//把this存入一个变量了，mousemove的时候,需要指向实例；
+					document.onmousemove = function(ev){
+//						_this.element.style.left = ev.clientX - _this.disX +"px";
+//						_this.element.style.top = ev.clientY - _this.disY +"px";					
+						_this.moveFn(ev);//调用moveFn函数
+					};
+					document.onmouseup = this.upFn; //调用upFn函数；清除mousemove 和mouseup
+					ev.preventDefault();//清除浏览器默认样式
+				},
+				moveFn(ev){
+					//this 这里的this指向实例
+					this.element.style.left = ev.clientX - this.disX +"px";
+					this.element.style.top = ev.clientY - this.disY +"px";	
+				},
+				upFn(){
+					document.onmousemove = null;
+					document.onmouseup = null;
+				}
+			};
+			//限制范围的类
+			function DragLimit(element){
+				//拥有拖拽的功能 继承Drag就可以了
+				//继承构造函数中的属性
+				Drag.call(this,element);
+//				console.log(this)
+			}
+			for(var attr in Drag.prototype){//继承父级原型上的所有的方法
+				if(	Drag.prototype.hasOwnProperty(attr) ){
+					DragLimit.prototype[attr] = Drag.prototype[attr];
+				}
+			}
+			//改写不同的
+			DragLimit.prototype.constructor = DragLimit;//指向DragLimit;
+			
+			DragLimit.prototype.moveFn = function(ev){
+				this.x = ev.clientX - this.disX;
+				this.y = ev.clientY - this.disY;
+				//判断超出可视区域的返回
+				if(this.x < 0){
+					this.x = 0;
+				}
+				if(this.x > document.documentElement.clientWidth - this.element.offsetWidth){
+					this.x = document.documentElement.clientWidth - this.element.offsetWidth
+				}
+				if(this.y < 0){
+					this.y = 0;
+				}
+				if(this.y > document.documentElement.clientHeight - this.element.offsetHeight){
+					this.y = document.documentElement.clientHeight - this.element.offsetHeight
+				}
+				
+				this.element.style.left = this.x + "px";
+				this.element.style.top = this.y + "px";
+			}
+			
+			window.onload = function(){
+				new Drag(drag1);
+				new DragLimit(drag2);//给第二个做一个超出范围限制
+			}
+			
+		</script>
+	</body>
+</html>
