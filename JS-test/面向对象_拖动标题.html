@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#drag{
+				width:200px;
+				height:200px;
+				border:1px solid #000;
+				background:red;
+				position:absolute;
+				left:0;
+				top:0;
+			}
+			.title{
+				width:200px;
+				height:30px;
+				background:pink;
+				position:absolute;
+				left:0;
+				top:0;
+			}
+			h3{
+				margin: 0;
+			}
+		</style>
+		<script>
+			function Drag( options ){
+				//必填
+				if(	typeof options === "undefined" || options.constructor !== Object){
+					throw new Error("传入的参数错误，必须是对象");
+					return;
+				}
+				//不能直操作传进来的对象
+				this.defaults = {
+					targetEle:null,
+					moveEle:null
+				}
+				for( var attr in options){
+					if(options.hasOwnProperty(attr)){
+						this.defaults[attr] = options[attr];
+					}
+					
+				}		
+				//判断条件
+				if( this.defaults.moveEle ){
+					this.element = this.defaults.moveEle;
+				}else{
+					this.element = this.defaults.targetEle;
+				}
+				
+				this.init();
+
+			}
+			
+			Drag.prototype = {
+				constructor:Drag,
+				init(){
+					//要把一个函数的this改变为指定的值，并且不调用函数
+					this.defaults.targetEle.onmousedown = this.downFn.bind(this);
+				},
+				downFn(ev){
+					this.disX = ev.clientX - this.element.offsetLeft;//判断鼠标点到元素身上距离边缘处是多少；
+					this.disY = ev.clientY - this.element.offsetTop;
+					
+					document.onmousemove = this.moveFn.bind(this);
+					document.onmouseup = this.upFn;
+					
+					ev.preventDefault();//清除浏览器默认样式
+				},
+				moveFn(ev){//移动的时候调这个left、top;
+					this.element.style.left = ev.clientX - this.disX + "px";//获取鼠标可视区域的距离减去鼠标到元素边缘的距离，等于移动的距离
+					this.element.style.top = ev.clientY - this.disY + "px";
+					
+				},
+				upFn(){
+					document.onmousemove = null;
+					document.onmouseup = null;
+				}
+				
+			}
+		</script>
+	</head>
+	<body>
+		
+		<div id="drag">
+			<h3 class="title">标题</h3>
+		</div>		
+		<script>
+			var title = document.querySelector(" .title ")
+			new Drag({
+				targetEle:title,
+				moveEle:drag
+			})
+		</script>
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
