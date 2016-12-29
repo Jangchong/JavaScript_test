@@ -1,0 +1,71 @@
+.tooltip{
+			width:400px;
+			/*height:200px;*/
+			border:1px solid #afaeae;
+			background:#fff;
+			position:absolute;
+			left:0;
+			top:0;
+		}
+.clearfix:after{
+	display: block;
+	content:"";
+	clear:both;
+}
+/*弹框的头部样式*/
+h3{
+	margin:0;
+	/*height:20px;*/
+	/*background:#848282;*/
+	padding: 6px 10px;
+}
+a{
+	text-decoration:none;
+	color:#000;
+}
+.close{
+	color:#848282;	
+}
+.text{
+	margin:0;
+	height:100%;
+	float:left;	
+}
+.close{
+	float:right;
+}
+/*弹框内容的样式*/
+.content{
+	padding:10px 10px;
+}
+/*弹框的是按钮样式*/
+.btn{
+	padding:20px 20px 20px 0;
+	text-align: right;
+}
+.same{
+	display:inline-block;
+	padding:5px 10px;
+	border:1px solid #afaeae;
+	border-radius: 4px;
+}
+.confirm{
+	background:#afaeae;
+	color:#fff;	
+}
+
+/*弹出框后的遮罩层*/
+body,html{
+	width:100%;
+	height:100%;
+	margin: 0;
+}
+.mask123{
+	width:100%;
+	height:100%;
+	background:rgba(0,0,0,0.2);
+	position:absolute;
+	left:0;
+	top:0;
+	display: none;
+}
