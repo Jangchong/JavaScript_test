@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			p{
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class='box1'>
+			<input type="button" value="按钮一" style="background:yellow;">
+			<input type="button" value="按钮二">
+			<input type="button" value="按钮三">
+			<p style="display: block;">按钮一</p>
+			<p>按钮二</p>
+			<p>按钮三</p>
+		</div>
+		<div class='box2'>
+			<input type="button" value="按钮一" style="background:yellow;">
+			<input type="button" value="按钮二">
+			<input type="button" value="按钮三">
+			<p style="display: block;">按钮一</p>
+			<p>按钮二</p>
+			<p>按钮三</p>
+		</div>
+		<input type="button" value="第二个暂停" id="but1">
+		<input type="button" value="第一个播放" id="but2">
+		<input type="button" value="翻转" id="but3">
+		
+		<script>
+			//构造函数
+			function Tab(obj){//属性
+				this.inps = obj.getElementsByTagName('input');
+				this.ps = obj.getElementsByTagName('p');	
+				
+				this.len = this.inps.length;//代表是inp的长度
+				this.timer = null;				
+				this.num = 0; //定时器执行++
+				
+				this.init();//初始化选项卡				
+			}
+			//方法
+			Tab.prototype.init = function(){//启动执行
+				var _this = this;//这里的this是指tab里的this，先把tab里的this保存一下
+				for(var i= 0;i<this.len;i++){
+					this.inps[i].index = i;//写个索引
+					this.inps[i].onclick = function(){//点击的加样式
+						
+						_this.play(this.index);
+					}
+				}
+				
+			}
+			
+			Tab.prototype.play = function(n){//执行内部的一个样式
+				for(var i= 0;i<this.len;i++){
+					this.inps[i].style.background = "";
+					this.ps[i].style.display = 'none';
+				}
+				this.inps[n].style.background = "yellow";
+				this.ps[n].style.display = "block";
+			}
+			
+			Tab.prototype.autoPlay = function(){//启动定时器
+				var _this = this;//因为定时器的this是指向window，所以先保存一下
+				this.timer = setInterval(function(){//开个定时器
+					_this.num ++;
+					if(_this.num > _this.len-1){
+						_this.num = 0;
+					}
+					_this.play( _this.num );
+				},500)
+			}
+			Tab.prototype.stop = function(){//暂停执行
+				clearInterval(this.timer);
+				this.timer = null;
+			}
+			Tab.prototype.isStatus = function(){//判断状态
+				//播放状态返回true
+				return !!this.timer; //把这个值转成布尔值
+			}
+			window.onload = function(){
+				var box1 = document.getElementsByClassName('box1')[0];
+				var box2 = document.getElementsByClassName('box2')[0];
+				
+				var a = new Tab(box1);
+				var b = new Tab(box2);
+				
+				b.autoPlay();//执行第一行定时器
+				
+				but2.onclick = function(){
+					if( a.isStatus() ){
+						return;
+					}
+					a.autoPlay();
+				}
+				but1.onclick = function(){
+					b.stop();
+				}
+				but3.onclick = function(){
+					if( a.isStatus() ){
+						a.stop();
+					}else{
+						a.autoPlay();
+					}
+					if( b.isStatus() ){
+						b.stop();
+					}else{
+						b.autoPlay();
+					}
+				}				
+			}
+		</script>
+	</body>
+</html>
