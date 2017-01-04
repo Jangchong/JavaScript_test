@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			body,
+			ul,
+			li {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			.bg{
+				background:url("bg1.png") no-repeat;
+				background-size: 100% 100%;
+			}
+			.add{
+				display: none;
+			}
+		</style>
+		<link rel="stylesheet" type="text/css" href="baidu.css" />
+		<script src="jquery-3.1.1.js"></script>
+		<script>
+			
+		</script>
+	</head>
+	
+	<body>
+		<div class="wrap">
+			<div class="baidu">
+				<ul id="list">
+					<li>
+						<div></div>
+						<span>泡沫</span>
+						<span>邓紫棋</span>
+					</li>
+					<li>
+						<div></div>
+						<span>说爱你</span>
+						<span>蔡依林</span>
+					</li>
+					<li>
+						<div></div>
+						<span>稻香</span>
+						<span>周杰伦</span>
+					</li>
+					<li>
+						<div></div>
+						<span>我的梦</span>
+						<span>张靓颖</span>
+					</li>
+					<li>
+						<div></div>
+						<span>怎么说我不爱你</span>
+						<span>萧敬腾</span>
+					</li>
+					<li>
+						<div>️</div>
+						<span>无处安放</span>
+						<span>白若溪</span>
+					</li>
+				</ul>
+				<div class="select">
+					<span class="selectAll"><span>全选</span></span>
+					<div class="others">
+						<span><em></em>收藏</span>
+						<span><em></em>添加</span>
+						<span><em></em>删除</span>
+					</div>
+				</div>
+				<div class="add edtor">
+					<p>歌曲：<input type="text"></p>
+					<p>歌手：<input type="text"></p>
+					<input type="button" value="保存" />
+					<input type="button" value="取消" />
+				</div>
+			</div>
+		</div>
+		<script src='./jquery-3.1.1.js'></script>
+		<script>
+			/*
+				选择器 odd
+				
+				find()
+
+				toggleClass() addClass() removeClass()
+
+				on()  绑定事件
+
+
+
+				$("<li>123</li>").html(123)
+
+				append
+
+				remove
+
+				添加和删除要保持隔行变色效果
+
+			*/
+		(function(){ 	
+			//隔行变色 ==============================
+			var list = $("#list");
+			var lis = list.find("li");
+			list.find("li:odd").css("background","rgba(200,0,0,0.3)");
+			
+			lis.each(function(index,item){
+				addEvent($(item));
+			})
+			function addEvent(item){
+				item
+					.on("mouseover",function(){
+						$(this).css({"background":"rgba(200,0,0,0.8)","color":"#fff"});
+					})
+					.on("mouseout",function(){
+						if( $(this).find("div").hasClass("bg") ){//判断是否有选中，采用class是否有bg
+							return;
+						}
+						if( $(this).is("#list li:even") ){
+							$(this).css({"background":"rgba(255,255,255,0)","color":"#000"});
+						}else{
+							$(this).css({"background":"rgba(200,0,0,0.3)","color":"#000"});
+						}
+					})
+			//单选--------------------
+					.on("click",function(ev){
+//						console.log($(ev.target))
+						//先从自身开始找，找不到在向上找祖先级
+						var target = $(ev.target).closest("li");
+						target.find("div").toggleClass("bg");
+						//判断是否需要添加或删除selectAll样式
+						var bl = $("#list li").find("div").toArray().every(function(item){//every判断所有的li是否选中，返回true
+							return $(item).hasClass("bg");
+						});
+						if(bl){//全选中添加bg
+							selectAll.addClass("bg");
+						}else{
+							selectAll.removeClass("bg");
+						}
+						
+					})
+			}
+			//全选==================================
+			var selectAll = $(".selectAll");
+			selectAll.on("click",function(){
+				var bl = $(this).toggleClass("bg").hasClass("bg");
+				
+				if(bl){
+					$("#list li").css({"background":"rgba(200,0,0,0.8)","color":"#fff"}).find("div").addClass("bg");
+				}else{
+					list.find("li:odd").css({"background":"rgba(200,0,0,0.3)","color":"#000"});
+					list.find("li:even").css({"background":"rgba(255,255,255,0)","color":"#000"});
+					$("#list li").find("div").removeClass("bg");
+				}
+			});
+			
+			//添加li
+			
+			var increase = $(".others span").eq(1);
+			increase.on("click",function(){
+				$(".add").removeClass("add");//显示出来添加框
+			});
+			//获取值
+			var inpText = $(".edtor input[type='text']");
+			var inpBtn = $(".edtor input[type='button']");
+			inpBtn.eq(1).on("click",function(){
+				$(".edtor").addClass("add");//隐藏显示框
+			})
+			
+			inpBtn.eq(0).on("click",function(){
+				//得到的输入的值
+				var val1 = inpText.eq(0).val().trim();	
+				var val2 = inpText.eq(1).val().trim();
+				
+				if(!val1 || !val2){//判断输入的值是否符合
+					alert("输入内容");
+				}else{
+					var newli = $("<li></li>",{
+						html:`<div></div>
+						<span>${val1}</span>
+						<span>${val2}</span>`
+					});
+					
+					newli.appendTo(list); //把样式放入list结构中
+					selectAll.removeClass("bg");//添加生成就会有新的没选中  则去掉bg
+
+//					console.log(newli.is("#list li:even"));
+					if( newli.is("li:even") ){//判断生成的li是属于奇数吗
+						newli.css({"background":"rgba(255,255,255,0)","color":"#000"});
+					}else{
+						newli.css({"background":"rgba(200,0,0,0.3)","color":"#000"});
+					}
+					
+					addEvent(newli);
+					
+					
+					//如果想添加完一个后让添加框消失，则打开下面代码
+//					$(".edtor").addClass("add");//隐藏显示框
+				}
+			})
+			//删除====================================
+			var deleteBtn = $(".others span:last");//获取删除按钮
+//			console.log(deleteBtn);
+			deleteBtn.on("click",function(){
+//				console.log($("#list li").find("div.bg").parent() );
+				$("#list li").find("div.bg").parent().remove();
+				
+				list.find("li:odd").css({"background":"rgba(200,0,0,0.3)","color":"#000"});
+				list.find("li:even").css({"background":"rgba(255,255,255,0)","color":"#000"});
+				
+//				console.log($("#list li").length);
+				if(!$("#list li").length){//判断还有没有li元素
+					selectAll.removeClass("bg");
+				}
+			})
+			
+		})();
+		</script>
+	</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
