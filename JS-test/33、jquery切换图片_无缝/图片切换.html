@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			ul{
+				margin: 0;
+			}
+			li{
+				margin: 0;
+				padding:0;
+				list-style: none;
+			}
+			a{
+				text-decoration: none;
+			}
+			.content{
+				/*width:500px;*/
+				height:300px;
+				cursor: pointer;
+			}			
+			.list{
+				position: absolute;
+				top:260px;
+				left:170px;
+			}
+			.list li{
+				width:20px;
+				height:20px;
+				border-radius: 20px;
+				background: rgba(255,255,255,0.6);
+				float: left;
+				cursor: pointer;
+				margin-right:5px;
+				
+			}
+			.list li.active{
+				background: rgba(255,255,0,0.6);
+			}
+			#box{
+				width:500px;
+				height:300px;
+				position: relative;
+				overflow: hidden;
+				border:3px solid gold;
+				font-size: 0;
+			}
+			img{
+				width:500px;
+				height:300px;
+			}
+			.prev{
+				/*background:rgba(0,0,0,0.3);*/
+				position: absolute;
+				left:0px;	
+				width:40px;
+				height:60px;
+				top:50%;
+				margin-top:-30px;
+				font: 60px/60px "微软雅黑";	
+				color: #fff;
+			}
+			.next{
+				/*background:rgba(0,0,0,0.3);*/
+				position: absolute;
+				right:0px;	
+				width:40px;
+				height:60px;
+				top:50%;
+				margin-top:-30px;
+				font: 60px/60px "微软雅黑";	
+				color: #fff;	
+			}
+			.content>a:hover{
+				background:rgba(0,0,0,0.3);
+			}
+			.listImg{
+				width:1000%;
+				/*float:left;*/
+				position:absolute;
+				left:-500px;
+				top:0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id='box'>
+			<div class='content'>
+				<div class="listImg">
+					<img src="img/img04.jpg"/>
+					<img src="img/img01.jpg"/>
+					<img src="img/img02.jpg"/>
+					<img src="img/img03.jpg"/>
+					<img src="img/img04.jpg"/>
+					<img src="img/img01.jpg"/>
+				</div>
+				<a href="javaScript:;" class="prev"> < </a>
+				<a href="javaScript:;" class="next"> > </a>
+				
+				<ul class='list'>
+					<!--<li></li>
+					<li></li>
+					<li></li>
+					<li></li>-->
+				</ul>
+			</div>
+			
+		</div>
+		<script src="jquery-3.1.1.js"></script>
+		<script>
+			
+			var list = $('.listImg');
+			var listImg = $('.listImg img');
+			var len = listImg.length - 2;
+			var num = 0;
+			var timer=null;
+			
+			for(var i = 0;i<len;i++){//根据图片的张数给添加点数
+				$("<li></li>").appendTo($(".list"));
+			}
+			function tabLi(n){//封装一个函数给下面的的原点第n个添加样式
+				$('.list li').removeClass('active');
+				$('.list li').eq(n).addClass('active');
+			}
+			tabLi(num);
+			
+			function fnTimer(){//定时器
+				 timer = setInterval(function(){
+				 	listImg.show();
+				 	list.css('left',-500*(num+1)+'px');
+				 	$('.listImg:not(:animated)').animate({left:'-=500'},500,function(){
+						num++;
+						if(num==len){
+							num = 0;
+							list.css('left','-500px')
+						}
+						tabLi(num);
+					})
+				 },500);
+			}
+			fnTimer();
+			
+			//移入移出时候给定时器清除或添加===============
+			$(".content")
+				.on('mouseover',function(){
+					clearInterval(timer);
+				})
+				.on("mouseout",function(){
+					fnTimer();
+				})
+			//左右切换===================
+			$('.next').on('click',function(){//下张图片
+				listImg.show();//点击的时候先让img都显示出来
+				list.css('left',-500*(num+1)+'px');
+				$('.listImg:not(:animated)').animate({left:'-=500'},500,function(){//回调函数判断
+					num++;
+					if(num==len){
+						num = 0;
+						list.css('left','-500px')
+					}
+					tabLi(num);
+				})
+			})
+			$('.prev').on('click',function(){//上张图片
+				listImg.show();//点击的时候先让img都显示出来
+				list.css('left',-500*(num+1)+'px');
+				$('.listImg:not(:animated)').animate({left:'+=500'},500,function(){
+					num--;
+					if(num==-1){
+						num = len-1;
+						list.css('left','-2000px')
+					}
+					tabLi(num);
+				})
+			})
+			$('.list li').on('click',function(){
+				var index = $(this).index();
+				if(num==index){//如果点击是本身的话则return
+					return;
+				}
+				listImg.hide();//全部隐藏
+				listImg.eq(num+1).show();//显示当前图片
+				listImg.eq(index+1).show();//显示点击图片
+				if(num<index){//判断左右移动
+					list.css('left','0px');
+					list.animate({left:-500},500,function(){
+						num=index;
+						tabLi(num);
+					})
+				}else if(num>index){
+					list.css('left','-500px');
+					list.animate({left:0},500,function(){
+						num=index;
+						tabLi(num);
+					})
+				}
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			ul{
+				margin: 0;
+			}
+			li{
+				margin: 0;
+				padding:0;
+				list-style: none;
+			}
+			a{
+				text-decoration: none;
+			}
+			.content{
+				/*width:500px;*/
+				height:300px;
+				cursor: pointer;
+			}			
+			.list{
+				position: absolute;
+				top:260px;
+				left:170px;
+			}
+			.list li{
+				width:20px;
+				height:20px;
+				border-radius: 20px;
+				background: rgba(255,255,255,0.6);
+				float: left;
+				cursor: pointer;
+				margin-right:5px;
+				
+			}
+			.list li.active{
+				background: rgba(255,255,0,0.6);
+			}
+			#box{
+				width:500px;
+				height:300px;
+				position: relative;
+				overflow: hidden;
+				border:3px solid gold;
+				font-size: 0;
+			}
+			img{
+				width:500px;
+				height:300px;
+			}
+			.prev{
+				/*background:rgba(0,0,0,0.3);*/
+				position: absolute;
+				left:0px;	
+				width:40px;
+				height:60px;
+				top:50%;
+				margin-top:-30px;
+				font: 60px/60px "微软雅黑";	
+				color: #fff;
+			}
+			.next{
+				/*background:rgba(0,0,0,0.3);*/
+				position: absolute;
+				right:0px;	
+				width:40px;
+				height:60px;
+				top:50%;
+				margin-top:-30px;
+				font: 60px/60px "微软雅黑";	
+				color: #fff;	
+			}
+			.content>a:hover{
+				background:rgba(0,0,0,0.3);
+			}
+			.listImg{
+				width:1000%;
+				/*float:left;*/
+				position:absolute;
+				left:0px;
+				top:0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id='box'>
+			<div class='content'>
+				<div class="listImg">
+					<img src="img/img01.jpg"/>
+					<img src="img/img02.jpg"/>
+					<img src="img/img03.jpg"/>
+					<img src="img/img04.jpg"/>
+				</div>
+				<a href="javaScript:;" class="prev"> < </a>
+				<a href="javaScript:;" class="next"> > </a>
+				
+				<ul class='list'>
+					<!--<li></li>
+					<li></li>
+					<li></li>
+					<li></li>-->
+				</ul>
+			</div>
+			
+		</div>
+		<script src="jquery-3.1.1.js"></script>
+		<script>
+			//获取元素----------------------------------
+			var list = $('.listImg');
+			var len = $(".listImg img").length;
+			var num = 0;
+			var timer=null;
+			//生成li标签圆点------------------------------
+			for(var i = 0; i<len;i++){
+				$("<li></li>").appendTo( $(".list") );
+			}
+			
+			//克隆第一个img放入里面-------------------------
+			$(".listImg img:first").clone().appendTo(list);
+			var w = list.find('img').eq(0).width();//获取图片的宽度，进行设置left值
+			
+			//封装一个给点加样式的---------------------------
+			function liStyle(n){
+				$(".list li").removeClass("active").eq(n).addClass("active");
+			}
+			liStyle(0);//初始点的样式
+			
+			//定时器------------------------------------
+			function fnTimer(){//封装一个函数定时器
+				 timer = setInterval(function(){
+				 	if(list.is(":animated")) return;
+				 	listImg.show();
+					list.css("left",-num*w);
+				 	num++;			
+					//给对应得图片加点的样式
+					if(num == len){//num还没判断（是在下面判断的）；如果num等于len的时候是要把num的值变成0的
+						liStyle(0);
+					}else{
+						liStyle(num);
+					}
+					list.animate({left:-num * w},function(){
+						if(num == len){
+							num = 0;
+							list.css("left",0);
+						}
+					});	
+				 },1000);
+			}			
+			fnTimer();//初始先执行定时器
+			
+			//移入移出定时器开启关闭----------------------------
+			$('.content').on("mouseover",function(){
+				clearInterval(timer);
+			})
+			$('.content').on("mouseout",function(){
+				fnTimer();
+			})
+			
+			//点击下一张------------------------------------
+			$(".next").on("click",function(){
+				//判断是否运动状态，如果运行则点击不执行下面的代码
+				if(list.is(":animated")) return;
+				listImg.show();//初始全部显示
+				list.css("left",-num*w);//当前的left值
+				
+				num++;		
+				//给对应得图片加点的样式
+				if(num == len){//num还没判断（是在下面判断的）；如果num等于len的时候是要把num的值变成0的
+					liStyle(0);
+				}else{
+					liStyle(num);
+				}
+				list.animate({left:-num * w},function(){
+					if(num == len){
+						num = 0;
+						list.css("left",0);
+					};
+				});				
+			})
+			
+			//点击上一张------------------------------------			
+			$(".prev").on("click",function(){
+				if(list.is(":animated")) return;//判断是否运动状态，如果运行则点击不执行下面的代码
+				listImg.show();//初始全部显示
+				list.css("left",-num*w);//当前的left值
+				num--;		
+				//判断如果num<0，则瞬间切换
+				if(num<0){
+					list.css("left",-len*w);
+					num = len-1;
+				}
+				//给对应得图片加点的样式
+				liStyle(num);//调用封装样式
+				list.animate({left:-num * w})				
+			});
+			
+			//移入到点的时候变换--------------------------------
+			var listImg = $('.listImg img');			
+			$(".list li").on("mouseover",function(){
+				//把当前图片和点击的图片显示
+				if(list.is(":animated"))return;
+				var index = $(this).index();//获取下标
+				if(index === num) return;//如果是本身则取消
+//				listImg.hide().eq(index).show();
+//				listImg.eq(num).show();           //这两行和下面的一行的代码一样
+				listImg.show().not(":eq("+index+"),:eq("+num+")").hide();
+				liStyle(index);//调用封装样式
+				
+				if(index>num){//点击右边，往左移动
+					list.css("left",0).animate({
+						left:-w
+					});
+				}else{//点击左边，往右移动
+					list.css("left",-w).animate({
+						left:0
+					});
+				};
+				num = index;//最后把当前下标(index)给num;
+			});
+			
+		</script>
+	</body>
+</html>
