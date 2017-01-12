@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        input{
+            width: 100%;
+            height: 30px;
+        }
+        ul{
+            margin: 0;
+            padding: 0;
+            display: none;
+        }
+        li{
+            list-style: none;
+            background-color: #009999;
+            margin-top: 3px;
+            line-height: 30px;
+            width: 100%;
+        }
+        a{
+            text-decoration: none;
+            color:white;
+            display: block;
+            width: 100%;
+        }
+        a:hover,.hover{
+            background-color: #00FF99;
+        }
+        #box{
+            width: 500px;
+            margin: 100px auto 0;
+        }
+        .select{
+            background-color: #60625b;
+        }
+    </style>
+    <script>
+        window.onload=function(){
+        	
+        }
+    </script>
+</head>
+<body>
+<div id="box">
+    <input type="text" id="s"/>
+    <ul id="list">
+        <li><a href="javascript:;">《第七个读者》</a></li>
+        <li><a href="javascript:;">《 心理罪 画像》</a></li>
+        <li><a href="javascript:;">《 心理罪 教化场》</a></li>
+        <li><a href="javascript:;">《 心理罪 暗河》</a></li>
+        <li><a href="javascript:;">《 心理罪 城市之光》</a></li>
+        <li><a href="javascript:;">《地球往事》</a></li>
+        <li><a href="javascript:;">《黑暗森林》</a></li>
+        <li><a href="javascript:;">《死神永生》</a></li>
+        <li><a href="javascript:;">《乡村教师》</a></li>
+        <li><a href="javascript:;">《地球大炮》</a></li>
+    </ul>
+</div>
+<script>
+	var box=document.getElementById('box');
+	var s=document.getElementById('s');
+	var list=document.getElementById('list');
+	var lis=list.getElementsByTagName('li');
+	s.onclick=function(){
+		list.style.display='block';
+	}
+	var num=-1;
+	var n=0;
+	document.onkeydown=function(e){
+		if(e.keyCode==40){
+			num++;
+			if(num==lis.length){
+				num=0
+			}
+			for (var i = 0; i < lis.length; i++) {
+				if(lis[i].onoff==false){
+					lis[i].className='select';
+				}else{
+					lis[i].className='';
+				}
+			}
+			lis[num].className='hover';
+			console.log(num)
+		}
+		if(e.keyCode==38){
+			num--;
+			if(num==-1){
+				num=lis.length-1
+			}
+			for (var i = 0; i < lis.length; i++) {
+				if(lis[i].onoff==false){
+					lis[i].className='select';
+				}else{
+					lis[i].className='';
+				}
+			}
+			lis[num].className='hover';
+		}
+		if(e.keyCode==13&&e.ctrlKey==false){
+//			
+			if(lis[num].onoff){
+				for (var i = 0; i < lis.length; i++) {
+					lis[i].className='';
+					lis[i].onoff='true'
+				}
+				lis[num].className='select';
+				lis[num].onoff=false;
+				s.value=lis[num].children[0].innerHTML;
+			}else{
+				for (var i = 0; i < lis.length; i++) {
+					lis[i].className='';
+					lis[i].onoff=true
+				}
+				lis[num].className='hover';
+				lis[num].onoff=true;
+				s.value='';
+			}
+		}
+		if(e.keyCode==13&&e.ctrlKey){
+			var arr=[];
+			if(lis[num].onoff){
+				lis[num].className='select';
+				lis[num].onoff=false;
+				for (var i = 0; i < lis.length; i++) {
+					if(lis[i].onoff==false){
+						arr.push(lis[i].children[0].innerHTML);
+					}
+				}
+				s.value=arr.join('');
+			}else{
+				lis[num].className='hover';
+				lis[num].onoff=true;
+				for (var i = 0; i < lis.length; i++) {
+					if(lis[i].onoff==false){
+						arr.push(lis[i].children[0].innerHTML);
+					}
+				}
+				s.value=arr.join('');
+			}
+		}
+	}
+	for (var i = 0; i < lis.length; i++) {
+		
+		lis[i].onoff=true;
+		lis[i].onclick=function(e){
+			if(e.ctrlKey){ 
+				this.children[0].blur();
+//				console.log(this.children[0].blur());
+				var arr=[];
+				if(this.onoff){
+					this.className='select';
+					this.onoff=false;
+					for (var i = 0; i < lis.length; i++) {
+						if(lis[i].onoff==false){
+							arr.push(lis[i].children[0].innerHTML);
+						}
+					}
+					s.value	=arr.join('')
+					
+				}else{
+					this.className='';
+					this.onoff=true;
+					for (var i = 0; i < lis.length; i++) {
+						if(lis[i].onoff==false){
+							arr.push(lis[i].children[0].innerHTML);
+						}
+					}
+					s.value	=arr.join('');
+//					s.focus();
+				}
+			}else if(e.ctrlKey==false){
+				if(this.onoff){
+					for (var i = 0; i < lis.length; i++) {
+						lis[i].className='';
+						lis[i].onoff=true;
+					}
+					this.className='select';
+					this.onoff=false;
+					s.value=this.children[0].innerHTML;
+				}else{	
+					for (var i = 0; i < lis.length; i++) {
+						lis[i].className='';
+						lis[i].onoff=true;
+					}
+
+						this.onoff=true;
+						s.value='';
+				} 
+			}
+			 
+			
+		}
+	}
+</script>
+</body>
+</html>
