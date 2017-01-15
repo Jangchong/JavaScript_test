@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		body{
+			margin:0;
+			font-family:"微软雅黑";
+		}
+		p,h3{
+			margin:0;
+		}
+		ul,li{
+			margin:0;
+			padding:0;
+			list-style:none;
+		}
+		input{
+			border:0;
+			outline:none;
+		}
+		.clearFix:after{
+			display: block;
+			content:"";
+			clear:both;
+		}
+		.warp{
+			width: 420px;
+			margin:50px auto;
+			padding:120px 90px;
+			background: #fdb8a7;
+			background:linear-gradient(#fdb8a7,#fdd3bc);
+		}
+		.main{
+			width: 420px;
+			margin:0 auto;
+			background-color:#fff;
+			border-radius:8px;
+			overflow: hidden;
+		}
+		.header{
+			padding:73px 29px 22px;
+			margin-bottom:2px;
+			background: url(images/ajax_header.png) no-repeat;
+			overflow:hidden;
+		}
+		.header form{
+			width: 360px;
+			height: 34px;
+			border:1px solid #fdbaa8;
+		}
+		.searchIpt{
+			float: left;
+			width:250px;
+			padding-left:10px;
+			height: 32px;
+			line-height: 32px;
+		}
+		.btnIpt{
+			float: left;
+			width: 100px;
+			height: 34px;
+			background-color:#fa805f;
+			color:#fff;
+			cursor:pointer;
+		}
+		.searchList>p{
+			padding-left: 30px;
+			font-size: 14px;
+			line-height: 44px;
+			color:#333;
+		}
+		.searchList>p span{
+			color:#fa805f;
+			padding:0 2px;
+		}
+		.searchList li{
+			border-top:1px solid #fedfd6;
+			padding:18px 27px 27px;
+		}
+		.searchList li h3{
+			font-weight: normal;
+			line-height: 41px;
+			color:#fa805f;
+		}
+		.searchList .listMian img{
+			float: left;
+		}
+		.searchList .listMian div{
+			float: left;
+			padding-left: 16px;
+			width: 224px;
+		}
+		.searchList .listMian p{
+			font-size: 12px;
+			color:#666;
+			line-height: 26px;
+		}
+		.searchList .listMian .smallT{
+			font-size: 14px;
+			color:#333;
+			line-height: 30px;
+		}
+
+		.pagination {
+			padding: 5px;
+			text-align: center;
+		}
+		.pagination a, .pagination span {
+			margin: 5px;
+			text-decoration: none;
+			cursor: pointer;
+			color: #333;
+		}
+		.pagination a:hover, .pagination span:hover {
+			color: #fa805f;
+		}
+		.pagination .yellow {
+			margin: 5px;
+			color: #fa805f;
+		}
+	</style>
+	<script src="jquery-3.1.1.js"></script>
+	<script src="template-native.js"></script>
+</head>
+<body>
+	<section class="warp">
+		<section class="main">
+			<header class="header">
+				<input type="text" class="searchIpt" placeholder="请输入要搜索的关键字">
+				<input type="button" value="搜索相关书籍" class="btnIpt">
+			</header>
+			<section class="searchList">
+				<p style="display: none;" id="loding">正在搜索中……，请稍后！</p>
+				<p id="tipsBox"><!-- 共搜索到<span>1303</span>条，共<span>652</span>页，当前第<span>1</span>页 --></p>
+				<ul id="list">
+					<!-- <li>
+						<h3>JavaScript权威指南</h3>
+						<div class="listMian clearFix">
+							<img src="images/ajax_pic.png" alt="">
+							<div >
+								<p class="smallT">弗拉纳根/机械工业出版社/2007-8</p>
+								<p>《JavasCript权威指南（第五片）》全面介绍了JavasCript语言的核心，以及Web浏览器中实现的遗留和标准的DOM...</p>
+							</div>
+							
+						</div>
+					</li> -->
+				</ul>
+				<div class="pagination">
+					<!-- <span>首页</span>
+					<span>上一页</span>
+					<a class='yellow' href="javascript:;">1</a>
+					<a href="javascript:;">2</a>
+					<a href="javascript:;">3</a>
+					<a href="javascript:;">4</a>
+					<a href="javascript:;">5</a>
+					<span>下一页</span>
+					<span>尾页</span> -->
+				</div>
+			</section>
+		</section>
+		
+	</section>
+
+	<script type="text/html" id="tips">
+		共搜索到<span><%=total%></span>条，共<span><%=pages%></span>页，当前第<span><%=currentPage%></span>页
+	</script>
+
+	<script type="text/html" id="info">
+		<%for(var i = 0; i < books.length; i++){%>
+			<% var b = books[i] %>
+			<li>
+				<h3><%=b.title%></h3>
+				<div class="listMian clearFix">
+					<img src="<%=b.images.small%>"/>
+					<div >
+						<p class="smallT">
+							<% var str = b.author[0]+'/'+b.publisher+"/"+b.pubdate %>
+							<%=filterStr(str,15)%>
+						</p>
+						<p><%= filterStr(b.summary,60)  %></p>
+					</div>
+					
+				</div>
+			</li>
+		<%}%>
+	</script>
+
+	<script type="text/html" id="pageTemp">
+		<span>首页</span>
+		<span>上一页</span>
+		<%for(var i = 0; i < pageArr.length; i++){%>
+			<a class="<%= classNames('yellow',pageArr[i] == currentPage) %>" href="javascript:;"><%=pageArr[i]%></a>
+		<%}%>
+		<span>下一页</span>
+		<span>尾页</span> 
+	</script>
+
+	<script>
+
+		//要把模板中的逻辑抽出来，模板只做渲染数据
+
+		//在模板中使用定义的函数，template.helper
+		//过滤字符串的长度，长度超过规定的长度，加上...
+		
+		template.helper("filterStr",function (data,length){
+			return 	data.length > length ? data.slice(0,length)+"..." : data;
+		})
+		template.helper("classNames",function (data,bl){
+			return bl ? data : '';
+		})
+
+		var btnIpt = $(".btnIpt");
+		var searchIpt = $(".searchIpt");
+
+		//搜索的关键字
+		var searchStr = '';
+		//一页显示的条数
+		var prePage = 2;
+		//总页数
+		var pages = null;
+		// 当前显示的页码
+		var currentPage = 1;
+		//页码显示的是5页
+		var pageShow = 5;
+
+		btnIpt.on("click",function (){
+			var val = searchIpt.val().trim();
+			if( !val ){
+				alert("请填写内容");
+				return;
+			}
+			$("#loding").show();
+
+			searchStr = val;
+
+			//生成script
+
+			jsonp();
+
+		});
+
+		function jsonp(){
+			var script = $("<script><\/script>");
+			var start = (currentPage-1)*prePage;  //当前页数-1 乘上一页的显示条数
+			script.attr(
+					"src",
+					'https://api.douban.com/v2/book/search?callback=fn&q='+searchStr+"&count="+prePage+'&start='+start
+				);
+
+			$("body").append(script);
+		}
+
+		function fn(data){
+			$("#loding").hide();
+			//先渲染输入框下的提醒
+			pages = Math.ceil(data.total/prePage);
+
+			var tipsHtml = template("tips",{total:data.total,pages:pages,currentPage:currentPage});
+
+			tipsBox.innerHTML = tipsHtml;
+
+			//书籍展示列表
+			var infoHtml = template("info",data);
+
+			$("#list").html(infoHtml);
+
+			//生成页码
+			//如果总页数不超过要显示的页码数，把数组截取了
+			if(pages < pageShow){
+				arr.length = pages;
+			}
+
+			renderPage();
+
+		}
+
+		//先搞定分页
+
+		var arr = [1,2,3,4,5];
+		var len = arr.length;
+
+		function renderPage(){
+			var pageHtml = template("pageTemp",{pageArr:arr,currentPage:currentPage});
+
+			$(".pagination").html(pageHtml);
+		}
+
+		//点击页码
+		$(".pagination").on("click","a",function (){
+			//点击生成页码，然后重新渲染
+
+			var pageIndex = $(this).text().trim();
+
+			currentPage = pageIndex; //记录页码
+
+			createPage();
+
+			//请求数据
+			jsonp();
+		});
+		//计算生成页码的
+		function createPage(){
+			if(currentPage > 2 && pages - currentPage >= 2){
+				for( var i = 0; i < len; i++ ){
+					
+					arr[i] = currentPage-(2-i);
+				}
+			}
+			//最后两个数 总数-pageIndex < 2 
+
+			if(pages - currentPage < 2){
+				arr.length = 0;
+				for( var i = pages-len+1; i <= pages; i++ ){
+					arr.push(i);
+				}
+			}
+
+			renderPage();
+		}
+
+		$(".pagination").on("click","span",function (ev){
+			var index = $(this).index(".pagination span");
+			console.log( this );
+			if( index === 0 ){  //首页
+				console.log(123);
+				currentPage = 1;
+				arr = [1,2,3,4,5]
+				createPage();
+			}else if(index === 3){  //尾页
+				currentPage = pages;
+				console.log( currentPage );
+				createPage();
+			}else if(index === 1){ //上一页
+				if(currentPage === 1){
+					return;
+				}
+				currentPage--;
+				createPage();
+			}else if(index === 2){ //下一页
+				if(currentPage === pages){
+					return;
+				}
+				currentPage++;
+				createPage();
+			}
+
+			//请求数据
+
+			jsonp();
+		})
+		.on("mousedown",function (ev){
+			ev.preventDefault();	
+		})
+
+
+		/*[1,2,3,4,5]
+		[1,2,3,4,5]
+		[1,2,3,4,5]
+		[2,3,4,5,6]
+		[4,5,6,7,8]
+
+		//总共只有10页
+
+		[6,7,8,9,10]
+		[6,7,8,9,10]
+		[6,7,8,9,10]*/
+
+	</script>
+</body>
+</html>

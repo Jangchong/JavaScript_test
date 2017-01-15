@@ -1,0 +1,1 @@
+https://developers.douban.com/wiki/?title=book_v2#get_user_annotations
