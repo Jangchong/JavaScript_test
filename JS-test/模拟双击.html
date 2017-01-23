@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style type="text/css">
+		#box{
+			width:100px;
+			height: 100px;
+			background: red;
+		}
+	</style>
+	<body>
+		<div id="box"></div>
+		<script>
+//			dblclick( 鼠标双击 )
+//					鼠标在元素上快速地点两下才会触发(点击的间隔根据系统设置来的)
+//				box.ondblclick = function(){
+//					console.log( "box-dblclick" );
+//				}
+	var box =document.getElementById('box');
+	var timer;
+	num=0;
+	box.onclick=function(){		
+		timer=setTimeout( function(){
+			num=0;
+		},1000);			
+		num++;
+		if(num==2){
+			clearTimeout(timer);
+			box.style.background="pink";				
+		}
+	}
+			
+			
+		</script>
+	</body>
+</html>
+	
