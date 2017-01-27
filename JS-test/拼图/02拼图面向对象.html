@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="dialog.css" />
+		<style>
+			img{
+				vertical-align: top;
+				border: none;
+			}
+			#box{
+				width: 630px;
+				height: 630px;
+				float: left;
+				border: 1px solid #000;
+				margin: 0 10px 0 30px;
+				position: relative;
+			}
+			#box div{
+				width: 70px;
+				height: 70px;
+				float: left;
+				font-size: 12px;
+				color: #fff;
+				background: url(img/03.jpg) no-repeat;
+				background-size: 630px 630px;
+				cursor: pointer;
+			}
+			#Zbox{
+				float: left;
+			}
+			#Zbox img{
+				width: 400px;
+				height: 400px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box"></div>
+		<div id = "Zbox">
+			<input type="button" value="5Q币"/ id="bnt1">
+			<input type="button" value="重新打乱"/ id="bnt2">
+			<input type="button" value="换一张"/ id="bnt3">
+			<img src="img/03.jpg" />
+		</div>
+		<script src="01dialog.js"></script>
+	<!--	<script src="01Darg.js"></script>-->
+		<script>
+			var box=document.getElementById("box");
+			var but1=document.getElementById("bnt1");
+			var but2=document.getElementById("bnt2");
+			var but3=document.getElementById("bnt3");
+			var img = Zbox.getElementsByTagName("img")[0];
+			//生成拼图碎片（div）
+			function Create(Ele){
+				this.onoff = false;
+				this.Ele = Ele;
+				this.init();
+				this.Position();
+				this.sortL(this.numArr);
+				this.divPos();
+				for(var i=0;i<this.divs.length;i++){
+					this.divDarg(this.divs[i]);
+				}
+			}
+			Create.prototype={
+				construsctor:Create,
+				init:function(){
+					this.createHtml();
+				},
+				//生成100个div的结构
+				createHtml:function(){
+					var str = "";
+					//存储每个div的下标，用于排序
+					this.numArr = [];
+					for(var i=0;i<81;i++){
+						str+="<div></div>";
+						//存储每个div的下标，用于排序
+						this.numArr.push(i);
+					}
+					this.Ele.innerHTML=str;
+				},
+				//浮动布局改为定位布局
+				Position:function(){
+					//获取到每个小的div
+					this.divs=this.Ele.getElementsByTagName("div");
+					//存储每个div的初始位置
+					this.oriArr=[];
+					for(var i=0;i<this.divs.length;i++){
+						this.divs[i].style.left=this.divs[i].offsetLeft+"px";
+						this.divs[i].style.top=this.divs[i].offsetTop+"px";
+						//存储每个div的初始位置
+						this.oriArr.push([this.divs[i].style.left,this.divs[i].style.top]);
+					}
+					for(var i=0;i<this.divs.length;i++){
+						this.divs[i].index=i;
+						this.divs[i].style.position="absolute";
+						this.divs[i].style.float="none";
+						this.divs[i].style.backgroundPositionX="-"+this.divs[i].style.left;
+						this.divs[i].style.backgroundPositionY="-"+this.divs[i].style.top;
+					}
+				},
+				//根据下标的改变改变每个div的位置进行排序或者打乱的函数
+				divPos:function(){
+					for(var i=0;i<this.divs.length;i++){
+						this.divs[i].style.left=this.oriArr[this.numArr[i]][0];
+						this.divs[i].style.top=this.oriArr[this.numArr[i]][1];
+					}
+				},
+				//打乱顺序
+				sortL:function(arr){
+					arr.sort(function(){
+						return Math.random()-0.5;
+					})
+				},
+				//顺序排序
+				sortX:function(arr){
+					arr.sort(function(a,b){
+						return a-b;
+					})
+				},
+				divDarg:function(obj){
+					var that = this;
+					obj.onmousedown=function(e){
+						//定义一个状态  没有任何规定碰撞下为false
+						var onoff = false;
+						for(var i=0;i<that.divs.length;i++){
+							that.divs[i].style.zIndex=0;
+						}
+						var disX = e.clientX-obj.offsetLeft,
+							disY = e.clientY-obj.offsetTop,
+							tpemX=obj.style.left,
+							tpemY=obj.style.top,
+							oriX=e.clientX,
+							oriY=e.clientY;
+						obj.style.zIndex=1;
+						document.onmousemove=function(e){
+							var X=e.clientX-disX;
+							var Y=e.clientY-disY
+							obj.style.left=X+"px";
+							obj.style.top=Y+"px";
+						}
+						document.onmouseup=function(){
+							for(var i=0;i<that.divs.length;i++){
+								if(obj.index!=i){
+									if(that.peng(obj,that.divs[i])){
+										obj.style.left=that.divs[i].style.left;
+										obj.style.top=that.divs[i].style.top;
+										that.divs[i].style.left=tpemX;
+										that.divs[i].style.top=tpemY;
+										//有合法的碰撞 onoff 为 true
+										onoff = true;
+									}
+								}
+							}
+							document.onmousemove=null;
+							if(!onoff){
+								obj.style.left=tpemX;
+								obj.style.top=tpemY;
+							}
+						}
+						e.cancelBubble=true;
+						return false;
+					}
+				},
+				peng:function(obj1,obj2){
+					var pos1=obj1.getBoundingClientRect();
+					var pos2=obj2.getBoundingClientRect();
+					var W = pos2.width/2;
+					var H = pos2.width/2;
+					if(pos1.right>pos2.left+W&&pos1.left<pos2.right-W&&pos1.bottom>pos2.top+H&&pos1.top<pos2.bottom-H){
+						return true;
+					}else{
+						return false;
+					}
+				}
+			}
+			var page = new Create(box);	
+			//顺序排列(充值)
+			bnt1.onclick=function(){
+				if(!page.onoff){
+					new Dialog({
+						title:"Q币支付",
+						content:"确定支付5Q币？",
+						OkFn:function(){
+							page.sortX(page.numArr);
+							page.divPos();
+						}
+					})
+					bnt1.value = "完整显示";
+					page.onoff = true;
+				}else{
+					page.sortX(page.numArr);
+					page.divPos();
+				}
+			}
+			//打乱排列
+			bnt2.onclick=function(){
+				page.sortL(page.numArr);
+				page.divPos();
+			}
+			var num = 0;
+			bnt3.onclick=function(){
+				num++;
+				console .log(num)
+				if(num === 5){
+					num = 1
+				}
+				for (var i=0;i<page.divs.length;i++) {
+					page.divs[i].style.backgroundImage = "url(img/0"+num+".jpg)";
+				}
+				img.src = "img/0"+num+".jpg";
+			}
+			//组织浏览器选中的默认行为
+			document.onselectstart=function(){
+				return false;
+			}
+		</script>
+	</body>
+</html>

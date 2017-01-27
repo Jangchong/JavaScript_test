@@ -1,0 +1,76 @@
+h3{
+	margin: 0;
+}
+a{
+	text-decoration: none;
+}
+#tanBox{
+	padding: 20px 0 20px 20px;
+	border: 2px solid #59addc;
+	border-radius: 8px;
+	background-color: #fff;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+#tanBox .content{
+	margin: 20px 0  ;
+	width: 300px;;
+	max-height: 350px;
+	overflow: auto;
+}
+ #tanBox .error{
+	font-size: 10px;
+	padding-left: 20px;
+	color: red;
+}
+#tanBox .close{
+	width: 15px;
+	height: 15px;
+	background:url(img/27.png) no-repeat;
+	position: absolute;
+	right: 15px;
+	top: 15px;
+}
+#tanBox .title{
+	font:bold 16px/16px "微软雅黑" ;
+	color: #000000;
+}
+#tanBox .bntBox{
+	width: 196px;
+	margin: 5px auto;
+	box-sizing: border-box;
+}
+#tanBox .bntBox:after{
+	content: "";
+	display: block;
+	clear: both;
+}
+.bntBox a{
+	float: left;
+	width: 80px;
+	height: 30px;
+	background-color: #fff;
+	border: 1px solid #2C96D0;
+	border-radius: 2px;
+	color: #2C96D0;
+	font: 16px/28px "微软雅黑";
+	margin-right:24px ;
+	text-align: center;
+}
+.bntBox a:hover{
+	background: #2C96D0;
+	color: #fff;
+}
+.bntBox a:nth-of-type(2){
+	margin-right:0;
+}
+#mask{
+	width: 100%;
+	height: 100%;
+	background: #000;
+	opacity: 0.3;
+	position: absolute;
+	left: 0;
+	top: 0;
+}

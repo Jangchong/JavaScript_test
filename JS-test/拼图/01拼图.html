@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#box{
+				width: 500px;
+				height: 500px;
+				border: 1px solid #000;
+				margin: auto;
+				position: relative;
+			}
+			#box div{
+				width: 50px;
+				height: 50px;
+				float: left;
+				font-size: 22px;
+				color: #fff;
+				background: url(img/1.jpg) no-repeat;
+				background-size: 500px 500px;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box"></div>
+		<input type="button" value="恢复"/ id="bnt1">
+		<input type="button" value="打乱"/ id="bnt2">
+		<script>
+			var box=document.getElementById("box");
+			var but1=document.getElementById("bnt1");
+			var but2=document.getElementById("bnt2");
+			var str=""
+			for(var i=0;i<100;i++){
+				str+="<div>"+(i+1)+"</div>";
+			}
+			box.innerHTML=str;
+			var divs=box.getElementsByTagName("div");
+			var oriArr=[];
+			var numArr=[];
+			var tpemX;
+			var tpemY;
+			for(var i=0;i<divs.length;i++){
+				divs[i].style.left=divs[i].offsetLeft+"px";
+				divs[i].style.top=divs[i].offsetTop+"px";
+				oriArr.push([divs[i].style.left,divs[i].style.top]);
+			}
+			for(var i=0;i<divs.length;i++){
+				divs[i].index=i;
+				divs[i].style.position="absolute";
+				divs[i].style.float="none";
+				divs[i].style.backgroundPositionX="-"+divs[i].style.left;
+				divs[i].style.backgroundPositionY="-"+divs[i].style.top;
+			}
+			for(var i=0;i<100;i++){
+				numArr.push(i);
+			}
+			sortL(numArr);
+			divPos();
+			bnt1.onclick=function(){
+				sortX(numArr);
+				divPos();
+			}
+			bnt2.onclick=function(){
+				sortL(numArr);
+				divPos();
+			}
+			function sortL(arr){
+				arr.sort(function(){
+					return Math.random()-0.5;
+				})
+			}
+			function sortX(arr){
+				arr.sort(function(a,b){
+					return a-b;
+				})
+			}
+			function divPos(){
+				for(var i=0;i<divs.length;i++){
+					divs[i].style.position="absolute";
+					divs[i].style.float="none";
+					divs[i].style.left=oriArr[numArr[i]][0];
+					divs[i].style.top=oriArr[numArr[i]][1];
+					drag(divs[i]);
+				}
+			}
+			function drag(obj){
+				obj.onmousedown=function(e){
+					var onoff = false;
+					for(var i=0;i<divs.length;i++){
+						divs[i].disX=e.clientX-divs[i].offsetLeft;
+						divs[i].disY=e.clientY-divs[i].offsetTop;
+						divs[i].style.zIndex=0;
+					}
+					obj.style.zIndex=1;
+					tpemX=obj.style.left;
+					tpemY=obj.style.top;
+					var oriX=e.clientX;
+					var oriY=e.clientY;
+					document.onmousemove=function(e){
+						var X=e.clientX-obj.disX;
+						var Y=e.clientY-obj.disY
+						obj.style.left=X+"px";
+						obj.style.top=Y+"px";
+					}
+					document.onmouseup=function(e){
+						for(var i=0;i<divs.length;i++){
+							if(obj.index!=i){
+								if(sel(obj,divs[i])){
+									obj.style.left=divs[i].style.left;
+									obj.style.top=divs[i].style.top;
+									divs[i].style.left=tpemX;
+									divs[i].style.top=tpemY;
+									onoff = true;
+								}
+							}
+						}
+						document.onmousemove=null;
+						if(!onoff){
+							obj.style.left=tpemX;
+							obj.style.top=tpemY;
+						}
+					}
+					e.cancelBubble=true;
+					return false;
+				}
+			}
+			function sel(obj1,obj2){
+				var pos1=obj1.getBoundingClientRect();
+				var pos2=obj2.getBoundingClientRect();
+				if(pos1.right>pos2.left+25&&pos1.left<pos2.right-25&&pos1.bottom>pos2.top+25&&pos1.top<pos2.bottom-25){
+					return true;
+				}else{
+					return false;
+				}
+			}
+		</script>
+	</body>
+</html>
