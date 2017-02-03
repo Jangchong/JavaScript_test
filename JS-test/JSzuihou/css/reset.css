@@ -1,0 +1,21 @@
+body,h1,h3,h5,dl,dd{
+	margin:0;
+}
+a{
+	text-decoration:none;
+}
+img{
+	border:none;
+	vertical-align: top;
+}
+ul,ol{
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+input,select,form{
+	margin:0;
+	padding:0;
+	border: 0 none;
+	outline: none;
+}
