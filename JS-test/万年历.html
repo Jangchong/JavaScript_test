@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			body{
+				font-size: 20px;
+			}
+			ul,input{
+				margin: 0;
+				padding: 0;
+			}
+			input{
+				width: 120px;
+				height: 40px;
+				font: normal 16px/40px "微软雅黑";
+				text-align: center;
+				border: none;
+				margin-left: 10px;
+			}
+			#t1,#t2{
+				font: normal 20px/40px "微软雅黑";
+			}
+			li{
+				list-style: none;
+				width: 100px;
+				height: 50px;
+				text-align: center;
+				float: left;
+			}
+			#nav{
+				padding-top: 20px;
+				border-bottom: 2px solid deepskyblue;
+				width: 740px;
+				height: 50px;
+			}
+			#nav li{
+				font:bold 20px/50px "微软雅黑";
+				color: cornflowerblue;
+			}
+			#box {
+				width: 700px;
+			}
+			#box li{
+				font:normal 20px/50px "微软雅黑";
+			}
+		</style>
+	</head>
+	<body>
+		<input type="button" id="prev" value="上一月">
+		<input type="text" id="t1">年
+		<input type="text" id="t2">月
+		<input type="button" id="next" value="下一月">
+		<input type="button" id="btn1" value="确定">
+		<ul id="nav">
+			<li>日</li>
+			<li>一</li>
+			<li>二</li>
+			<li>三</li>
+			<li>四</li>
+			<li>五</li>
+			<li>六</li>
+		</ul>
+		<ul id="box">
+			
+		</ul>
+		
+		<script>
+			var prev=document.getElementById('prev');
+			var t1=document.getElementById('t1');
+			var t2=document.getElementById('t2');
+			var next=document.getElementById('next');
+			var btn=document.getElementById('btn1');
+			var box=document.getElementById('box');
+			var str='';
+			var t=new Date();
+			var y=t.getFullYear();
+			var m=t.getMonth();
+			var d=t.getDate();
+			console.log(t.getDay())
+			t.setDate(1);
+			var week=t.getDay();//week 周、星期
+			console.log(week)
+			t.setMonth(m+1);
+			t.setDate(0);
+			var len=t.getDate();
+			console.log(len)
+			t1.value=y;
+			t2.value=m+1;
+			for(var i=0;i<(len+week);i++){
+				if(i<week){
+					str+='<li></li>';
+				}else{
+					str+='<li>'+(i-week+1)+'</li>';
+				}
+			}
+			box.innerHTML=str;
+			
+			prev.onclick=function(){
+				box.innerHTML='';
+				str='';
+				t.setDate(0);
+				var m=t.getMonth()+1;
+				var y=t.getFullYear();
+				var len=t.getDate();
+				t.setDate(1);
+				var week=t.getDay();
+				for(var i=0;i<(len+week);i++){
+					if(i<week){
+						str+='<li></li>';
+					}else{
+						str+='<li>'+(i-week+1)+'</li>';
+					}
+				}
+				box.innerHTML=str;
+				t2.value=m;
+				t1.value=y;
+			}
+			
+			next.onclick=function(){
+				box.innerHTML='';
+				str='';
+				t.setDate(1);
+				t.setMonth(t.getMonth()+1);
+				var week=t.getDay();
+				t.setMonth(t.getMonth()+1);
+				t.setDate(0);
+				var len=t.getDate();
+				var m=t.getMonth()+1;
+				var y=t.getFullYear();
+				for(var i=0;i<(len+week);i++){
+					if(i<week){
+						str+='<li></li>';
+					}else{
+						str+='<li>'+(i-week+1)+'</li>';
+					}
+				}
+				box.innerHTML=str;
+				t2.value=m;
+				t1.value=y;
+			}
+			
+			btn.onclick=function(){
+				box.innerHTML='';
+				str='';
+				var y=t1.value;
+				var m=t2.value;
+				if(y.length!=4||isNaN(Number(y))||m.length>3||isNaN(Number(m))||parseInt(m)>12){
+					alert('你输入的是什么鬼，你都把日历搞丢了！');
+					return;
+				}
+				t.setFullYear(parseInt(y));
+				t.setDate(1);
+				t.setMonth(m-1);
+				var week=t.getDay();
+				t.setMonth(t.getMonth()+1);
+				t.setDate(0);
+				var len=t.getDate();
+				
+				for(var i=0;i<(len+week);i++){
+					if(i<week){
+						str+='<li></li>';
+					}else{
+						str+='<li>'+(i-week+1)+'</li>';
+					}
+				}
+				box.innerHTML=str;
+			}
+		</script>
+	</body>
+</html>
