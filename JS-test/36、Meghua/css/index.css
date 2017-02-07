@@ -1,0 +1,105 @@
+body{
+	font-family: 'Ubuntu', 'Arial', sans-serif;
+	font-size: 14px;
+}
+.logo{
+	float:left;
+	width:160px;
+	height:45px;
+	margin-top: 11px;
+	background: url(../img/logo-meghna.png) no-repeat;
+	text-indent: -99999px;
+}
+/*导航部分*/
+#navigation{
+	border-top:1px solid #666;
+	border-bottom:1px solid #666;
+	margin-bottom:0px;
+}
+.navbar{
+	background-color: #2B2C30;
+    width: 100%;
+    z-index: 99;
+}
+.content{
+	padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.nav{
+	float:right;
+	padding-right: 15px;
+    padding-left: 15px;
+}
+.nav_ul{
+	float: left;
+}
+.nav_ul>li{
+	float:left;
+}
+.clearfix:after{
+	content:"";
+	display: block;
+	clear:both;
+}
+.nav_ul li a{
+	display: inline-block;
+	color:#fff;
+	font-size:14px;
+	padding:20px 15px;
+	line-height: 26px;
+}
+/*点击时候添加样式*/
+.nav_ul li.current>a{
+	color: #6cb670;
+    background-color: #2f3238;
+    transition: background .5s ease-in-out 0s;
+    /*cursor: auto;*/
+}
+
+section{
+	/*height:500px;*/
+}
+
+/*第一个section > about*/
+#about{
+	padding: 70px 0;
+}
+.bg-one{
+	background-color:#333439;
+}
+.border{
+	border-top:1px solid #fff;
+	height:1px;
+	margin: 15px auto 0;
+	position: relative;
+	width: 35%;
+}
+.border:before{
+    width: 40px;
+    height: 10px;
+	background-color: #fff;
+    border: 1px ridge #fff;
+    content: "";
+    left: 50%;
+    margin-left: -20px;
+    position: absolute;
+    top: -5px;
+    
+}
+.title{
+	padding-bottom: 60px;
+}
+.textCenter{
+	text-align: center;
+}
+.title h2{
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 38px;
+	color:#fff;
+}
+.color {
+    color: #6CB670;
+}
