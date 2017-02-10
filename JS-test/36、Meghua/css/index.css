@@ -1,6 +1,9 @@
 body{
 	font-family: 'Ubuntu', 'Arial', sans-serif;
 	font-size: 14px;
+	background-color: #2B2C30;
+    line-height: 1.5;
+    color: #ddd;
 }
 .logo{
 	float:left;
@@ -11,6 +14,9 @@ body{
 	text-indent: -99999px;
 }
 /*导航部分*/
+.navBox{
+	height:68px;
+}
 #navigation{
 	border-top:1px solid #666;
 	border-bottom:1px solid #666;
@@ -20,6 +26,10 @@ body{
 	background-color: #2B2C30;
     width: 100%;
     z-index: 99;
+}
+.fixed{
+	position: fixed;
+    top: 0px;
 }
 .content{
 	padding-right: 15px;
@@ -57,9 +67,13 @@ body{
     transition: background .5s ease-in-out 0s;
     /*cursor: auto;*/
 }
-
+.nav_ul li>a:hover{
+	color: #6cb670;
+    transition: background .5s ease-in-out 0s;
+    /*cursor: auto;*/
+}
 section{
-	/*height:500px;*/
+	/*height:500px;*/	
 }
 
 /*第一个section > about*/
@@ -102,4 +116,58 @@ section{
 }
 .color {
     color: #6CB670;
+}
+.icon-box{
+	position: relative;
+    width: 160px;
+    height: 92.38px;
+    background-color: transparent;
+    margin: 46.19px auto 60px;
+    padding: 20px 0;
+    border: solid 3px #ddd;
+    /*border-right: solid 3px #ddd;*/
+    transform:translateZ(0px);
+    transition-duration: 0.3s;
+}
+.icon-box:hover{
+	transform:translateY(-10px);
+}
+.icon-box:before{
+	
+}
+.fa{
+	display: inline-block;
+    font: normal normal normal 4em/1 FontAwesome;
+    /*font-size: inherit;*/
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    color:#fff;
+}
+.about-text h3{
+	font-size:24px;
+}
+.about-text{
+	color:#ddd;
+}
+.about-text p{
+	line-height: 1.5;
+	margin: 0 0 10px;
+}
+/*第二块section*/
+#main-features{
+	padding:70px 0;
+}
+.item1-left{
+	margin-bottom:30px;
+	width:50%;
+}
+.item1-left img{
+	width:100%;
+	height:100%;
+}
+.item1-right{
+	width:50%;
+}
+.item1-right h3{
+	font-size: 24px;
 }

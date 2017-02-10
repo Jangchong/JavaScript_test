@@ -13,3 +13,10 @@
    		width: 1170px;
     }
 }
+/*第一块的模块宽度*/
+@media (min-width: 992px){
+.wNum3 {
+    width: 33.33333333%;
+    float:left;
+    }
+}
