@@ -171,3 +171,60 @@ section{
 .item1-right h3{
 	font-size: 24px;
 }
+.btn{
+    margin-top: 15px;
+    -webkit-transition: all .5s ease-in 0s;
+    -moz-transition: all .5s ease-in 0s;
+    -o-transition: all .5s ease-in 0s;
+    transition: all .5s ease-in 0s;
+}
+.btn{
+	background-color: transparent;
+	color:#fff;
+	border:1px solid;
+	border: 1px solid #4e595f;
+	display: inline-block;
+	margin-right: 20px;
+    padding: 10px 30px;
+    margin-top: 15px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+}
+.btn-transparent:hover{
+	border:1px solid transparent;
+	background-color: #6cb670;
+    border: 1px solid transparent;
+    color: #fff;
+}
+.dot-controls{
+	width: 100%;
+}
+.mf-page{
+	display: inline-block;
+}
+.mf-page span{
+	background-color: transparent;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    display:inline-block;
+    height: 13px;
+    margin: 0 4px;
+    width: 13px;
+    opacity: 1;
+}
+.dot-controls>.active>span{
+	background-color: #6cb670;
+    border: 2px solid transparent;
+}
+.dot-controls span:hover{
+	background-color: #6cb670;
+    border: 2px solid transparent;
+}
