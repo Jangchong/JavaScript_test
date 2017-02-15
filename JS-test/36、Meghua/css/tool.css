@@ -41,15 +41,46 @@
     -webkit-animation-fill-mode: both;*/
 	animation-fill-mode:both;
 }
-.fa-4x{
-	font-size: 4em;
+.fa-5x{
+	font: normal normal normal 5em/1 FontAwesome;
 }
-
+.fa-4x{
+	font: normal normal normal 4em/1 FontAwesome;
+}
+.fa-3x{
+	font: normal normal normal 3em/1 FontAwesome;
+}
+.fa-2x{
+	font: normal normal normal 2em/1 FontAwesome;
+}
 /*字体样式*/
 .ico-Creative:before{
 	content: "\f0eb";
 }
-
+.ico-Creative2:before{
+	content: "\f0c0";
+}
+.ico-Creative3:before{
+	content: "\f19a";
+}
+.fa-plus:before{
+	content: "\f067";
+}
+.fa-html5:before{
+	content: "\f13b";
+}
+.fa-facebook:before{
+	content:"\f09a";
+}
+.fa-twitter{
+	content: "\f099";
+}
+.fa-linkedin{
+	content: "\f0e1";
+}
+.fa-dribbble{
+	content: "\f17d";
+}
 .p-rl{
 	position: relative;
     min-height: 1px;
@@ -65,4 +96,12 @@ p {
 .Cursor{
 	cursor: pointer;
 }
+
+article{
+	display: block;
+}
+/*body{
+	overflow: hidden;
+}*/
+
 
