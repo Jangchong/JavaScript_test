@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Global Words</title>
+	<style>
+		body{
+			cursor:crosshair;/*十字形光标*/
+			margin:0;
+			padding:0;
+			position:absolute;
+			overflow:hidden;
+			background:black;
+			left:0;
+			top:0;
+			width:100%;
+			height:100%;
+		}
+		span{
+			position:absolute;
+			left:50%;
+			top:50%;
+		}
+		.content{
+			position:absolute;
+			font-family:verdana;
+			font-weight:bold;
+			left:-100px;/*居中*/
+			top:-100px;/*居中*/
+			width:200px;/*可调*/
+			height:200px;/*可调*/
+		}
+	</style>
+</head>
+<body>
+	<span>
+		<span class="content"></span>
+	</span>
+	<script>
+		Text = "A tip for you Dont make yourself unhappy for chasing happy What is real How do you define real Im so confused about it cause we are in totally different world Nobody knows real you Bless lucky always with you Anyway No matter what happens please keep smile";
+
+		var dim = 200; //方形的宽高
+		var NX = 15; //一行15个字符，可以控制字符的密集度，数越大，越密；
+		var NY = 15; //一列15个字符，同上
+		var W = dim/NX;//单个字符宽
+		var H = dim/NY;//单个字符高
+		var O = 0;
+		var K = 0;
+		var arr = [];
+
+		var content=document.getElementsByClassName("content")[0];
+
+		//for循环分离文本的每个字符并调用Cobj函数
+		for(var j=0;j<NY;j++){//j对应第几列
+			for(var i=0;i<NX;i++){//i对应j行的第几个字符
+				c=Text.charAt((O++)%Text.length).toUpperCase();//模文本长度是为了在字符填不满方形时，补足
+				if(c==" "){
+					c="•";
+				}
+				arr[K] = new Cobj(K++,i,j,c); //arr[K]是第K个Cobj实例，有多少个K，就会生成多少个实例，15*15，即255个
+			}
+		}
+
+		var xm;
+		var ym;
+		var nx;
+		var ny;
+
+		function resize(){
+			nx = document.body.offsetWidth;//可视区宽
+			ny = document.body.offsetHeight;//可视区高
+		}
+		window.onresize = resize;
+		resize();
+
+		document.onmousemove = function(e){
+			//鼠标移动时的xy轴坐标-可视区宽高的一半+方形宽高的一半
+			xm = e.clientX - (nx*0.5) + dim*0.5;//xm是鼠标相对于方形的left值
+			ym = e.clientY - (ny*0.5) + dim*0.5;//ym是鼠标相对于方形的top值
+			//鼠标移动的点，就是圆心
+		}
+
+		function run(){
+			for(var i in arr){
+				arr[i].loop();//调用实例身上的loop函数
+			}
+		
+			setTimeout(run,16);
+			//利用递归，每隔16秒调用一次每个字符身上的loop函数，检测每个字符要不要发生相应的变化
+			//loop函数主要是根据鼠标的位置生成球形
+		}
+		run();
+
+		function Cobj(N,i,j,c){
+			//N对应arr的下标，i是x轴上第几个字符，j是y轴上第几个字符，c是每一个字符
+			this.obj=document.createElement("span");//创建实例上的span元素，用来包住每一个字母
+			this.obj.innerHTML=c;
+			content.appendChild(this.obj);//把元素放到content元素内
+
+			//i,j是从0开始的，所以x0和y0相当于是每个字符相对于方形盒子的left值和top值
+			this.x0 = i*W;
+			this.y0 = j*H;
+			
+			this.rad = 80;//球形的半径
+			var _this = this;
+
+			this.loop = function(){//球形 loop函数是用来检测每个字符在不在球形的范围内
+	 			dx= this.dx = xm - _this.x0; //当前字符和鼠标横坐标的差值，xm是鼠标相对于方形盒子的left值，_this.x0是字符相对于方形盒子的left值
+				dy= this.dy = ym - _this.y0;//当前字符和鼠标纵坐标的差值
+				dist = this.dist = Math.sqrt(dx * dx + dy * dy);//开平方，勾股定理，求字符到圆心的距离
+				//也就是，当前字符到鼠标移动点的距离
+				rad=this.rad;
+				if(this.dist < this.rad){//若字符到圆心的距离小于半径
+					M = this.M = Math.cos(0.5 * Math.PI * Math.abs(dist / rad));//同心圆内圆到外圆的过渡半径，是一个0-1之间的值		
+					c = this.c = Math.round(84 + M * 171);//color，84-255 RGB(84,84,84)深灰色~白色RGB(255,255,255)
+					this.obj.style.left=Math.floor(_this.x0 - dx * M)+"px";//乘以M是因为字变大了，会向右向上挤，所以要减去dx*M
+					this.obj.style.top=Math.floor(_this.y0 - dy * M)+"px";
+					this.obj.style.zIndex=Math.round(100 + M);//越靠近圆心层级越高
+					this.obj.style.fontSize= Math.floor(8 + M * W )+"px";//8~8+m 越靠圆心字越大
+					this.obj.style.color="RGB("+c+","+c+","+c+")";//深灰到纯白过渡
+				}else{
+					this.obj.style.left=_this.x0+"px";
+					this.obj.style.top=_this.y0+"px";
+					this.obj.style.zIndex=0;
+					this.obj.style.fontSize="8px";
+					this.obj.style.color="RGB(88,88,88)";//恢复灰色
+				}
+
+			}
+		}
+
+
+
+	</script>
+</body>
+</html>
