@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+    <style>
+
+      li{
+        list-style: none;
+      }
+      ul,li {
+        padding: 0;
+        margin:0;
+      }
+  .fold_wrap{width:1200px;overflow:hidden;margin:0 auto;}
+  .fold_wrap ul{width:1200px;height:260px;margin:0 auto;overflow:hidden;}
+  .fold_wrap  ul li{float:left;width:130px;height:260px;position:relative;overflow:hidden;cursor:pointer;}
+    </style>
+    <script src="jquery-2.2.2.min.js"></script>
+    <script>
+    window.onload = function(){
+        var sm = $("#sm");
+        var lis = sm.find("li");
+
+        //li的length
+        var len = lis.length;
+        //sm的宽度
+        var W = sm.width();
+
+        // 一张图片的宽度
+        var imgW = 400;
+
+        //除了第一个以外的li的宽度
+        var otherImg = Math.floor((W - imgW)/(len-1));
+
+        //评分总宽度
+        var liW = W/len;
+
+        // 获取原生的li
+
+        var lis2 = sm[0].getElementsByTagName("li");
+
+    
+        var timer = null;
+        var timer2 = null;
+        lis.on("mouseover",function (){
+            var _this = this;
+            clearInterval(timer2);
+            clearInterval(timer)
+            timer = setInterval(function (){
+              // 什么时候清除定时器？
+              fn(_this);
+
+            },16);
+
+        });
+
+       $(lis[0]).animate({
+        width:400
+       },500)
+
+        function fn(_this){
+            var cw=parseInt(_this.offsetWidth);
+            if( cw < 400 ) {
+
+               var owt = 0;
+              for( var i = 0; i < len; i++ ){
+                if( lis2[i] !== _this ){ //排除当前鼠标移入的li
+                  var oW = lis2[i].offsetWidth,speed = 0;
+                  
+                  if( oW > otherImg ){
+                    speed = Math.floor((oW - otherImg)/10);
+                    speed=(speed>0)?speed:1;
+                    lis2[i].style.width = (oW - speed) + "px"
+                  }
+
+                   owt = owt + ( oW -speed);
+                }
+              }  
+              var abc = W - owt;
+              if( abc > 400 ) abc = 400;
+              _this.style.width = abc + "px";
+            }else{
+              clearInterval(timer2);
+              clearInterval(timer)
+            }
+        }
+
+       
+        lis.on("mouseout",function (){
+          var _this = this;
+            clearInterval(timer2);
+            clearInterval(timer)
+          timer2 = setInterval(function (){
+              
+              var cw=parseInt(_this.offsetWidth);
+
+              if( cw > liW ){
+
+                var owt = 0;
+
+                for( var i = 0; i < len; i++ ){
+                  if( lis2[i] !== _this ){
+                      var oW = lis2[i].offsetWidth,speed = 0;
+                      
+                      if( oW < liW ){
+                        speed = Math.floor((liW - oW)/10);
+                        speed=(speed>0)?speed:1;  
+                        lis2[i].style.width = (oW + speed) + "px"
+                      }
+
+                       owt = owt + ( oW + speed);
+                  }
+                 _this.style.width = (W - owt) + "px";
+
+                }
+
+              }else{
+                clearInterval(timer2);
+                clearInterval(timer)
+              }
+
+          },16);
+
+        });
+
+
+    };
+    </script>
+  </head>
+
+  <body>
+      <div class="fold_wrap">
+        <ul class="clearfix" id="sm">
+            <li>
+              <img src="1.jpg">
+            </li>
+            <li>
+              <img src="2.jpg">
+            </li>
+            <li>
+              <img src="3.jpg">
+            </li>
+            <li>
+              <img src="4.jpg">
+            </li>
+            <li>
+              <img src="5.jpg">
+            </li>
+            <li>
+              <img src="6.jpg">
+            </li>
+            <li>
+              <img src="7.jpg">
+            </li>
+        </ul>
+      </div>
+
+  </body>
+</html>
