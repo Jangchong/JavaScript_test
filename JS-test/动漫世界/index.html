@@ -1,0 +1,195 @@
+<!DOCTYPE >
+<html>
+
+	<head>
+		<style>
+			body {
+				background-color: #010103/*rgba(0,0,0,0.9)*/;
+				overflow: hidden;
+			}
+
+			#box {
+				width: 300px;
+				height: 300px;
+				float: left;
+			}
+
+			#box_left {
+				width: 680px;
+				height: 73px;
+				transition: 10s;
+				font-size: 30px;
+				/*float: left;*/
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -350px;
+				/*margin-top: -300px;*/
+				-webkit-text-stroke: 0.5px #c45d24;
+				text-shadow: 0 0 20px #fefcc9, 10px -10px 30px #feec85, -20px -20px 40px #ffae34, 20px -40px 50px #ec760c, -20px -60px 60px #cd4606, 0 -80px 70px #973716, 10px -90px 80px #451b0e;
+				font-family: Verdana, Geneva, sans-serif;
+				font-size: 30px;
+				font-weight: bold;
+				color: white;
+			}
+
+			#box_left:hover {
+				-webkit-box-reflect: below 0px -webkit-linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 100%);
+				color: blue;
+			}
+
+			img {
+				width: 100px;
+				height: 100px;
+			}
+
+			#s1 {
+				font-size: 60px;
+				color: #F0D2D1;
+				font-style: italic;
+			}
+
+			#box_w {
+				/*float: right;*/
+				position: absolute;
+				/*margin-top: -100px;*/
+				/*top: 70%;*/
+				bottom: 0;
+				right: 0;
+				/*right: 350px;*/
+			}
+
+			#s2 {
+				display: inline-block;
+				width: 600px;
+				height: 60px;
+				/*float: right;*/
+				/*margin-right: 250px;*/
+				position: absolute;
+				right: 200px;
+				top: -220px;
+				background-size: 600px 60px;
+				background-image: url(img/shijie.jpg);
+			}
+
+			a {
+				text-decoration: none;
+				/*margin-right: 80px;*/
+				/*float: left;*/
+				font-size: 20px;
+				left: -150px;
+				top: -200px;
+				font-style: italic;
+				position: absolute;
+				color: rgba(0,0,0,0);
+				/*color: white;*/
+			}
+
+			input {
+				border: none;
+			}
+
+			#in1 {
+				/*border-radius: 90px;*/
+				background-color: #000000;
+				color: hotpink;
+				/*border:1px dashed #0000EE;*/
+				font: 20px/20px courier bold italic;
+				font-family: "楷体";
+				border: none;
+				outline: none;
+			}sz
+		</style>
+		<meta charset="UTF-8" />
+		<title></title>
+	</head>
+
+	<body>
+		<canvas id="q"></canvas>
+
+		<div id="box_left">
+			<!--<span id="s1">真実</span>はただ一つ！-->
+			<span id="s1">アニメの世界へようこそ</span>
+		</div>
+		<div id="box_w">
+			<span id="s2"></span>
+			<a href="qiu.html" target="_blank" >123123132</a>
+		</div>
+		<embed src="music.mp3" />
+		<script>
+			var box_left = document.getElementById('box_left');
+			var btn = document.getElementById("btn")
+			var canvas = document.getElementById('q');
+			var ctx = canvas.getContext('2d');
+			canvas.width = window.innerWidth - 20;
+			canvas.height = window.innerHeight - 100; //
+			//var text = '!@#$%^&^&*(())_*&^^%%$#$#@#$@#@@#%$^&^&**(!~~';
+
+			var text = "ほらあ好感じが大好きだった好しもとをい学%^&^&きみがいる母上#@@#%$^&てごらｎ、これはあなたのあゆむにっくぃ信仰しもとをいてごらｎ、これはあなたのあ";
+			var text1 = "";
+			var num = 0;
+			var letters = Array(256).join(1).split(''); //创建一个空数组 有256个元素，所有元素用1拼接 变成字符串，用空格分开，转变为字符串
+			var arr = ["gray", "blue", "purple", "orange"]
+				//var arr =["rgba(228,0,127,0.7)","rgba(101,206,232,0.7)"]
+			var s1 = document.getElementById('s1');
+			//var arr =["red"]
+			//			box_left.onmouseover = function() {
+			//				s1.style.color = "lawngreen";
+			//				s2.style.color = "white";
+			//				s3.style.color = "white";
+			//				s4.style.color = "white";
+			//			}
+			//			box_left.onmouseout = function() {
+			//				s1.style.color = "#D0D1D7";
+			//				s2.style.color = "#D0D1D7";
+			//				s3.style.color = "#D0D1D7";
+			//				s4.style.color = "#D0D1D7";
+			//			}
+			var draw = function() {
+				var ctx = q.getContext('2d');
+				q.getContext('2d').fillStyle = 'rgba(0,0,0,0.05)'; //对象是一个2d的画布  2d是方法 颜色 设置的是背景的颜色//让背景逐渐由透明到不透明
+				q.getContext('2d').fillRect(0, 0, canvas.width, canvas.height);
+				letters.forEach(function(y_pos, index) { //在字符串上使用forEach方法（有两个参数y_pos是它的值， index是letter的索引）
+					text1 = text.split("")[Math.round(Math.random() * 30)];
+					x_pos = index * 20; //随机获取一个字符 横坐标位置不一样
+					q.getContext('2d').fillStyle = arr[Math.round(Math.random() * 4)]; //颜色随机选
+					// q.getContext('2d').fillStyle=arr[Math.round(Math.random()*2)];//颜色随机选
+					q.getContext('2d').fillText(text1, x_pos, y_pos); //字符随机的横坐标位置，填充一个字符串
+					letters[index] = (y_pos > canvas.height - Math.random() * 500 + 300) ? 0 : y_pos + 10; //填充中文字符
+
+				});
+				num++;
+				num%=50;
+				ctx.save();
+				ctx.beginPath();
+				ctx.moveTo(canvas.width +60, canvas.height - 110);
+				ctx.lineTo(canvas.width +120, canvas.height - 110);
+				ctx.lineTo(canvas.width +120, canvas.height - 130);
+				ctx.lineTo(canvas.width +170, canvas.height - 100);
+				ctx.lineTo(canvas.width +120, canvas.height - 70);
+				ctx.lineTo(canvas.width +120, canvas.height - 90);
+				ctx.lineTo(canvas.width +60, canvas.height - 90);
+				ctx.closePath();
+				//				var grd = ctx.createRadialGradient(canvas.width -75, canvas.height -50, 5, canvas.width -90, canvas.height -60, 100);
+				//				grd.addColorStop(0, "red");
+//								grd.addColorStop(1, "white");
+				//				ctx.strokeStyle = grd;
+				ctx.lineWidth = 10;
+				ctx.strokeStyle = 'rgba(0,0,0,1)';
+				ctx.shadowOffsetX = -200; // 阴影Y轴偏移
+				ctx.shadowOffsetY = 0; // 阴影X轴偏移
+				ctx.shadowBlur = num%25>12?3:15; // 模糊尺寸
+				ctx.shadowColor = 'rgba(144, 255, 0, 0.8)'; // 颜色
+				ctx.stroke();
+				ctx.restore();
+
+			};
+			setInterval(draw, 50);
+
+
+
+		</script>
+
+	</body>
+
+</html>

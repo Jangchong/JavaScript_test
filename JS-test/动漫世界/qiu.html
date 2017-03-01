@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				background: #010101;
+				overflow: hidden;
+			}
+			
+			body {
+				margin: 0;
+			}
+			
+			#box {
+				width: 400px;
+				height: 400px;
+				position: absolute;
+				left: 50%;
+				top: 40%;
+				margin: -200px 0 0 -200px;
+				/*perspective: 1300px;*/
+				perspective-origin: center 150px;
+			}
+			
+			#qiu {
+				list-style: none;
+				margin: -25px 0 0 -25px;
+				padding: 0;
+				transform-style: preserve-3d;
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				transform: rotateY(180deg);
+				transform-origin: 25px 25px -200px;
+			}
+			
+			#box li {
+				width: 50px;
+				height: 70px;
+				position: absolute;
+				left: 0;
+				top: 0;
+				box-shadow: 0 0 6px 2px rgba(255, 255, 255, .9);
+				opacity: 0.8;
+				transform-origin: 25px 25px -200px;
+				transition: 0.5s;
+			}
+			
+			img {
+				width: 100%;
+				height: 100%;
+			}
+			
+			#qiu li:hover {
+				width: 100px;
+				height: 130px;
+				top: -25px;
+				opacity: 1;
+				box-shadow: 0 0 3px 5px rgba(255, 255, 255, 1);
+				z-index: 100;
+			}
+			@-webkit-keyframes greenPulse {
+			  from { background-color: #749a02; -webkit-box-shadow: 0 0 9px #333; }
+			  50% { background-color: #91bd09; -webkit-box-shadow: 0 0 18px #91bd09; }
+			  to { background-color: #749a02; -webkit-box-shadow: 0 0 9px #333; }
+			}
+			#btn {
+				width: 300px;
+				position: absolute;
+				left: 42%;
+				bottom: 40px;
+			}
+			#btn .btn_name {
+				width: 33.33%;
+				height: 30px;
+				float: left;
+				border-radius: 5px;
+				background: #00FF80;
+				text-align: center;
+				line-height: 30px;
+				border: 1px solid #fff;
+				box-sizing: border-box;
+				color: #fff;
+				cursor: pointer;
+				position: relative;
+				overflow: hidden;
+				animation:greenPulse 2s infinite;
+			}
+			
+			.btn_name div {
+				width: 0;
+				height: 0;
+				border-radius: 50%;
+				background: rgba(200, 255, 255, .3);
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+			
+			#box .hid {
+				opacity: 0;
+			}
+			
+			#box_scr {
+				width: 300px;
+				height: 50px;
+				position: absolute;
+				left: 42%;
+				bottom: 100px;
+			}
+			
+			#wrap {
+				width: 280px;
+				height: 4px;
+				border: 4px solid rgba(242, 242, 242, .6);
+				border-radius: 6px;
+				position: absolute;
+				left: 5px;
+				top: 20px;
+			}
+			
+			#scroll {
+				width: 24px;
+				height: 24px;
+				background: #E8E7EF;
+				border-radius: 50%;
+				position: absolute;
+				box-shadow: inset 0 0 4px 2px rgba(0, 0, 0, 0.5), 0 0 4px rgba(255, 255, 255, 1);
+				left: 0px;
+				top: -10px;
+			}
+			
+			#scroll:hover {
+				box-shadow: inset 0 0 4px 2px rgba(0, 0, 0, 0.5);
+			}
+			
+			#qiu .begin {
+				width: 200px;
+				height: 300px;
+				opacity: 1;
+			}
+			
+			body {
+				width: 100%;
+				height: 100%;
+				perspective: 1300px;
+			}
+			
+			#all {
+				background: radial-gradient(farthest-side at top right, #000d4c, #000000);
+			}
+			
+			#wrap2 {
+				position: relative;
+				transform-style: preserve-3d;
+				transform-origin: center center 400px;
+			}
+			
+			#wrap2 div {
+				width: 2px;
+				height: 2px;
+				border-radius: 50px;
+				position: absolute;
+				border: 1px solid white;
+				/*background-color: white;*/
+				/*background-size: 5px 5px;*/
+				box-sizing: border-box;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id='all'>
+			<div id="wrap2"></div>
+		</div>
+		<div id="box_scr">
+			<div id="wrap">
+				<div id="scroll"></div>
+			</div>
+		</div>
+		<div id="btn">
+			<div class="btn_name">球体
+				<div></div>
+			</div>
+			<div class="btn_name">螺旋
+				<div></div>
+			</div>
+			<div class="btn_name">矩阵
+				<div></div>
+			</div>
+		</div>
+		<div id="box">
+			<ul id="qiu">
+			</ul>
+		</div>
+		<script type="text/javascript" src="shu.js"></script>
+		<script>
+			var ul = document.getElementsByTagName("ul");
+			var btn = document.getElementById("btn");
+			var box = document.getElementById("box");
+			var box_scr = document.getElementById("box_scr");
+			var wrap = document.getElementById("wrap");
+			var scroll = document.getElementById("scroll");
+			var btns = btn.getElementsByClassName("btn_name");
+			var onoff = true;
+			btns[0].onclick = function(e) {
+				go(e, this);
+				qiu();
+			};
+			btns[1].onclick = function(e) {
+				go(e, this);
+				screw()
+			};
+			btns[2].onclick = function(e) {
+				go(e, this);
+				ju();
+			};
+			var num = 0;
+			var zIndex = 5; //层数
+			var a = 4; //递减数
+			var last = a * (zIndex - 1) + 1; //赤道层的个数
+
+			for(var i = 0; i < zIndex; i++) { //生成li
+				for(var j = num; j < last + num; j++) {
+					var liT = document.createElement("li");
+					ul[0].appendChild(liT);
+					if(i > 0) {
+						var liT = document.createElement("li");
+						ul[0].appendChild(liT);
+					}
+				}
+				num = last + num;
+				last -= a;
+			}
+			var lis = document.getElementsByTagName("li");
+			for(var i = 0; i < lis.length; i++) {
+				lis[i].haha = "movie" + i % 19;
+				lis[i].onclick = function() {
+					window.open("xuanfu.html#" + this.haha + "");
+				}
+				lis[i].innerHTML = "<img src='img/" + i % 19 + ".jpg' />";
+				lis[i].style.left = "400px";
+				lis[i].className = "begin";
+			}
+			var num1 = -1;
+			var beg;
+			beg = setInterval(function() {
+				num1++;
+				if(num1 >= lis.length - 1) {
+					clearInterval(beg);
+					box_scr.onmouseover = box.onmouseover = function() {
+						clearInterval(timer);
+					}
+					box_scr.onmouseout = box.onmouseout = function() {
+						clearInterval(timer);
+						setTime();
+					}
+					setTime();
+				}
+				lis[num1].style.left = 0;
+				lis[num1].className = "";
+				lis[num1].style.transform = "rotateY(" + (-360 / 18 * num1) + "deg) translateY(" + (5 * num1 - 150) + "px)";
+			}, 50)
+
+			function qiu() { //球体
+				var num = 0;
+				var zIndex = 5; //层数
+				var a = 4; //递减数
+				var b = 1;
+				var last = a * (zIndex - 1) + 1; //赤道层的个数
+				for(var i = 0; i < zIndex; i++) {
+					for(var j = num; j < last + num; j++) {
+						lis[j].removeAttribute("style");
+						lis[j].className = "";
+						lis[j].style.transform = "rotateY(" + 360 / last * j + "deg) rotateX(" + 90 / (zIndex - 1) * i + "deg)";
+						if(i > 0) {
+							lis[lis.length - b].removeAttribute("style");
+							lis[lis.length - b].className = "";
+							lis[lis.length - b].style.transform = "rotateY(" + 360 / last * j + "deg) rotateX(" + (-90 / (zIndex - 1) * i) + "deg)";
+							b++;
+						}
+					}
+					num = last + num;
+					last -= a;
+				}
+			}
+
+			function screw() { //螺旋
+				for(var i = 0; i < lis.length; i++) {
+					lis[i].removeAttribute("style");
+					lis[i].className = "";
+					lis[i].style.transform = "rotateY(" + (-360 / 18 * i) + "deg) translateY(" + (5 * i - 150) + "px)";
+				}
+			}
+
+			function ju() { //矩阵
+				var n = 4;
+				for(var i = 0; i < Math.ceil(lis.length / (n * n)); i++) {
+					for(var j = 0; j < n * n; j++) {
+						if(i < n) {
+							lis[i * 16 + j].style.left = j % 4 * 80 - 100 + "px";
+							lis[i * 16 + j].style.top = Math.floor(j / 4) * 80 - 100 + "px";
+							lis[i * 16 + j].style.transform = "translateZ(" + (-80 * i) + "px)";
+						} else if(lis[i * 16 + j]) {
+							lis[i * 16 + j].className = "hid";
+						}
+					}
+				}
+			}
+
+			function go(eve, obj) { //波纹效果
+				var disX = eve.clientX - obj.getBoundingClientRect().left;
+				var disY = eve.clientY - obj.getBoundingClientRect().top;
+				var w = 0;
+				var h = 0;
+				clearInterval(obj.timer);
+				obj.children[0].removeAttribute("style");
+				obj.timer = setInterval(function() {
+					w += 2;
+					h += 2;
+					if(w >= 200) {
+						w = 200;
+						h = 200;
+					}
+					console.log("1");
+					obj.children[0].style.width = w + "px";
+					obj.children[0].style.height = h + "px";
+					obj.children[0].style.left = disX - w / 2 + "px";
+					obj.children[0].style.top = disY - h / 2 + "px";
+					if(w == 200) {
+						obj.children[0].removeAttribute("style");
+						clearInterval(obj.timer);
+					}
+				}, 1)
+			}
+			var vW = document.documentElement.clientWidth;
+			var scrX = 0;
+			var quan = 0;
+			//			document.onmousedown = function(e){
+			//				var oriX = e.clientX;
+			//				document.onmousemove = function(e){
+			//					ul[0].style.transform = "rotateY("+((e.clientX-oriX)/vW*360+scrX)+"deg)";
+			//				}
+			//				document.onmouseup = function(e){
+			//					scrX += (e.clientX-oriX)/vW*360;
+			//					document.onmousemove = document.onmouseup = null;
+			//				}
+			//				return false;
+			//			}
+
+			scroll.onmousedown = function(e) {
+				var disX = e.clientX - scroll.offsetLeft;
+				var maxW = wrap.clientWidth - scroll.offsetWidth;
+				document.onmousemove = function(e) {
+					console.log("1");
+					var x = e.clientX - disX;
+					x = x < 0 ? 0 : x;
+					x = x > maxW ? maxW : x;
+					quan = Math.floor(x / maxW * 360);
+					scroll.style.left = x + "px";
+					ul[0].style.transform = "rotateY(" + quan + "deg)";
+				}
+				document.onmouseup = function() {
+					document.onmousemove = null;
+				}
+				return false;
+			}
+			var timer;
+
+			function setTime() {
+				timer = setInterval(function() {
+					quan++;
+					if(quan >= 360) {
+						quan = 0;
+					}
+					ul[0].style.transform = "rotateY(" + quan + "deg)";
+				}, 20)
+			}
+
+
+
+
+
+
+
+
+			(function() {
+					var wrap2 = document.getElementById("wrap2");
+					var wid = parseFloat(document.documentElement.clientWidth);
+					var degg = 30 / wid;
+					var hei = parseFloat(document.documentElement.clientHeight) > 1000 ? parseFloat(document.documentElement.clientHeight) : 1000;
+					wrap2.style.width = document.documentElement.clientWidth;
+					wrap2.style.height = parseFloat(document.documentElement.clientHeight) > 1000 ? document.documentElement.clientHeight : 1000 + 'px';
+					var arr = [];
+					for(var i = 0; i < 300; i++) {
+						var x1 = wid * (Math.random());
+						var y1 = hei * (Math.random());
+						var z1 = (800 * Math.random() * 0.6);
+
+						var arr2 = [];
+						arr2.push(x1);
+						arr2.push(y1);
+						arr2.push(z1);
+
+						arr.push(arr2);
+					}
+
+					function show() {
+						var str = '';
+						for(var i = 0; i < arr.length; i++) {
+							var div = document.createElement("div")
+								//					div.style.backgroundImage = 'url(snow'+(i%4+1)+'.png)'
+							div.style.left = arr[i][0] + 'px';
+							div.style.top = arr[i][1] + 'px';
+							div.style.transform = 'translateZ(' + (arr[i][2]) + 'px)';
+							wrap2.appendChild(div);
+
+						}};
+						show();
+						var divs = wrap2.getElementsByTagName('div');
+						var num = 0;
+						arr.forEach(function(a, b) {
+							a.onOff = Math.round(Math.random());
+						})
+						var timer = setInterval(function() {
+							num++;
+							for(var i = 0; i < divs.length; i++) {
+								wrap2.style.transform = 'rotateY(' + num + 'deg) rotateX(' + num + 'deg)';
+							}
+						}, 50)
+
+
+					})();
+		</script>
+	</body>
+
+</html>
