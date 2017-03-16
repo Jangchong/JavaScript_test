@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>如何将字符串转化为数字</title>
+	</head>
+	<body>
+		<script>
+			//例子："12.3b"
+			var str = "12.3b";
+			parseFloat(str);
+			console.log(parseFloat(str));	//12.3
+			
+			Number(str);
+			console.log(Number(str));	//NaN
+			
+			console.log(str.match(/(\d)+(\.)?(\d)+/g)[0]* 1)	//12.3
+		</script>
+	</body>
+</html>
