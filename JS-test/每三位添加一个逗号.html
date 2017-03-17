@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>每三位添加一个逗号</title>
+	</head>
+	<body>
+		<script>
+				
+			function commafy(num){
+			   return num  
+			   .toString() 
+			   .replace(/(\d)(?=(\d{3})+\.)/g, function($1, $2){
+			   		return $2 + ',';
+			   });
+			}
+			
+		 	
+			var a = 123456865.2;
+			//console.log(typeof a.toString()) //string
+			
+			var b = commafy(a);
+			
+			console.log(b);
+		</script>
+	</body>
+</html>
