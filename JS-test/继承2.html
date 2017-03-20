@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>js原型继承</title>
+	</head>
+	<style>
+		span{
+			background-color: #fff;
+			font-size:18px;
+			
+		}
+	</style>
+	<body>
+		<span>
+			
+		</span>
+		<script>
+			//js原型（Prototype）实现继承
+			function Person(name,age){
+				this.name = name;
+				this.age = age;
+				
+			}
+			
+			Person.prototype.say = function(){
+				alert("使用原型得到name:"+this.name);
+				
+			}
+			
+			var per = new Person('你好',111);
+			per.say();//得出：使用原型得到name:你好
+			
+			
+			
+			function Student(){}  
+			
+		    Student.prototype=new Person("洪如彤",21);  
+		    var stu=new Student(); 
+		    
+		    Student.prototype.grade=5;  
+		    Student.prototype.intr=function(){ 
+		    	//console.log(this);
+		        alert(this.grade);  
+		        
+			}  
+			    stu.say();//输出：使用原型得到Name:洪如彤  
+			    stu.intr();//输出：5  
+		</script>
+	</body>
+</html>
