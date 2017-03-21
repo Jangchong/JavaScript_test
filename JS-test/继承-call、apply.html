@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script>  
+		    function  Person(name,age,love){  
+		        this.name=name;  
+		        this.age=age;  
+		        this.love=love;  
+		        this.say=function say(){  
+		            alert("姓名："+name);  
+		        }  
+		    }  
+		
+		    //call方式  
+		    function student(name,age){  
+		        Person.call(this,name,age);  
+		    }  
+		
+		    //apply方式  
+		    function teacher(name,love){  
+		        Person.apply(this,[name,love]);  
+		        //Person.apply(this,arguments); //跟上句一样的效果，arguments  
+		    }  
+		
+		    //call与aplly的异同：  
+		    //1,第一个参数this都一样,指当前对象  
+		    //2,第二个参数不一样：call的是一个个的参数列表；apply的是一个数组（arguments也可以）  
+		
+		    var per=new Person("a",25,"d"); //输出：“a”  
+		    per.say();  
+		    var stu=new student("b",18);//输出：“b”  
+		    stu.say();  
+		    var tea=new teacher("c",16);//输出：“c”  
+		    tea.say();  
+		
+		</script>  
+	</body>
+</html>
