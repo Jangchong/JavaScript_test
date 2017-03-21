@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>构造函数继承</title>
+	</head>
+	<body>
+		<script>  
+		    function  Parent(name){  
+		        this.name = name;  
+		        this.sayParent = function(){  
+		            alert("Parent:"+this.name);  
+		        }  
+		    }  
+		
+		    function  Child(name,age){  
+		        this.tempMethod = Parent; ' 
+		        this.tempMethod(name);
+		        //console.log(name)'
+		        //console.log(this.name)//继承了Parent里的this.name
+		        
+		        this.age = age;  
+		        this.sayChild=function(){ 
+		        	console.log(this.name)
+		            alert("Child:"+this.name+"age:"+this.age);  
+		        }  
+		    }  
+		
+		    var parent = new Parent("父");  
+		    parent.sayParent(); //输出：“Parent:父”  
+		    var child = new Child("子",23); //输出：“Child:子 age:23”  
+		    child.sayChild(); 
+		</script>
+	</body>
+</html>
